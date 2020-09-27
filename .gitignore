@@ -1,0 +1,124 @@
+
+JuceLibraryCode/ReadMe.txt
+JuceLibraryCode/JucePluginDefines.h
+JuceLibraryCode/JuceHeader.h
+JuceLibraryCode/include_juce_gui_extra.mm
+JuceLibraryCode/include_juce_gui_extra.cpp
+JuceLibraryCode/include_juce_gui_basics.mm
+JuceLibraryCode/include_juce_gui_basics.cpp
+JuceLibraryCode/include_juce_graphics.mm
+JuceLibraryCode/include_juce_graphics.cpp
+JuceLibraryCode/include_juce_events.mm
+JuceLibraryCode/include_juce_events.cpp
+JuceLibraryCode/include_juce_data_structures.mm
+JuceLibraryCode/include_juce_data_structures.cpp
+JuceLibraryCode/include_juce_core.mm
+JuceLibraryCode/include_juce_core.cpp
+JuceLibraryCode/include_juce_audio_utils.mm
+JuceLibraryCode/include_juce_audio_utils.cpp
+JuceLibraryCode/include_juce_audio_processors.mm
+JuceLibraryCode/include_juce_audio_processors.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_VST_utils.mm
+JuceLibraryCode/include_juce_audio_plugin_client_VST3.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_VST2.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_utils.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_Unity.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_Standalone.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_utils.mm
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_utils.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_4.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_3.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_2.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS_1.cpp
+JuceLibraryCode/include_juce_audio_plugin_client_RTAS.r
+JuceLibraryCode/include_juce_audio_plugin_client_AUv3.mm
+JuceLibraryCode/include_juce_audio_plugin_client_AU_2.mm
+JuceLibraryCode/include_juce_audio_plugin_client_AU_1.mm
+JuceLibraryCode/include_juce_audio_plugin_client_AU.r
+JuceLibraryCode/include_juce_audio_plugin_client_AAX.mm
+JuceLibraryCode/include_juce_audio_plugin_client_AAX.cpp
+JuceLibraryCode/include_juce_audio_formats.mm
+JuceLibraryCode/include_juce_audio_formats.cpp
+JuceLibraryCode/include_juce_audio_devices.mm
+JuceLibraryCode/include_juce_audio_devices.cpp
+JuceLibraryCode/include_juce_audio_basics.mm
+JuceLibraryCode/include_juce_audio_basics.cpp
+Builds/VisualStudio2019/x64/Debug/VST3/vc142.pdb
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.vcxproj.FileListAbsolute.txt
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/Screen_VST3.write.1u.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/Screen_VST3.lastbuildstate
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/rc.write.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/rc.read.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/rc.command.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/link.write.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/link.read.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/link.command.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/CL.write.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/CL.read.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.tlog/CL.command.1.tlog
+Builds/VisualStudio2019/x64/Debug/VST3/Screen_VST3.log
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.vst3.recipe
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.vst3
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.pdb
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.lib
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.ilk
+Builds/VisualStudio2019/x64/Debug/VST3/Screen.exp
+Builds/VisualStudio2019/x64/Debug/VST3/resources.res
+Builds/VisualStudio2019/x64/Debug/VST3/include_juce_audio_plugin_client_VST3.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_SharedCode.vcxproj.FileListAbsolute.txt
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_SharedCode.pdb
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_SharedCode.log
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/Screen_SharedCode.lastbuildstate
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/Lib.command.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/Lib-link.write.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/Lib-link.read.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/CL.write.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/CL.read.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen_S.7295C6D9.tlog/CL.command.1.tlog
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen.lib.recipe
+Builds/VisualStudio2019/x64/Debug/Shared Code/Screen.lib
+Builds/VisualStudio2019/x64/Debug/Shared Code/PluginProcessor.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/PluginEditor.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_gui_extra.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_gui_basics.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_graphics.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_events.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_data_structures.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_core.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_utils.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_processors.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_plugin_client_utils.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_formats.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_devices.obj
+Builds/VisualStudio2019/x64/Debug/Shared Code/include_juce_audio_basics.obj
+Builds/VisualStudio2019/Screen_VST3.vcxproj.user
+Builds/VisualStudio2019/Screen_VST3.vcxproj.filters
+Builds/VisualStudio2019/Screen_VST3.vcxproj
+Builds/VisualStudio2019/Screen_StandalonePlugin.vcxproj.user
+Builds/VisualStudio2019/Screen_StandalonePlugin.vcxproj.filters
+Builds/VisualStudio2019/Screen_StandalonePlugin.vcxproj
+Builds/VisualStudio2019/Screen_SharedCode.vcxproj.user
+Builds/VisualStudio2019/Screen_SharedCode.vcxproj.filters
+Builds/VisualStudio2019/Screen_SharedCode.vcxproj
+Builds/VisualStudio2019/Screen.sln
+Builds/VisualStudio2019/resources.rc
+Builds/VisualStudio2019/.vs/Screen/v16/Solution.VC.db-wal
+Builds/VisualStudio2019/.vs/Screen/v16/Solution.VC.db-shm
+Builds/VisualStudio2019/.vs/Screen/v16/Solution.VC.db
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/f8b2b3a8a6cd251b/PLUGINPROCESSOR.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/e3a682e2a10ae0e7/LISTENERSHEADER.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/dbe4e3ca839b9a66/UTILS.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/b8bf11160efe6e33/AUDIOFILE.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/9a11dfc1b3e42a28/GRAIN.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/87527924b87f3de2/LISTENERSHEADER.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/84ca10f082d6dbd0/PROCESSORTESTS.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/7d0e7e38d7bbd1c0/AUDIOSOURCE.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/6edc99446a372d54/INCLUDE_JUCE_DATA_STRUCTURES.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/65bdd0c4f710dbbc/FILELISTENER.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/601c24e3e29b3026/PLUGINEDITOR.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/ipch/AutoPCH/39a8fa479996eb6d/GRAINGENERATOR.ipch
+Builds/VisualStudio2019/.vs/Screen/v16/Browse.VC.opendb
+Builds/VisualStudio2019/.vs/Screen/v16/Browse.VC.db-wal
+Builds/VisualStudio2019/.vs/Screen/v16/Browse.VC.db-shm
+Builds/VisualStudio2019/.vs/Screen/v16/Browse.VC.db
+Builds/VisualStudio2019/.vs/Screen/v16/.suo
