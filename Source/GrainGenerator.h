@@ -16,11 +16,10 @@
 class GrainGenerator
 {
 public:
-    GrainGenerator(int sampleRate, int numVoices, std::atomic<float>* grainSizeMS)
+    GrainGenerator(int sampleRate, std::atomic<float>* grainSizeMS)
+        :activeParamListener(this),
+        grainVoiceParamListener(this)
     {
-        for (int i{ 0 }; i < numVoices; i++) {
-            grains.push_back(new Grain{ &activeSounds, 0, 0 });
-        }
         this->grainSize = grainSizeMS;
         this->sampleRate = sampleRate;
     }
@@ -48,22 +47,100 @@ public:
     void addGrainVoice()
     {
         grains.push_back(new Grain{ &activeSounds, 0, 0 });
+        numVoices++;
+    }
+
+    void removeGrainVoice()
+    {
+        if (!grains.empty()) 
+        {
+            grains.pop_back();
+            numVoices--;
+        }
     }
 
     void addActiveSound(AudioFile* newAudioFile)
     {
-        activeSounds.add(newAudioFile);
+        if (newAudioFile != nullptr) {
+            activeSounds.add(newAudioFile);
+        }
     }
 
     void removeSound(AudioFile* soundToRemove)
     {
-        activeSounds.removeAllInstancesOf(soundToRemove);
+        if (soundToRemove != nullptr) {
+            activeSounds.removeAllInstancesOf(soundToRemove);
+        }
     }
 
+    int getNumVoices() 
+    {
+        return numVoices;
+    }
+
+    juce::AudioProcessorValueTreeState::Listener* getActiveParamListener()
+    {
+        return &activeParamListener;
+    }
+
+    juce::AudioProcessorValueTreeState::Listener* getGrainVoiceParamListener()
+    {
+        return &grainVoiceParamListener;
+    }
+
+    bool isActive{ false };
+
 private:
+    class ActiveParamListener : public juce::AudioProcessorValueTreeState::Listener
+    {
+    public:
+        ActiveParamListener(GrainGenerator* processor)
+        {
+            proc = processor;
+        };
+
+        void parameterChanged(const juce::String& parameterID, float newValue) override
+        {
+            proc->isActive = newValue;
+        }
+
+    private:
+        GrainGenerator* proc;
+    };
+
+    class GrainVoiceParamListener : public juce::AudioProcessorValueTreeState::Listener
+    {
+    public:
+        GrainVoiceParamListener(GrainGenerator* gen)
+        {
+            generator = gen;
+        };
+
+        void parameterChanged(const juce::String& parameterID, float newValue) override
+        {
+            int targetNumberofVoices = (int)newValue;
+            int currentNumberofVoices = generator->getNumVoices();
+
+            while (currentNumberofVoices < targetNumberofVoices)
+            {
+                generator->addGrainVoice();
+                currentNumberofVoices++;
+            }
+            while (currentNumberofVoices > targetNumberofVoices)
+            {
+                generator->removeGrainVoice();
+                currentNumberofVoices--;
+            }
+        }
+    private:
+        GrainGenerator* generator;
+    };
+
     juce::Array<AudioFile*> activeSounds;
     std::vector<Grain*> grains;
-    std::vector<int> activeSoundIndices;
     std::atomic<float>* grainSize;
-    int sampleRate;
+    ActiveParamListener activeParamListener;
+    GrainVoiceParamListener grainVoiceParamListener;
+    int sampleRate, numVoices = 0;
 };
+

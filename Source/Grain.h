@@ -28,6 +28,8 @@ public:
 	{
 		bool allSoundsFinished{ true };
 		for (auto* currentSound : *activeSounds) {
+			int dbgMaxIndex = currentSound->getMaxIndex();
+			int dbgMinIndex = currentSound->getMinIndex();
 			if (currentSound->getMaxIndex() - currentSound->getMinIndex() > currentSample) {
 				allSoundsFinished = false;
 			}
@@ -39,7 +41,7 @@ public:
 				}
 			}
 		}
-		if (allSoundsFinished) {
+		if (allSoundsFinished || currentSample >= endSample) {
 			isGrainPlaying = false;
 		}
 	}

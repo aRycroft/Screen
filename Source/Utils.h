@@ -16,9 +16,13 @@ namespace Ids
 #define MAKE_ID(name) const juce::Identifier name (#name)
     /*AUDIO SOURCE*/
     MAKE_ID(sourceTree);
+    MAKE_ID(audioSource);
+    MAKE_ID(lowSample);
+    MAKE_ID(highSample);
+    /*FILE*/
+    MAKE_ID(fileTree);
     MAKE_ID(relativePath);
 
-    MAKE_ID(fileTree);
 }
 
 
@@ -39,5 +43,19 @@ namespace util {
         return sourceTree;
     }
 
+    static void addAudioFileToTree(juce::ValueTree* sourceTree,
+        int x,
+        int y,
+        int lowSample,
+        int highSample
+    )
+    {
+        juce::ValueTree newAudioFileTree(Ids::audioSource);
+        newAudioFileTree.setProperty("x", x, nullptr);
+        newAudioFileTree.setProperty("y", y, nullptr);
+        newAudioFileTree.setProperty(Ids::lowSample, lowSample, nullptr);
+        newAudioFileTree.setProperty(Ids::highSample, highSample, nullptr);
+        sourceTree->addChild(newAudioFileTree, sourceTree->getNumChildren(), nullptr);
+    }
 }
 

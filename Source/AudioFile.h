@@ -15,7 +15,7 @@
 class AudioFile
 {
 public:
-    AudioFile(juce::AudioBuffer<float> audio, int lowSample, int highSample)
+    AudioFile(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
     {
         this->audio = audio;
         this->lowSample = lowSample;
@@ -25,13 +25,13 @@ public:
     float getSampleAtBoundedIndex(int channel, int index) 
     {
         int boundedIndex = index + lowSample;
-        if (boundedIndex < 0 || boundedIndex >= audio.getNumSamples()) return 0.0f;
-        return audio.getSample(channel, boundedIndex);
+        if (boundedIndex < 0 || boundedIndex >= audio->getNumSamples()) return 0.0f;
+        return audio->getSample(channel, boundedIndex);
     }
 
     int getNumChannels() 
     {
-        return audio.getNumChannels();
+        return audio->getNumChannels();
     }
 
     int getMinIndex()
@@ -46,10 +46,10 @@ public:
 
     void fillBufferWithValue(float val)
     {
-        util::fillAudioBufferWithValue(&audio, val);
+        util::fillAudioBufferWithValue(audio, val);
     }
 
 private:
-    juce::AudioBuffer<float> audio;
+    juce::AudioBuffer<float>* audio;
     int lowSample, highSample;
 };

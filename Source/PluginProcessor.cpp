@@ -29,30 +29,33 @@ ScreenAudioProcessor::ScreenAudioProcessor()
     static PluginProcessorTests t{ this };
     static GrainTests gTests;
     static GeneratorTests genTests{ &apvts };
-    runner.runAllTests();
+    //runner.runAllTests();
 #endif // DEBUG
-    apvts.state.addChild(sourceTree, 0, nullptr);
-    sourceListener.reset(new SourceListener(this, sourceTree));
-    apvts.state.addChild(fileTree, 1, nullptr);
+    apvts.state.addChild(fileTree, 0, nullptr);
     fileListener.reset(new FileListener(this, fileTree));
 
-    activeParamListener.reset(new ActiveParamListener(this));
-
-    for (int i = 0; i < NUM_NODES; i++)
-    {
-        apvts.addParameterListener("active" + juce::String{ i }, activeParamListener.get());
-    }
-    apvts.getParameterAsValue("size0").setValue(5000.0f);
-    allSounds.add(new AudioFile{ juce::AudioBuffer<float>{ 2, 44100 }, 0, 20000 });
+    //allSounds.add(new AudioFile{ new juce::AudioBuffer<float>{ 2, 44100 }, 0, 20000 });
     for (int i{ 0 }; i < NUM_NODES; i++) {
         generators.add(std::unique_ptr<GrainGenerator>(
-        new GrainGenerator(DUMMYSAMPLERATE, 20, apvts.getRawParameterValue("size" + juce::String{ i }))));
+        new GrainGenerator(DUMMYSAMPLERATE, 
+            apvts.getRawParameterValue("size" + juce::String{ i }))));
+        apvts.addParameterListener("active" + juce::String{ i }, generators[i]->getActiveParamListener());
+        apvts.addParameterListener("numVoices" + juce::String{ i }, generators[i]->getGrainVoiceParamListener());
     }
-    allSounds[0]->fillBufferWithValue(1.0f);
+    //allSounds[0]->fillBufferWithValue(1.0f);
+    //generators[0]->addActiveSound(allSounds[0]);
+    apvts.getParameterAsValue("size0").setValue(20000.0f);
+    apvts.getParameterAsValue("active0").setValue(true);
+    apvts.getParameterAsValue("numVoices0").setValue(200);
+
+    fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
+    fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
+    fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
+    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, 50000);
+    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 5000, 100000);
+
     generators[0]->addActiveSound(allSounds[0]);
-
-    sourceTree.addChild(util::createSourceValueTree(0, "hello world"), 0, nullptr);
-
+    generators[0]->addActiveSound(allSounds[1]);
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -161,11 +164,14 @@ bool ScreenAudioProcessor::isBusesLayoutSupported (const BusesLayout& layouts) c
 void ScreenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
     buffer.clear();
-    for (auto grainGen : generators) {
-        if (counter % 10 == 0) {
-            grainGen->playGrain();
+    for (auto grainGen : generators) 
+    {
+        if (grainGen->isActive) {
+            if (counter % 10 == 0) {
+                grainGen->playGrain();
+            }
+            grainGen->fillNextBuffer(&buffer);
         }
-        grainGen->fillNextBuffer(&buffer);
     }
     counter++;
 }
@@ -207,15 +213,35 @@ juce::AudioProcessorValueTreeState::ParameterLayout ScreenAudioProcessor::create
 {
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     for (int i{ 0 }; i < NUM_NODES; i++) {
+        //Generator
         layout.add(std::make_unique<juce::AudioParameterBool>("active" + juce::String{ i }, "GeneratorActive " + juce::String{ i }, false));
         layout.add(std::make_unique<juce::AudioParameterFloat>("size" + juce::String{ i }, "GrainSize " + juce::String{ i }, 
-            juce::NormalisableRange<float>(0.0f, 5000.0f), 1000.0f));
+            juce::NormalisableRange<float>(5.0f, 5000.0f), 1000.0f));
         layout.add(std::make_unique<juce::AudioParameterInt>("numVoices" + juce::String{ i }, "Num Grain Voices " + juce::String{ i },
             0, 24, 0));
     }
     //setUpSourceValueTree();
     //setUpFileValueTree();
     return layout;
+}
+
+void ScreenAudioProcessor::addAudioBuffer(juce::AudioSampleBuffer newSampleBuffer)
+{
+    fileBuffers.add(std::make_unique<juce::AudioSampleBuffer>(newSampleBuffer));
+}
+
+juce::AudioSampleBuffer* ScreenAudioProcessor::getAudioSampleBuffer(int index)
+{
+    return fileBuffers[index];
+}
+
+void ScreenAudioProcessor::addAudioFile(AudioFile newAudioFile)
+{
+    allSounds.add(std::make_unique<AudioFile>(newAudioFile));
+}
+
+void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
+{
 }
 
 /*void ScreenAudioProcessor::setUpSourceValueTree()
