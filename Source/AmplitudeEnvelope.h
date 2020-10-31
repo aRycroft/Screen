@@ -35,6 +35,11 @@ public:
         return envelopeBuffer[(int)floor(approxEnvelopeIndex)];
     }
 
+    float getAmplitudeByProportion(float proportionOfSamplePlayed) {
+        int approxIndex = (int) floor(proportionOfSamplePlayed * NUMSAMPLES);
+        return envelopeBuffer[approxIndex];
+    }
+
 private:
     float envelopeBuffer[NUMSAMPLES];
 };

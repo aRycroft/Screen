@@ -30,13 +30,21 @@ public:
         highSample = copyFile.highSample;
     }*/
 
+   /*float getWindowedSample(int channel, int index, float proportionOfGrainPlayed){
+        int boundedIndex = index + lowSample;
+        if (boundedIndex < 0 || boundedIndex >= highSample) return 0.0f;
+        float sampleValue = audio->getSample(channel, boundedIndex);
+        float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeByProportion(proportionOfGrainPlayed);
+        return sampleWithWindow;
+    }*/
+
     float getSampleAtBoundedIndex(int channel, int index) 
     {
         int boundedIndex = index + lowSample;
-        if (boundedIndex < 0 || boundedIndex >= audio->getNumSamples()) return 0.0f;
+        if (boundedIndex < 0 || boundedIndex >= highSample) return 0.0f;
         float sampleValue = audio->getSample(channel, boundedIndex);
-        //float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeValueFromCurrentSample(boundedIndex, highSample - lowSample);
-        return sampleValue;
+        float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeByProportion((float) index / (highSample - lowSample));
+        return sampleWithWindow;
     }
 
     int getNumChannels() 
@@ -64,8 +72,8 @@ public:
         util::fillAudioBufferWithValue(audio, val);
     }
 
-    juce::AudioBuffer<float>* audio;
-    AmplitudeEnvelope hammingWindow;
 private:
+    AmplitudeEnvelope hammingWindow;
+    juce::AudioBuffer<float>* audio;
     int lowSample, highSample;
 };

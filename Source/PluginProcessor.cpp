@@ -42,29 +42,22 @@ ScreenAudioProcessor::ScreenAudioProcessor()
             apvts.addParameterListener("numVoices" + juce::String{ i }, generators[i]->getGrainVoiceParamListener());
     }
 
-    apvts.getParameterAsValue("size0").setValue(5000.0f);
+    apvts.getParameterAsValue("size0").setValue(6000.0f);
     apvts.getParameterAsValue("active0").setValue(true);
-    apvts.getParameterAsValue("numVoices0").setValue(200);
+    apvts.getParameterAsValue("numVoices0").setValue(4);
 
     fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
     fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
     fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
     fileChoiceHandler->loadSoundFileToMemory("sin", "C:/Users/Alex/Music/Samples/440hz sin.wav");
-    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 5000);
-    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 5000, 100000);
-    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 10000, 200000);
 
-    util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 1);
-    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
+    util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 2);
+	util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
+    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 10);
 
     generators[0]->addActiveSound(allSounds[0]);
     generators[0]->addActiveSound(allSounds[1]);
-    generators[0]->addActiveSound(allSounds[1]);
-    generators[0]->addActiveSound(allSounds[1]);
-    generators[0]->addActiveSound(allSounds[1]);
-
-    limiters.add(new Limiter{});
-    limiters.add(new Limiter{});
+    generators[0]->addActiveSound(allSounds[2]);
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()

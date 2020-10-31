@@ -27,7 +27,6 @@ public:
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
 		bool allSoundsFinished{ true };
-		int prevSampleIndex = currentSample;
 		for (auto* currentSound : *activeSounds) {
 			if (currentSound->getMaxIndex() > currentSample) {
 				allSoundsFinished = false;
@@ -40,7 +39,12 @@ public:
 					}
 				}*/
 			for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
-				outputBuffer->addFrom(channelIndex, 0, *currentSound->audio, channelIndex, currentSample, outputBuffer->getNumSamples());
+				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) {
+					outputBuffer->setSample(channelIndex, i, 
+						outputBuffer->getSample(channelIndex, i) + 
+							currentSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
+				}
+				//outputBuffer->addFrom(channelIndex, 0, *currentSound->audio, channelIndex, currentSample, outputBuffer->getNumSamples());
 				/*int currentSampleIndex = currentSample;
 				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++, currentSampleIndex++)
 				{
@@ -52,7 +56,7 @@ public:
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
-		if (allSoundsFinished || currentSample >= endSample) {
+		if (allSoundsFinished) {
 			isGrainPlaying = false;
 		}
 	}
@@ -78,4 +82,9 @@ private:
 	bool isGrainPlaying{ false };
 	int startSample, endSample, currentSample;
 	juce::Array<AudioFile*>* activeSounds;
+
+	float getProportionOfGrainPlayed(int currentIndexBeingPlayed) {
+		int grainSize = endSample - startSample;
+		return (float) currentIndexBeingPlayed / endSample;
+	}
 };

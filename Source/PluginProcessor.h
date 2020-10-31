@@ -8,7 +8,7 @@
 
 #pragma once
 #define NUM_NODES 4
-#define DUMMYSAMPLERATE 44100
+#define DUMMYSAMPLERATE 48000
 
 #include <JuceHeader.h>
 #include <vector>
@@ -124,7 +124,6 @@ private:
 	juce::ValueTree fileTree{ Ids::fileTree };
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
-	juce::OwnedArray<Limiter> limiters;
 
 
 
