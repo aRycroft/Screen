@@ -27,20 +27,31 @@ public:
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
 		bool allSoundsFinished{ true };
+		int prevSampleIndex = currentSample;
 		for (auto* currentSound : *activeSounds) {
-			int dbgMaxIndex = currentSound->getMaxIndex();
-			int dbgMinIndex = currentSound->getMinIndex();
-			if (currentSound->getMaxIndex() - currentSound->getMinIndex() > currentSample) {
+			if (currentSound->getMaxIndex() > currentSample) {
 				allSoundsFinished = false;
 			}
-			for (int i{ 0 }; i < outputBuffer->getNumSamples() && currentSample < endSample; i++, currentSample++) {
-				for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
-					outputBuffer->setSample(channelIndex, i,
-						outputBuffer->getSample(channelIndex, i) +
-						currentSound->getSampleAtBoundedIndex(channelIndex, currentSample));
-				}
+			/*	for (int i{ 0 }; i < outputBuffer->getNumSamples() && currentSample < endSample; i++, currentSample++) {
+					for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
+						outputBuffer->setSample(channelIndex, i,
+							outputBuffer->getSample(channelIndex, i) +
+							currentSound->getSampleAtBoundedIndex(channelIndex, currentSample));
+					}
+				}*/
+			for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
+				outputBuffer->addFrom(channelIndex, 0, *currentSound->audio, channelIndex, currentSample, outputBuffer->getNumSamples());
+				/*int currentSampleIndex = currentSample;
+				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++, currentSampleIndex++)
+				{
+					float windowedSample = outputBuffer->getSample(channelIndex, i) *
+						currentSound->hammingWindow.getAmplitudeValueFromCurrentSample(currentSampleIndex - startSample,
+							endSample - startSample);
+					outputBuffer->setSample(channelIndex, i, windowedSample);
+				}*/
 			}
 		}
+		currentSample += outputBuffer->getNumSamples();
 		if (allSoundsFinished || currentSample >= endSample) {
 			isGrainPlaying = false;
 		}

@@ -27,10 +27,11 @@ public:
     void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
     {
         for (auto grain : grains) {
-            if (grain->isPlaying()) {
+            if (grain->isPlaying()) { 
                 grain->fillNextBuffer(outputBuffer);
             }
         }
+        //outputBuffer->applyGain(1.0f / activeSounds.size());
     }
 
     void playGrain()
@@ -135,7 +136,7 @@ private:
     private:
         GrainGenerator* generator;
     };
-
+    
     juce::Array<AudioFile*> activeSounds;
     std::vector<Grain*> grains;
     std::atomic<float>* grainSize;

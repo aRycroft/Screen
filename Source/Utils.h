@@ -13,16 +13,16 @@
 
 namespace Ids
 {
-#define MAKE_ID(name) const juce::Identifier name (#name)
     /*AUDIO SOURCE*/
-    MAKE_ID(sourceTree);
-    MAKE_ID(audioSource);
-    MAKE_ID(lowSample);
-    MAKE_ID(highSample);
+    static juce::Identifier audioSource("audioSource");
+    static juce::Identifier lowSample("lowSample");
+    static juce::Identifier highSample("highSample");
     /*FILE*/
-    MAKE_ID(fileTree);
-    MAKE_ID(relativePath);
-
+    static juce::Identifier fileTree("fileTree");
+    static juce::Identifier relativePath("relativePath");
+    /*SHARED*/
+    static juce::Identifier x("x");
+    static juce::Identifier y("y");
 }
 
 

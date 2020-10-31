@@ -5,6 +5,12 @@
               pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth">
   <MAINGROUP id="qMqydQ" name="Screen">
     <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
+      <GROUP id="{CF50BE7D-BFE5-31E3-73FA-B7045C113E44}" name="Limiter">
+        <FILE id="TeRmPd" name="DelayBuffer.cpp" compile="1" resource="0" file="Source/DelayBuffer.cpp"/>
+        <FILE id="iKmIs2" name="DelayBuffer.h" compile="0" resource="0" file="Source/DelayBuffer.h"/>
+        <FILE id="LH265N" name="Limiter.cpp" compile="1" resource="0" file="Source/Limiter.cpp"/>
+        <FILE id="M0Ooxf" name="Limiter.h" compile="0" resource="0" file="Source/Limiter.h"/>
+      </GROUP>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="xKFMMH" name="PluginProcessor.h" compile="0" resource="0"
@@ -19,6 +25,8 @@
             file="Source/GrainGenerator.h"/>
       <FILE id="SeJWJp" name="FileChoiceHandler.h" compile="0" resource="0"
             file="Source/FileChoiceHandler.h"/>
+      <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
+            file="Source/AmplitudeEnvelope.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
@@ -41,6 +49,7 @@
         <MODULEPATH id="juce_graphics" path="../../../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../../../../../JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../../../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2019>
   </EXPORTFORMATS>
@@ -54,6 +63,7 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>

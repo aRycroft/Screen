@@ -17,6 +17,7 @@
 #include "Utils.h"
 #include "AudioFile.h"
 #include "FileChoiceHandler.h"
+#include "Limiter.h"
 
 //==============================================================================
 /**
@@ -123,6 +124,7 @@ private:
 	juce::ValueTree fileTree{ Ids::fileTree };
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
+	juce::OwnedArray<Limiter> limiters;
 
 
 

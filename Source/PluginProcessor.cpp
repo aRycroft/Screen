@@ -34,28 +34,37 @@ ScreenAudioProcessor::ScreenAudioProcessor()
     apvts.state.addChild(fileTree, 0, nullptr);
     fileListener.reset(new FileListener(this, fileTree));
 
-    //allSounds.add(new AudioFile{ new juce::AudioBuffer<float>{ 2, 44100 }, 0, 20000 });
     for (int i{ 0 }; i < NUM_NODES; i++) {
         generators.add(std::unique_ptr<GrainGenerator>(
         new GrainGenerator(DUMMYSAMPLERATE, 
             apvts.getRawParameterValue("size" + juce::String{ i }))));
-        apvts.addParameterListener("active" + juce::String{ i }, generators[i]->getActiveParamListener());
-        apvts.addParameterListener("numVoices" + juce::String{ i }, generators[i]->getGrainVoiceParamListener());
+            apvts.addParameterListener("active" + juce::String{ i }, generators[i]->getActiveParamListener());
+            apvts.addParameterListener("numVoices" + juce::String{ i }, generators[i]->getGrainVoiceParamListener());
     }
-    //allSounds[0]->fillBufferWithValue(1.0f);
-    //generators[0]->addActiveSound(allSounds[0]);
-    apvts.getParameterAsValue("size0").setValue(20000.0f);
+
+    apvts.getParameterAsValue("size0").setValue(5000.0f);
     apvts.getParameterAsValue("active0").setValue(true);
     apvts.getParameterAsValue("numVoices0").setValue(200);
 
     fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
     fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
     fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
-    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, 50000);
-    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 5000, 100000);
+    fileChoiceHandler->loadSoundFileToMemory("sin", "C:/Users/Alex/Music/Samples/440hz sin.wav");
+    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 5000);
+    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 5000, 100000);
+    //util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 10000, 200000);
+
+    util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 1);
+    util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
 
     generators[0]->addActiveSound(allSounds[0]);
     generators[0]->addActiveSound(allSounds[1]);
+    generators[0]->addActiveSound(allSounds[1]);
+    generators[0]->addActiveSound(allSounds[1]);
+    generators[0]->addActiveSound(allSounds[1]);
+
+    limiters.add(new Limiter{});
+    limiters.add(new Limiter{});
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -167,12 +176,21 @@ void ScreenAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce:
     for (auto grainGen : generators) 
     {
         if (grainGen->isActive) {
-            if (counter % 10 == 0) {
+            if (counter % 100 == 0) {
                 grainGen->playGrain();
             }
             grainGen->fillNextBuffer(&buffer);
         }
     }
+    /*for (int i{ 0 }; i < buffer.getNumSamples(); i++) 
+    {
+        for (int channel{ 0 }; channel < 2; channel++) 
+        {
+            auto writePointer = buffer.getWritePointer(channel);
+            auto limitedSample = limiters[channel]->calculateSample(writePointer[i], 0.001f, 0.001f, 0.2f);
+            writePointer[i] = limitedSample;
+        }
+    }*/
     counter++;
 }
 
@@ -214,11 +232,19 @@ juce::AudioProcessorValueTreeState::ParameterLayout ScreenAudioProcessor::create
     juce::AudioProcessorValueTreeState::ParameterLayout layout;
     for (int i{ 0 }; i < NUM_NODES; i++) {
         //Generator
-        layout.add(std::make_unique<juce::AudioParameterBool>("active" + juce::String{ i }, "GeneratorActive " + juce::String{ i }, false));
-        layout.add(std::make_unique<juce::AudioParameterFloat>("size" + juce::String{ i }, "GrainSize " + juce::String{ i }, 
+        layout.add(std::make_unique<juce::AudioParameterBool>("active" + juce::String{ i }, 
+            "Generator " + juce::String{ i } + " Active " , false));
+        layout.add(std::make_unique<juce::AudioParameterFloat>("size" + juce::String{ i }, 
+            "Generator" + juce::String{ i } +" Grain Size", 
             juce::NormalisableRange<float>(5.0f, 5000.0f), 1000.0f));
-        layout.add(std::make_unique<juce::AudioParameterInt>("numVoices" + juce::String{ i }, "Num Grain Voices " + juce::String{ i },
-            0, 24, 0));
+        layout.add(std::make_unique<juce::AudioParameterInt>("numVoices" + juce::String{ i }, 
+            "Generator" + juce::String{ i } + "Grain Voices" , 0, 24, 0));
+        layout.add(std::make_unique<juce::AudioParameterFloat>("x" + juce::String{ i }, 
+            "Generator" + juce::String{ i } + " X Position",
+            juce::NormalisableRange<float>(0.0f, 1.0f), 0.0f));
+        layout.add(std::make_unique<juce::AudioParameterFloat>("y" + juce::String{ i }, 
+            "Generator" + juce::String{ i } + " Y Position",
+            juce::NormalisableRange<float>(0.0f, 1.0f), 0.0f));
     }
     //setUpSourceValueTree();
     //setUpFileValueTree();
