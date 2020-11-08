@@ -5,11 +5,10 @@
               pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth">
   <MAINGROUP id="qMqydQ" name="Screen">
     <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
-      <GROUP id="{CF50BE7D-BFE5-31E3-73FA-B7045C113E44}" name="Limiter">
-        <FILE id="TeRmPd" name="DelayBuffer.cpp" compile="1" resource="0" file="Source/DelayBuffer.cpp"/>
-        <FILE id="iKmIs2" name="DelayBuffer.h" compile="0" resource="0" file="Source/DelayBuffer.h"/>
-        <FILE id="LH265N" name="Limiter.cpp" compile="1" resource="0" file="Source/Limiter.cpp"/>
-        <FILE id="M0Ooxf" name="Limiter.h" compile="0" resource="0" file="Source/Limiter.h"/>
+      <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
+        <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
+              file="Source/GrainGeneratorVis.h"/>
+        <FILE id="HKw4oi" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
       </GROUP>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

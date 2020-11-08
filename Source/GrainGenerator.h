@@ -16,11 +16,10 @@
 class GrainGenerator
 {
 public:
-    GrainGenerator(int sampleRate, std::atomic<float>* grainSizeMS)
+    GrainGenerator(int sampleRate)
         :activeParamListener(this),
         grainVoiceParamListener(this)
     {
-        this->grainSize = grainSizeMS;
         this->sampleRate = sampleRate;
     }
 
@@ -38,7 +37,7 @@ public:
     {
         for (auto grain : grains) {
             if (!grain->isPlaying()) {
-                grain->startPlaying(0, (int)(*grainSize / 1000 * sampleRate));
+                grain->startPlaying(0, 0);
                 return;
             }
         }
@@ -139,7 +138,6 @@ private:
     
     juce::Array<AudioFile*> activeSounds;
     std::vector<Grain*> grains;
-    std::atomic<float>* grainSize;
     ActiveParamListener activeParamListener;
     GrainVoiceParamListener grainVoiceParamListener;
     int sampleRate, numVoices = 0;

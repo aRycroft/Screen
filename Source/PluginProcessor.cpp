@@ -26,26 +26,20 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 {
 #ifdef DEBUG
     juce::UnitTestRunner runner;
-    static PluginProcessorTests t{ this };
-    static GrainTests gTests;
-    static GeneratorTests genTests{ &apvts };
-    //runner.runAllTests();
 #endif // DEBUG
     apvts.state.addChild(fileTree, 0, nullptr);
     fileListener.reset(new FileListener(this, fileTree));
 
     for (int i{ 0 }; i < NUM_NODES; i++) {
         generators.add(std::unique_ptr<GrainGenerator>(
-        new GrainGenerator(DUMMYSAMPLERATE, 
-            apvts.getRawParameterValue("size" + juce::String{ i }))));
+            new GrainGenerator(DUMMYSAMPLERATE)));
             apvts.addParameterListener("active" + juce::String{ i }, generators[i]->getActiveParamListener());
             apvts.addParameterListener("numVoices" + juce::String{ i }, generators[i]->getGrainVoiceParamListener());
     }
-
-    apvts.getParameterAsValue("size0").setValue(6000.0f);
     apvts.getParameterAsValue("active0").setValue(true);
-    apvts.getParameterAsValue("numVoices0").setValue(4);
+	apvts.getParameterAsValue("active1").setValue(true);
 
+    
     fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
     fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
     fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
@@ -58,6 +52,8 @@ ScreenAudioProcessor::ScreenAudioProcessor()
     generators[0]->addActiveSound(allSounds[0]);
     generators[0]->addActiveSound(allSounds[1]);
     generators[0]->addActiveSound(allSounds[2]);
+    DBG(apvts.state.toXmlString());
+    DBG("HAHHAHA");
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -195,7 +191,7 @@ bool ScreenAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* ScreenAudioProcessor::createEditor()
 {
-    return new ScreenAudioProcessorEditor (*this);
+    return new ScreenAudioProcessorEditor (*this, apvts);
 }
 
 //==============================================================================
