@@ -19,7 +19,7 @@
 class ScreenAudioProcessorEditor  : public juce::AudioProcessorEditor
 {
 public:
-    ScreenAudioProcessorEditor (ScreenAudioProcessor&, juce::AudioProcessorValueTreeState& state);
+    ScreenAudioProcessorEditor (ScreenAudioProcessor&, juce::ValueTree state);
     ~ScreenAudioProcessorEditor() override;
 
     //==============================================================================
@@ -29,7 +29,7 @@ public:
 private:
     void updateFromValueTree();
     ScreenAudioProcessor& audioProcessor;
-    juce::AudioProcessorValueTreeState& apvts;
+    juce::ValueTree& vTree;
     //std::unique_ptr<GrainGeneratorVis> generatorVis[NUM_NODES];
     juce::OwnedArray<GrainGeneratorVis> generatorVis;
     std::unique_ptr<MainPanel> mainPanel;

@@ -12,11 +12,13 @@
 #include <JuceHeader.h>>
 #include "GrainGeneratorVis.h"
 
-class MainPanel : public juce::Component, public juce::AudioProcessorValueTreeState::Listener
+class MainPanel : public juce::Component, public juce::ValueTree::Listener
 {
 public:
-	MainPanel()
+	MainPanel(juce::ValueTree genTree)
+		:vTree(genTree)
 	{
+		vTree.addListener(this);
 	}
 
 	void paint(juce::Graphics& g) override
@@ -33,14 +35,12 @@ public:
 		}
 	}
 
-	void parameterChanged(const juce::String& parameterID, float newValue) override
+	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
-		if (newValue)
-		{
-			addGeneratorVis();
-		}
-		else
-		{
+		if (property == Ids::active) {
+			if (vTree.getProperty(property)) {
+				addGeneratorVis();
+			}
 		}
 	}
 
@@ -50,10 +50,11 @@ public:
 		addAndMakeVisible(generatorVis.getLast());
 	}
 
-	void removeGeneratorVis() 
+	void removeGeneratorVis()
 	{
 
 	}
 private:
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
+	juce::ValueTree vTree;
 };

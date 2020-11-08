@@ -22,10 +22,6 @@ public:
 
 	void paint(juce::Graphics& g) override
 	{
-		if (isVisible())
-			DBG("True");
-		else
-			DBG("False");
 		g.fillAll(juce::Colours::lightblue);
 	}
 

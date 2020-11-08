@@ -67,6 +67,8 @@ private:
 	juce::AudioSampleBuffer* getAudioSampleBuffer(int index);
 	void addAudioFile(AudioFile newAudioFile);
 	void removeAudioFile(juce::File newFile);
+	void createGeneratorsValueTree(int numGenerators);
+	//juce::ValueTree doSomething();
 
 	class FileListener : public juce::ValueTree::Listener
 	{
@@ -117,10 +119,12 @@ private:
 	};
 
 	juce::AudioProcessorValueTreeState apvts;
+	juce::ValueTree vTree{ "ParamTree" };
+	juce::ValueTree fileTree{ Ids::fileTree };
+	juce::ValueTree genTree{ Ids::genTree };
 	juce::OwnedArray<GrainGenerator> generators;
 	juce::OwnedArray<AudioFile> allSounds;
 	juce::OwnedArray<juce::AudioSampleBuffer> fileBuffers;
-	juce::ValueTree fileTree{ Ids::fileTree };
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
 	unsigned counter = 0;

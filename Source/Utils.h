@@ -10,6 +10,10 @@
 
 #pragma once
 #include <JuceHeader.h>
+enum TreeChildren {
+    fileTree,
+    genTree
+};
 
 namespace Ids
 {
@@ -20,7 +24,11 @@ namespace Ids
     /*FILE*/
     static juce::Identifier fileTree("fileTree");
     static juce::Identifier relativePath("relativePath");
+    /*GENERATOR*/
+    static juce::Identifier genTree("genTree");
+    static juce::Identifier numVoices("numVoices");
     /*SHARED*/
+    static juce::Identifier active("active");
     static juce::Identifier x("x");
     static juce::Identifier y("y");
 }
