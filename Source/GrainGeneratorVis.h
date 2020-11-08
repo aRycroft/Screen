@@ -14,72 +14,49 @@
 class GrainGeneratorVis : public juce::Component
 {
 public:
-	GrainGeneratorVis()
-		: activeParamListener(this),
-		grainVoiceParamListener(this)
+	GrainGeneratorVis(juce::ValueTree vTree)
+		:paramTree(vTree)
 	{
+	}
+	
+	void mouseDown(const juce::MouseEvent& e) override
+	{
+		mouseDownWithinTarget = e.getEventRelativeTo(this).getMouseDownPosition();
+	}
+
+	void mouseDrag(const juce::MouseEvent& e) override 
+	{
+		auto bounds = getBounds();
+		bounds += e.getEventRelativeTo(this).getPosition() - mouseDownWithinTarget;
+
+		auto x = bounds.getX();
+		x = std::max(x, 0);
+		x = std::min(x, getParentWidth() - getWidth());
+
+		auto y = bounds.getY();
+		y = std::max(y, 0);
+		y = std::min(y, getParentHeight() - getHeight());
+
+		bounds.setX(x);
+		bounds.setY(y);
+		setBounds(bounds);
+
+		paramTree.setProperty(Ids::x, (float) bounds.getX() / (getParentWidth() - getWidth()), nullptr);
+		paramTree.setProperty(Ids::y, (float) bounds.getY() / (getParentHeight() - getHeight()), nullptr);
+		/*This is inefficient but it makes components move smoothly so who cares*/
+		getParentComponent()->repaint();
 	}
 
 	void paint(juce::Graphics& g) override
-	{
-		g.fillAll(juce::Colours::lightblue);
+	{	
+		g.setColour(juce::Colours::black);
+		g.fillRoundedRectangle(getLocalBounds().reduced(1).toFloat(), 100.0f);
 	}
 
 	void resized() override
 	{
 	}
-
-	juce::AudioProcessorValueTreeState::Listener* getActiveParamListener()
-	{
-		return &activeParamListener;
-	}
-
-	juce::AudioProcessorValueTreeState::Listener* getGrainVoiceParamListener()
-	{
-		return &grainVoiceParamListener;
-	}
-
-	bool isActive{ false };
-
 private:
-	class ActiveParamListener : public juce::AudioProcessorValueTreeState::Listener
-	{
-	public:
-		ActiveParamListener(GrainGeneratorVis* processor)
-		{
-			proc = processor;
-		};
-
-		void parameterChanged(const juce::String& parameterID, float newValue) override
-		{
-			if (newValue) {
-				proc->setVisible(true);
-			}
-			else {
-				proc->setVisible(false);
-			}
-		}
-
-	private:
-		GrainGeneratorVis* proc;
-	};
-
-	class GrainVoiceParamListener : public juce::AudioProcessorValueTreeState::Listener
-	{
-	public:
-		GrainVoiceParamListener(GrainGeneratorVis* gen)
-		{
-			generator = gen;
-		};
-
-		void parameterChanged(const juce::String& parameterID, float newValue) override
-		{
-
-		}
-	private:
-		GrainGeneratorVis* generator;
-	};
-
-	ActiveParamListener activeParamListener;
-	GrainVoiceParamListener grainVoiceParamListener;
+	juce::ValueTree paramTree;
+	juce::Point<int> mouseDownWithinTarget;
 };

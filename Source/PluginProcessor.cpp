@@ -40,6 +40,9 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 			new GrainGenerator(DUMMYSAMPLERATE, genTree.getChild(i))));
 	}
 	genTree.getChild(0).setProperty(Ids::active, true, nullptr);
+	genTree.getChild(1).setProperty(Ids::active, true, nullptr);
+	genTree.getChild(2).setProperty(Ids::active, true, nullptr);
+	genTree.getChild(3).setProperty(Ids::active, true, nullptr);
 	genTree.getChild(0).setProperty(Ids::numVoices, 20, nullptr);
 
 	fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });

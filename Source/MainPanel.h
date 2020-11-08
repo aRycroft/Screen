@@ -23,38 +23,41 @@ public:
 
 	void paint(juce::Graphics& g) override
 	{
-		g.fillAll(juce::Colours::antiquewhite);
+		//g.fillAll(juce::Colours::antiquewhite);
 	}
 
 	void resized() override
 	{
-		int i = 0;
-		for each (auto genVis in generatorVis)
-		{
-			genVis->setBounds(i++ * 100, 0, 50, 50);
+		for (int i{ 0 }; i < NUM_NODES; i++) {
+			auto generatorTree = vTree.getChild(i);
+			if(generatorTree.getProperty(Ids::active))
+				generatorVis[i]->setBounds(
+					(float) generatorTree.getProperty(Ids::x) * (getWidth() - generatorVis[i]->getWidth()),
+					(float) generatorTree.getProperty(Ids::y) * (getHeight() - generatorVis[i]->getHeight()), 60, 60);
 		}
 	}
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
+		auto genNumber = vTree.getType().toString().getLastCharacter() - '0';
 		if (property == Ids::active) {
 			if (vTree.getProperty(property)) {
-				addGeneratorVis();
+				addGeneratorVis(genNumber);
 			}
 		}
 	}
 
-	void addGeneratorVis()
+	void addGeneratorVis(int childNumber)
 	{
-		generatorVis.add(std::unique_ptr<GrainGeneratorVis>(new GrainGeneratorVis()));
-		addAndMakeVisible(generatorVis.getLast());
+		generatorVis[childNumber].reset(new GrainGeneratorVis(vTree.getChild(childNumber)));
+		addAndMakeVisible(*generatorVis[childNumber]);
 	}
 
 	void removeGeneratorVis()
 	{
-
 	}
 private:
-	juce::OwnedArray<GrainGeneratorVis> generatorVis;
+	std::unique_ptr<GrainGeneratorVis> generatorVis[NUM_NODES];
+	//juce::OwnedArray<GrainGeneratorVis> generatorVis;
 	juce::ValueTree vTree;
 };

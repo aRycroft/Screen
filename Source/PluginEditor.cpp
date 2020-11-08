@@ -20,6 +20,7 @@ ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, 
 	mainPanel.reset(new MainPanel{vTree.getChild(TreeChildren::genTree)});
 	addAndMakeVisible(*mainPanel);
 	updateFromValueTree();
+	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
 	setSize(400, 300);
 }
 
