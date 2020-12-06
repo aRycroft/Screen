@@ -22,11 +22,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 #endif
 	)
 #endif
-	, apvts(*this, nullptr, "PARAMETERS", createStateLayout())
 {
-#ifdef DEBUG
-	juce::UnitTestRunner runner;
-#endif // DEBUG
 	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
 	fileListener.reset(new FileListener(this, fileTree));
@@ -157,15 +153,6 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 			grainGen->fillNextBuffer(&buffer);
 		}
 	}
-	/*for (int i{ 0 }; i < buffer.getNumSamples(); i++)
-	{
-		for (int channel{ 0 }; channel < 2; channel++)
-		{
-			auto writePointer = buffer.getWritePointer(channel);
-			auto limitedSample = limiters[channel]->calculateSample(writePointer[i], 0.001f, 0.001f, 0.2f);
-			writePointer[i] = limitedSample;
-		}
-	}*/
 	counter++;
 }
 
@@ -201,31 +188,6 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 	return new ScreenAudioProcessor();
 }
 
-
-juce::AudioProcessorValueTreeState::ParameterLayout ScreenAudioProcessor::createStateLayout()
-{
-	juce::AudioProcessorValueTreeState::ParameterLayout layout;
-	for (int i{ 0 }; i < NUM_NODES; i++) {
-		//Generator
-		layout.add(std::make_unique<juce::AudioParameterBool>("active" + juce::String{ i },
-			"Generator " + juce::String{ i } + " Active ", false));
-		layout.add(std::make_unique<juce::AudioParameterFloat>("size" + juce::String{ i },
-			"Generator" + juce::String{ i } + " Grain Size",
-			juce::NormalisableRange<float>(5.0f, 5000.0f), 1000.0f));
-		layout.add(std::make_unique<juce::AudioParameterInt>("numVoices" + juce::String{ i },
-			"Generator" + juce::String{ i } + "Grain Voices", 0, 24, 0));
-		layout.add(std::make_unique<juce::AudioParameterFloat>("x" + juce::String{ i },
-			"Generator" + juce::String{ i } + " X Position",
-			juce::NormalisableRange<float>(0.0f, 1.0f), 0.0f));
-		layout.add(std::make_unique<juce::AudioParameterFloat>("y" + juce::String{ i },
-			"Generator" + juce::String{ i } + " Y Position",
-			juce::NormalisableRange<float>(0.0f, 1.0f), 0.0f));
-	}
-	//setUpSourceValueTree();
-	//setUpFileValueTree();
-	return layout;
-}
-
 void ScreenAudioProcessor::addAudioBuffer(juce::AudioSampleBuffer newSampleBuffer)
 {
 	fileBuffers.add(std::make_unique<juce::AudioSampleBuffer>(newSampleBuffer));
@@ -245,24 +207,11 @@ void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
 {
 }
 
-void ScreenAudioProcessor::createGeneratorsValueTree(int numGenerators)
-{
-	for (int i{ 0 }; i < numGenerators; i++) {
-		juce::ValueTree generator{ "gen" + juce::String{ i } };
-		generator
-			.setProperty(Ids::active, false, nullptr)
-			.setProperty(Ids::numVoices, 0, nullptr)
-			.setProperty(Ids::x, 0.0, nullptr)
-			.setProperty(Ids::y, 0.0, nullptr);
-		genTree.addChild(generator, i, nullptr);
-	}
-}
-
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
-	generators[0]->addActiveSound(allSounds[0]);
-	generatorValueTree.setProperty(Ids::numVoices, 5, nullptr);
+	generators.getLast()->addActiveSound(allSounds[1]);
+	generatorValueTree.setProperty(Ids::numVoices, 1, nullptr);
 	generatorValueTree.setProperty(Ids::active, true, nullptr);
 }
 void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
@@ -270,16 +219,3 @@ void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove)
 	generators.remove(indexToRemove);
 }
 
-/*void ScreenAudioProcessor::setUpSourceValueTree()
-{
-	juce::ValueTree sTree(Ids::sourceTree);
-	sTree.addListener(&sourceListener);
-	state.state.addChild(sTree, state.state.getNumChildren(), nullptr);
-}
-
-void ScreenAudioProcessor::setUpFileValueTree()
-{
-	juce::ValueTree fileTree{Ids::fileTree};
-	fileTree.addListener(&fileListener);
-	state.state.addChild(fileTree, state.state.getNumChildren(), nullptr);
-}*/

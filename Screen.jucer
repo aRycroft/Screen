@@ -5,6 +5,12 @@
               pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth">
   <MAINGROUP id="qMqydQ" name="Screen">
     <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
+      <GROUP id="{4546EF51-EF7C-F306-911D-E4A103EA0122}" name="Interfaces">
+        <FILE id="r2Xc2V" name="IAudioFileHandler.h" compile="0" resource="0"
+              file="Source/IAudioFileHandler.h"/>
+        <FILE id="dkEBiY" name="IGrainGenHandler.h" compile="0" resource="0"
+              file="Source/IGrainGenHandler.h"/>
+      </GROUP>
       <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
         <FILE id="jeyH1u" name="AudioFileVis.h" compile="0" resource="0" file="Source/AudioFileVis.h"/>
         <FILE id="exn5JV" name="DraggableComponent.h" compile="0" resource="0"
@@ -29,6 +35,8 @@
             file="Source/FileChoiceHandler.h"/>
       <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
             file="Source/AmplitudeEnvelope.h"/>
+      <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
+      <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

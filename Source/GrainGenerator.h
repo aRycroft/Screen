@@ -44,7 +44,7 @@ public:
 
 	void addGrainVoice()
 	{
-		grains.push_back(new Grain{ &activeSounds, 0, 0 });
+		grains.push_back(new Grain{ &activeSounds});
 		numVoices++;
 	}
 

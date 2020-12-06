@@ -18,10 +18,9 @@
 class Grain
 {
 public:
-	Grain(juce::Array<AudioFile*>* sounds, int startSample, int endSample)
+	Grain(juce::Array<AudioFile*>* sounds)
 	{
 		activeSounds = sounds;
-		setStartAndEndSample(startSample, endSample);
 	}
 
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
@@ -31,28 +30,12 @@ public:
 			if (currentSound->getMaxIndex() > currentSample) {
 				allSoundsFinished = false;
 			}
-			/*	for (int i{ 0 }; i < outputBuffer->getNumSamples() && currentSample < endSample; i++, currentSample++) {
-					for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
-						outputBuffer->setSample(channelIndex, i,
-							outputBuffer->getSample(channelIndex, i) +
-							currentSound->getSampleAtBoundedIndex(channelIndex, currentSample));
-					}
-				}*/
 			for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
 				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) {
 					outputBuffer->setSample(channelIndex, i, 
 						outputBuffer->getSample(channelIndex, i) + 
 							currentSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
 				}
-				//outputBuffer->addFrom(channelIndex, 0, *currentSound->audio, channelIndex, currentSample, outputBuffer->getNumSamples());
-				/*int currentSampleIndex = currentSample;
-				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++, currentSampleIndex++)
-				{
-					float windowedSample = outputBuffer->getSample(channelIndex, i) *
-						currentSound->hammingWindow.getAmplitudeValueFromCurrentSample(currentSampleIndex - startSample,
-							endSample - startSample);
-					outputBuffer->setSample(channelIndex, i, windowedSample);
-				}*/
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
@@ -63,28 +46,16 @@ public:
 
 	void startPlaying(int startSample, int endSample)
 	{
-		setStartAndEndSample(startSample, endSample);
 		isGrainPlaying = true;
+		currentSample = 0;
 	}
 
 	bool isPlaying()
 	{
 		return isGrainPlaying;
 	}
-
-	void setStartAndEndSample(int startSample, int endSample)
-	{
-		this->startSample = startSample;
-		this->endSample = endSample;
-		currentSample = startSample;
-	}
 private:
 	bool isGrainPlaying{ false };
 	int startSample, endSample, currentSample;
 	juce::Array<AudioFile*>* activeSounds;
-
-	float getProportionOfGrainPlayed(int currentIndexBeingPlayed) {
-		int grainSize = endSample - startSample;
-		return (float) currentIndexBeingPlayed / endSample;
-	}
 };
