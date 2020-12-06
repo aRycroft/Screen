@@ -61,6 +61,10 @@ public:
 	void getStateInformation(juce::MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
+	void createGrainGenerator(juce::ValueTree generatorValueTree);
+	void removeGrainGenerator(int indexToRemove);
+	juce::ValueTree createGeneratorValueTree();
+
 private:
 	juce::AudioProcessorValueTreeState::ParameterLayout createStateLayout();
 	void addAudioBuffer(juce::AudioSampleBuffer newBuffer);
@@ -68,7 +72,6 @@ private:
 	void addAudioFile(AudioFile newAudioFile);
 	void removeAudioFile(juce::File newFile);
 	void createGeneratorsValueTree(int numGenerators);
-	//juce::ValueTree doSomething();
 
 	class FileListener : public juce::ValueTree::Listener
 	{
@@ -118,6 +121,31 @@ private:
 		juce::ValueTree vTree;
 	};
 
+	class GenListener : public juce::ValueTree::Listener
+	{
+	public:
+		GenListener(ScreenAudioProcessor* processor, juce::ValueTree tree)
+			: vTree(tree)
+		{
+			proc = processor;
+			vTree.addListener(this);
+		};
+
+		void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
+		{
+			proc->createGrainGenerator(childWhichHasBeenAdded);
+		};
+
+		void valueTreeChildRemoved(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override
+		{
+			proc->removeGrainGenerator(indexFromWhichChildWasRemoved);
+		};
+
+	private:
+		ScreenAudioProcessor* proc;
+		juce::ValueTree vTree;
+	};
+
 	juce::AudioProcessorValueTreeState apvts;
 	juce::ValueTree vTree{ "ParamTree" };
 	juce::ValueTree fileTree{ Ids::fileTree };
@@ -126,6 +154,7 @@ private:
 	juce::OwnedArray<AudioFile> allSounds;
 	juce::OwnedArray<juce::AudioSampleBuffer> fileBuffers;
 	std::unique_ptr<FileListener> fileListener;
+	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)

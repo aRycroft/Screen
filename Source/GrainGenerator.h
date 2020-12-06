@@ -17,8 +17,7 @@ class GrainGenerator : public juce::ValueTree::Listener
 {
 public:
 	GrainGenerator(int sampleRate, juce::ValueTree vTree)
-		:
-		paramTree(vTree)
+		: paramTree(vTree)
 	{
 		this->sampleRate = sampleRate;
 		paramTree.addListener(this);
@@ -98,7 +97,7 @@ public:
 			}
 		}
 	}
-	bool isActive{ false };
+	bool isActive{ true };
 
 private:
 	juce::ValueTree paramTree;

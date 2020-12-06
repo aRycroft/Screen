@@ -26,6 +26,7 @@ namespace Ids
     static juce::Identifier relativePath("relativePath");
     /*GENERATOR*/
     static juce::Identifier genTree("genTree");
+    static juce::Identifier generator("generator");
     static juce::Identifier numVoices("numVoices");
     /*SHARED*/
     static juce::Identifier active("active");

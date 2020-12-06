@@ -12,52 +12,117 @@
 #include <JuceHeader.h>>
 #include "GrainGeneratorVis.h"
 
-class MainPanel : public juce::Component, public juce::ValueTree::Listener
+class MainPanel : public juce::Component, public juce::ValueTree::Listener, public juce::MouseListener
 {
 public:
-	MainPanel(juce::ValueTree genTree)
-		:vTree(genTree)
+	MainPanel(juce::ValueTree state)
+		:genTree(state.getChildWithName(Ids::genTree)),
+		fileTree(state.getChildWithName(Ids::fileTree))
 	{
-		vTree.addListener(this);
+		genListener.reset(new GenListener(this, genTree));
+		for (auto generator : genTree)
+		{
+			addGeneratorVis(generator);
+		}
 	}
 
 	void paint(juce::Graphics& g) override
 	{
-		//g.fillAll(juce::Colours::antiquewhite);
+		g.fillAll(juce::Colours::antiquewhite);
 	}
 
 	void resized() override
 	{
-		for (int i{ 0 }; i < NUM_NODES; i++) {
-			auto generatorTree = vTree.getChild(i);
-			if(generatorTree.getProperty(Ids::active))
-				generatorVis[i]->setBounds(
-					(float) generatorTree.getProperty(Ids::x) * (getWidth() - generatorVis[i]->getWidth()),
-					(float) generatorTree.getProperty(Ids::y) * (getHeight() - generatorVis[i]->getHeight()), 60, 60);
+		for (auto grainVis : generatorVis) {
+			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
 		}
 	}
 
-	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
+	void addGeneratorVis(juce::ValueTree valueTree)
 	{
-		auto genNumber = vTree.getType().toString().getLastCharacter() - '0';
-		if (property == Ids::active) {
-			if (vTree.getProperty(property)) {
-				addGeneratorVis(genNumber);
-			}
+		generatorVis.add(new GrainGeneratorVis(valueTree));
+		addAndMakeVisible(generatorVis.getLast());
+		generatorVis.getLast()->setBounds(generatorVis.getLast()->calculateBounds().toNearestInt());
+		generatorVis.getLast()->addMouseListener(this, false);
+	}
+
+	void removeGeneratorVis(int indexFromWhichChildWasRemoved)
+	{
+		generatorVis.remove(indexFromWhichChildWasRemoved);
+		//removeChildComponent(indexFromWhichChildWasRemoved);
+	}
+
+	void mouseDoubleClick(const juce::MouseEvent& event) override 
+	{
+		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
+		
+		if (clickedGrainGen != 0) {
+			genTree.removeChild(clickedGrainGen->getValueTree(), nullptr);
 		}
-	}
-
-	void addGeneratorVis(int childNumber)
-	{
-		generatorVis[childNumber].reset(new GrainGeneratorVis(vTree.getChild(childNumber)));
-		addAndMakeVisible(*generatorVis[childNumber]);
-	}
-
-	void removeGeneratorVis()
-	{
+		else
+		{
+			genTree.addChild(createGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight()), -1, nullptr);
+		}
 	}
 private:
-	std::unique_ptr<GrainGeneratorVis> generatorVis[NUM_NODES];
-	//juce::OwnedArray<GrainGeneratorVis> generatorVis;
-	juce::ValueTree vTree;
+
+	juce::ValueTree createGeneratorValueTree(float x, float y)
+	{
+		juce::ValueTree newTree{ Ids::generator };
+		newTree
+			.setProperty(Ids::active, true, nullptr)
+			.setProperty(Ids::numVoices, 20, nullptr)
+			.setProperty(Ids::x, x, nullptr)
+			.setProperty(Ids::y, y, nullptr);
+		genTree.addChild(newTree, -1, nullptr);
+		return newTree;
+	}
+
+	class GenListener : public juce::ValueTree::Listener
+	{
+	public:
+		GenListener(MainPanel* panel, juce::ValueTree tree)
+			: vTree(tree)
+		{
+			mainPanel = panel;
+			vTree.addListener(this);
+		};
+
+		void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
+		{
+			mainPanel->addGeneratorVis(childWhichHasBeenAdded);
+		};
+
+		void valueTreeChildRemoved(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override
+		{
+			mainPanel->removeGeneratorVis(indexFromWhichChildWasRemoved);
+		};
+	private:
+		MainPanel* mainPanel;
+		juce::ValueTree vTree;
+	};
+
+	class FileListener : public juce::ValueTree::Listener
+	{
+	public:
+		FileListener(MainPanel* panel, juce::ValueTree tree)
+			: vTree(tree)
+		{
+			mainPanel = panel;
+			vTree.addListener(this);
+		};
+
+		void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
+		{
+			DBG("Hell");
+		};
+	private:
+		MainPanel* mainPanel;
+		juce::ValueTree vTree;
+	};
+
+	juce::OwnedArray<GrainGeneratorVis> generatorVis;
+	juce::ValueTree genTree, fileTree;
+	std::unique_ptr<GenListener> genListener;
+	std::unique_ptr<FileListener> fileListener;
 };

@@ -28,22 +28,9 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	juce::UnitTestRunner runner;
 #endif // DEBUG
 	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
-	//apvts.state.addChild(fileTree, 0, nullptr);
-	fileListener.reset(new FileListener(this, fileTree));
-	createGeneratorsValueTree(NUM_NODES);
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
-
-	DBG(vTree.toXmlString());
-
-	for (int i{ 0 }; i < NUM_NODES; i++) {
-		generators.add(std::unique_ptr<GrainGenerator>(
-			new GrainGenerator(DUMMYSAMPLERATE, genTree.getChild(i))));
-	}
-	genTree.getChild(0).setProperty(Ids::active, true, nullptr);
-	genTree.getChild(1).setProperty(Ids::active, true, nullptr);
-	genTree.getChild(2).setProperty(Ids::active, true, nullptr);
-	genTree.getChild(3).setProperty(Ids::active, true, nullptr);
-	genTree.getChild(0).setProperty(Ids::numVoices, 20, nullptr);
+	fileListener.reset(new FileListener(this, fileTree));
+	genListener.reset(new GenListener(this, genTree));
 
 	fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
 	fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
@@ -53,11 +40,6 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 2);
 	util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
 	util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 10);
-	DBG(vTree.toXmlString());
-
-	generators[0]->addActiveSound(allSounds[0]);
-	generators[0]->addActiveSound(allSounds[1]);
-	generators[0]->addActiveSound(allSounds[2]);
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -274,6 +256,18 @@ void ScreenAudioProcessor::createGeneratorsValueTree(int numGenerators)
 			.setProperty(Ids::y, 0.0, nullptr);
 		genTree.addChild(generator, i, nullptr);
 	}
+}
+
+void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
+{
+	generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
+	generators[0]->addActiveSound(allSounds[0]);
+	generatorValueTree.setProperty(Ids::numVoices, 5, nullptr);
+	generatorValueTree.setProperty(Ids::active, true, nullptr);
+}
+void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
+{
+	generators.remove(indexToRemove);
 }
 
 /*void ScreenAudioProcessor::setUpSourceValueTree()

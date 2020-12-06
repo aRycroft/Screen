@@ -6,6 +6,9 @@
   <MAINGROUP id="qMqydQ" name="Screen">
     <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
       <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
+        <FILE id="jeyH1u" name="AudioFileVis.h" compile="0" resource="0" file="Source/AudioFileVis.h"/>
+        <FILE id="exn5JV" name="DraggableComponent.h" compile="0" resource="0"
+              file="Source/DraggableComponent.h"/>
         <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
               file="Source/GrainGeneratorVis.h"/>
         <FILE id="HKw4oi" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
