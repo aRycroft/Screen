@@ -214,6 +214,7 @@ void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTr
 	generatorValueTree.setProperty(Ids::numVoices, 1, nullptr);
 	generatorValueTree.setProperty(Ids::active, true, nullptr);
 }
+
 void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
 {
 	generators.remove(indexToRemove);

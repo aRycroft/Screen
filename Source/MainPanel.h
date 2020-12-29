@@ -11,8 +11,15 @@
 #pragma once
 #include <JuceHeader.h>>
 #include "GrainGeneratorVis.h"
+#include "GenListener.h"
+#include "IGrainGenHandler.h"
+#include "Utils.h"
 
-class MainPanel : public juce::Component, public juce::ValueTree::Listener, public juce::MouseListener
+class MainPanel :
+	public juce::Component,
+	public IGrainGenHandler,
+	public juce::ValueTree::Listener,
+	public juce::MouseListener
 {
 public:
 	MainPanel(juce::ValueTree state)
@@ -20,10 +27,10 @@ public:
 		fileTree(state.getChildWithName(Ids::fileTree))
 	{
 		genListener.reset(new GenListener(this, genTree));
-		for (auto generator : genTree)
+		/*for (auto generator : genTree)
 		{
 			addGeneratorVis(generator);
-		}
+		}*/
 	}
 
 	void paint(juce::Graphics& g) override
@@ -38,18 +45,17 @@ public:
 		}
 	}
 
-	void addGeneratorVis(juce::ValueTree valueTree)
+	void createGrainGenerator(juce::ValueTree generatorValueTree) override 
 	{
-		generatorVis.add(new GrainGeneratorVis(valueTree));
+		generatorVis.add(new GrainGeneratorVis(generatorValueTree));
 		addAndMakeVisible(generatorVis.getLast());
 		generatorVis.getLast()->setBounds(generatorVis.getLast()->calculateBounds().toNearestInt());
 		generatorVis.getLast()->addMouseListener(this, false);
+	
 	}
-
-	void removeGeneratorVis(int indexFromWhichChildWasRemoved)
+	void removeGrainGenerator(int indexToRemove) override 
 	{
-		generatorVis.remove(indexFromWhichChildWasRemoved);
-		//removeChildComponent(indexFromWhichChildWasRemoved);
+		generatorVis.remove(indexToRemove);
 	}
 
 	void mouseDoubleClick(const juce::MouseEvent& event) override 
@@ -78,30 +84,6 @@ private:
 		return newTree;
 	}
 
-	class GenListener : public juce::ValueTree::Listener
-	{
-	public:
-		GenListener(MainPanel* panel, juce::ValueTree tree)
-			: vTree(tree)
-		{
-			mainPanel = panel;
-			vTree.addListener(this);
-		};
-
-		void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
-		{
-			mainPanel->addGeneratorVis(childWhichHasBeenAdded);
-		};
-
-		void valueTreeChildRemoved(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override
-		{
-			mainPanel->removeGeneratorVis(indexFromWhichChildWasRemoved);
-		};
-	private:
-		MainPanel* mainPanel;
-		juce::ValueTree vTree;
-	};
-
 	class FileListener : public juce::ValueTree::Listener
 	{
 	public:
@@ -125,4 +107,5 @@ private:
 	juce::ValueTree genTree, fileTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
+
 };

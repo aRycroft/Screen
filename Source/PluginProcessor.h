@@ -22,9 +22,9 @@
 #include "GenListener.h"
 #include "FileListener.h"
 
-class ScreenAudioProcessor : public juce::AudioProcessor
-							,public IGrainGenHandler
-							,public IAudioFileHandler
+class ScreenAudioProcessor : public juce::AudioProcessor,
+							 public IGrainGenHandler,
+							 public IAudioFileHandler
 {
 public:
 	ScreenAudioProcessor();

@@ -16,9 +16,9 @@ ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, 
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
 	setResizable(true, true);
+	updateFromValueTree();
 	mainPanel.reset(new MainPanel{vTree});
 	addAndMakeVisible(*mainPanel);
-	updateFromValueTree();
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
 	setSize(400, 300);
 }
