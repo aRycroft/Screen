@@ -23,6 +23,8 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	)
 #endif
 {
+	formatManager.registerBasicFormats();
+
 	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
 	fileListener.reset(new FileListener(this, fileTree));
@@ -188,19 +190,36 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 	return new ScreenAudioProcessor();
 }
 
-void ScreenAudioProcessor::addAudioBuffer(juce::AudioSampleBuffer newSampleBuffer)
+void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree newAudioSource)
 {
-	fileBuffers.add(std::make_unique<juce::AudioSampleBuffer>(newSampleBuffer));
+	auto filePath = newAudioSource.getProperty(Ids::relativePath);
+	juce::File newAudioFile{ filePath };
+	if (newAudioFile.existsAsFile()) 
+	{
+		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
+		juce::AudioBuffer<float> newBuffer;
+		if (reader.get() != nullptr) {
+			auto duration = (float)reader->lengthInSamples / reader->sampleRate;
+			newBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+			reader->read(&newBuffer,
+				0,
+				(int)reader->lengthInSamples,
+				0,
+				true,
+				true);
+			fileBuffers.add(std::make_unique<juce::AudioSampleBuffer>(newBuffer));
+		}
+	}
 }
 
-juce::AudioSampleBuffer* ScreenAudioProcessor::getAudioSampleBuffer(int index)
+void ScreenAudioProcessor::addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource)
 {
-	return fileBuffers[index];
-}
-
-void ScreenAudioProcessor::addAudioFile(AudioFile newAudioFile)
-{
-	allSounds.add(std::make_unique<AudioFile>(newAudioFile));
+	int bufferIndex = fileTree.indexOf(audioSource);
+	auto* buffer = fileBuffers[bufferIndex];
+	if (buffer != nullptr) {
+		AudioFile newAudioFile{ buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample] };
+		allSounds.add(std::make_unique<AudioFile>(newAudioFile));
+	}
 }
 
 void ScreenAudioProcessor::removeAudioFile(juce::File newFile)

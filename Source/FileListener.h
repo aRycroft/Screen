@@ -20,42 +20,18 @@ public:
 	{
 		proc = processor;
 		vTree.addListener(this);
-		formatManager.registerBasicFormats();
 	};
 
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{
 		if (parentTree == vTree) {
-			auto filePath = childWhichHasBeenAdded.getProperty(Ids::relativePath);
-			juce::File newAudioFile{ filePath };
-			if (newAudioFile.existsAsFile()) {
-				std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
-				juce::AudioBuffer<float> newBuffer;
-				if (reader.get() != nullptr) {
-					auto duration = (float)reader->lengthInSamples / reader->sampleRate;
-					newBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
-					reader->read(&newBuffer,
-						0,
-						(int)reader->lengthInSamples,
-						0,
-						true,
-						true);
-				}
-				proc->addAudioBuffer(newBuffer);
-			}
+			proc->addAudioBuffer(childWhichHasBeenAdded);
 		}
-		/*AudioFile Child tree added*/
 		else if (parentTree.isAChildOf(vTree)) {
-			int bufferIndex = vTree.indexOf(parentTree);
-			auto* buffer = proc->getAudioSampleBuffer(bufferIndex);
-			if (buffer != nullptr) {
-				AudioFile newAudioFile{ buffer, childWhichHasBeenAdded[Ids::lowSample], childWhichHasBeenAdded[Ids::highSample] };
-				proc->addAudioFile(newAudioFile);
-			}
+			proc->addAudioFile(parentTree, childWhichHasBeenAdded);
 		}
-	};
+	}
 private:
-	juce::AudioFormatManager formatManager;
 	IAudioFileHandler* proc;
 	juce::ValueTree vTree;
 };

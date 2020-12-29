@@ -56,9 +56,8 @@ public:
 	void createGrainGenerator(juce::ValueTree generatorValueTree);
 	void removeGrainGenerator(int indexToRemove);
 private:
-	void addAudioBuffer(juce::AudioSampleBuffer newBuffer);
-	juce::AudioSampleBuffer* getAudioSampleBuffer(int index);
-	void addAudioFile(AudioFile newAudioFile);
+	void addAudioBuffer(juce::ValueTree newAudioSource);
+	void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource);
 	void removeAudioFile(juce::File newFile);
 
 	juce::ValueTree vTree{ "ParamTree" };
@@ -70,6 +69,7 @@ private:
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
+	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)
 };

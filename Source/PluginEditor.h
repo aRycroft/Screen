@@ -27,7 +27,6 @@ public:
     void resized() override;
 
 private:
-    void updateFromValueTree();
     ScreenAudioProcessor& audioProcessor;
     juce::ValueTree& vTree;
     //std::unique_ptr<GrainGeneratorVis> generatorVis[NUM_NODES];

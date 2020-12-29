@@ -16,7 +16,6 @@ ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, 
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
 	setResizable(true, true);
-	updateFromValueTree();
 	mainPanel.reset(new MainPanel{vTree});
 	addAndMakeVisible(*mainPanel);
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
@@ -39,13 +38,4 @@ void ScreenAudioProcessorEditor::resized()
 	mainPanel->setBounds(getBounds());
 }
 
-void ScreenAudioProcessorEditor::updateFromValueTree()
-{
-	for (auto param : vTree) {
-		for (auto child : param) {
-			for (int i = 0; i < child.getNumProperties(); i++) {
-				child.sendPropertyChangeMessage(child.getPropertyName(i));
-			}
-		}
-	}
-}
+

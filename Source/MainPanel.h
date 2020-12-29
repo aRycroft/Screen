@@ -13,11 +13,14 @@
 #include "GrainGeneratorVis.h"
 #include "GenListener.h"
 #include "IGrainGenHandler.h"
+#include "FileListener.h"
+#include "IAudioFileHandler.h"
 #include "Utils.h"
 
 class MainPanel :
 	public juce::Component,
 	public IGrainGenHandler,
+	public IAudioFileHandler,
 	public juce::ValueTree::Listener,
 	public juce::MouseListener
 {
@@ -27,10 +30,7 @@ public:
 		fileTree(state.getChildWithName(Ids::fileTree))
 	{
 		genListener.reset(new GenListener(this, genTree));
-		/*for (auto generator : genTree)
-		{
-			addGeneratorVis(generator);
-		}*/
+		sendChangeMessageOnValueTree(state);
 	}
 
 	void paint(juce::Graphics& g) override
@@ -53,10 +53,21 @@ public:
 		generatorVis.getLast()->addMouseListener(this, false);
 	
 	}
+
 	void removeGrainGenerator(int indexToRemove) override 
 	{
 		generatorVis.remove(indexToRemove);
 	}
+	
+	void addAudioBuffer(juce::ValueTree newAudioSource) override 
+	{
+	
+	};
+	
+	void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource) 
+	{
+	
+	};
 
 	void mouseDoubleClick(const juce::MouseEvent& event) override 
 	{
@@ -82,6 +93,17 @@ private:
 			.setProperty(Ids::y, y, nullptr);
 		genTree.addChild(newTree, -1, nullptr);
 		return newTree;
+	}
+
+	void sendChangeMessageOnValueTree(juce::ValueTree state)
+	{
+		for (auto param : state) {
+			for (auto child : param) {
+				for (int i = 0; i < child.getNumProperties(); i++) {
+					child.sendPropertyChangeMessage(child.getPropertyName(i));
+				}
+			}
+		}
 	}
 
 	class FileListener : public juce::ValueTree::Listener
