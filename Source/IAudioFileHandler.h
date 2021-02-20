@@ -14,6 +14,6 @@
 class IAudioFileHandler
 {
 public:
-	virtual void addAudioBuffer(juce::ValueTree newAudioSource) = 0;
-	virtual void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource) = 0;
+	virtual void addAudioFile(juce::ValueTree newAudioSource) = 0;
+	virtual void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) = 0;
 };

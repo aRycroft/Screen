@@ -11,10 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 #include "DraggableComponent.h"
-class AudioFileVis : public DraggableComponent
+class AudioBufferVis : public DraggableComponent
 {
 public:
-    AudioFileVis(juce::ValueTree vTree)
+    AudioBufferVis(juce::ValueTree vTree)
         : DraggableComponent(vTree),
 		paramTree(vTree)
 	{
@@ -22,7 +22,7 @@ public:
 
 	void paint(juce::Graphics& g) override
 	{
-		g.setColour(juce::Colours::white);
+		g.setColour(juce::Colours::black);
 		g.fillRect(getLocalBounds().reduced(1));
 	}
 

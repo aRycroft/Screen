@@ -21,12 +21,6 @@ public:
 		
 	}
 
-	void paint(juce::Graphics& g) override
-	{
-		g.setColour(juce::Colours::blanchedalmond);
-		g.fillRect(getLocalBounds().reduced(1));
-	}
-
 	void mouseDown(const juce::MouseEvent& e) override
 	{
 		mouseDownWithinTarget = e.getEventRelativeTo(this).getMouseDownPosition();

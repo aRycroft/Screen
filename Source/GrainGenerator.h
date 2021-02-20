@@ -57,14 +57,14 @@ public:
 		}
 	}
 
-	void addActiveSound(AudioFile* newAudioFile)
+	void addActiveSound(AudioBuffer* newAudioFile)
 	{
 		if (newAudioFile != nullptr) {
 			activeSounds.add(newAudioFile);
 		}
 	}
 
-	void removeSound(AudioFile* soundToRemove)
+	void removeSound(AudioBuffer* soundToRemove)
 	{
 		if (soundToRemove != nullptr) {
 			activeSounds.removeAllInstancesOf(soundToRemove);
@@ -101,7 +101,7 @@ public:
 
 private:
 	juce::ValueTree paramTree;
-	juce::Array<AudioFile*> activeSounds;
+	juce::Array<AudioBuffer*> activeSounds;
 	std::vector<Grain*> grains;
 	int sampleRate, numVoices = 0;
 };

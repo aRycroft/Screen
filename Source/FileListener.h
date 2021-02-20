@@ -11,7 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 #include "IAudioFileHandler.h"
-#include "AudioFile.h"
+#include "AudioBuffer.h"
 class FileListener : public juce::ValueTree::Listener
 {
 public:
@@ -25,10 +25,10 @@ public:
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{
 		if (parentTree == vTree) {
-			proc->addAudioBuffer(childWhichHasBeenAdded);
+			proc->addAudioFile(childWhichHasBeenAdded);
 		}
 		else if (parentTree.isAChildOf(vTree)) {
-			proc->addAudioFile(parentTree, childWhichHasBeenAdded);
+			proc->addAudioBuffer(parentTree, childWhichHasBeenAdded);
 		}
 	}
 private:

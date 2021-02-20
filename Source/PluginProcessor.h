@@ -15,7 +15,7 @@
 #include "Grain.h"
 #include "GrainGenerator.h"
 #include "Utils.h"
-#include "AudioFile.h"
+#include "AudioBuffer.h"
 #include "FileChoiceHandler.h"
 #include "IGrainGenHandler.h"
 #include "IAudioFileHandler.h"
@@ -56,15 +56,15 @@ public:
 	void createGrainGenerator(juce::ValueTree generatorValueTree);
 	void removeGrainGenerator(int indexToRemove);
 private:
-	void addAudioBuffer(juce::ValueTree newAudioSource);
-	void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource);
+	void addAudioFile(juce::ValueTree newAudioSource);
+	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
 	void removeAudioFile(juce::File newFile);
 
 	juce::ValueTree vTree{ "ParamTree" };
 	juce::ValueTree fileTree{ Ids::fileTree };
 	juce::ValueTree genTree{ Ids::genTree };
 	juce::OwnedArray<GrainGenerator> generators;
-	juce::OwnedArray<AudioFile> allSounds;
+	juce::OwnedArray<AudioBuffer> allSounds;
 	juce::OwnedArray<juce::AudioSampleBuffer> fileBuffers;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;

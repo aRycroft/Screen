@@ -13,12 +13,12 @@
 #include <vector>
 #include <tuple>
 #include "Utils.h"
-#include "AudioFile.h"
+#include "AudioBuffer.h"
 
 class Grain
 {
 public:
-	Grain(juce::Array<AudioFile*>* sounds)
+	Grain(juce::Array<AudioBuffer*>* sounds)
 	{
 		activeSounds = sounds;
 	}
@@ -57,5 +57,5 @@ public:
 private:
 	bool isGrainPlaying{ false };
 	int startSample, endSample, currentSample;
-	juce::Array<AudioFile*>* activeSounds;
+	juce::Array<AudioBuffer*>* activeSounds;
 };

@@ -13,7 +13,7 @@
 #include "GrainGeneratorVis.h"
 #include "GenListener.h"
 #include "IGrainGenHandler.h"
-#include "AudioFileVis.h"
+#include "AudioBufferVis.h"
 #include "FileListener.h"
 #include "IAudioFileHandler.h"
 #include "Utils.h"
@@ -60,14 +60,14 @@ public:
 		generatorVis.remove(indexToRemove);
 	}
 	
-	void addAudioBuffer(juce::ValueTree newAudioSource) override 
+	void addAudioFile(juce::ValueTree newAudioSource) override 
 	{
 	
 	};
 	
-	void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource) 
+	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override
 	{
-		audioFileVis.add(new AudioFileVis(childOfSource));
+		audioFileVis.add(new AudioBufferVis(childOfSource));
 		addAndMakeVisible(audioFileVis.getLast());
 		audioFileVis.getLast()->setBounds(audioFileVis.getLast()->calculateBounds().toNearestInt());
 	};
@@ -122,7 +122,7 @@ private:
 	}
 	
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
-	juce::OwnedArray<AudioFileVis> audioFileVis;
+	juce::OwnedArray<AudioBufferVis> audioFileVis;
 	juce::ValueTree genTree, fileTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;

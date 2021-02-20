@@ -13,30 +13,15 @@
 #include "AmplitudeEnvelope.h"
 #include "Utils.h"
 
-class AudioFile
+class AudioBuffer
 {
 public:
-    AudioFile(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
+    AudioBuffer(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
     {
         this->audio = audio;
         this->lowSample = lowSample;
         this->highSample = highSample;
     }
-
-    /*AudioFile(const AudioFile& copyFile) 
-    {
-        audio = copyFile.audio;
-        lowSample = copyFile.lowSample;
-        highSample = copyFile.highSample;
-    }*/
-
-   /*float getWindowedSample(int channel, int index, float proportionOfGrainPlayed){
-        int boundedIndex = index + lowSample;
-        if (boundedIndex < 0 || boundedIndex >= highSample) return 0.0f;
-        float sampleValue = audio->getSample(channel, boundedIndex);
-        float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeByProportion(proportionOfGrainPlayed);
-        return sampleWithWindow;
-    }*/
 
     float getSampleAtBoundedIndex(int channel, int index) 
     {

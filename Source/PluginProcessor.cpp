@@ -190,7 +190,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 	return new ScreenAudioProcessor();
 }
 
-void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree newAudioSource)
+void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 {
 	auto filePath = newAudioSource.getProperty(Ids::relativePath);
 	juce::File newAudioFile{ filePath };
@@ -212,13 +212,13 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree newAudioSource)
 	}
 }
 
-void ScreenAudioProcessor::addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource)
+void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource)
 {
 	int bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
 	if (buffer != nullptr) {
-		AudioFile newAudioFile{ buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample] };
-		allSounds.add(std::make_unique<AudioFile>(newAudioFile));
+		AudioBuffer newAudioFile{ buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample] };
+		allSounds.add(std::make_unique<AudioBuffer>(newAudioFile));
 	}
 }
 

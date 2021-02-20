@@ -45,14 +45,14 @@ public:
         layoutSampleSections();
     }
 
-    void addAudioBuffer(juce::ValueTree newAudioSource) override
+    void addAudioFile(juce::ValueTree newAudioSource) override
     {
         juce::File file{ newAudioSource.getProperty(Ids::relativePath) };
         generateSampleSections(file, NUMBEROFSECTIONS);
         layoutSampleSections();
     }
 
-    void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource) override {};
+    void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override {};
 
 private:
     void layoutSampleSections()

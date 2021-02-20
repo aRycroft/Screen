@@ -56,7 +56,6 @@ private:
         fileTree.addChild(newFileValueTree, fileTree.getNumChildren(), nullptr);
     }
 
-
     juce::ValueTree fileTree;
     juce::TextButton chooseNewSampleButton;
     juce::OwnedArray<DraggableComponent> sampleSections;
