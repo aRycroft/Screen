@@ -18,6 +18,9 @@
         <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
               file="Source/GrainGeneratorVis.h"/>
         <FILE id="HKw4oi" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
+        <FILE id="ZZOTQJ" name="SampleSelector.h" compile="0" resource="0"
+              file="Source/SampleSelector.h"/>
+        <FILE id="fmnk5o" name="ScreenGUI.h" compile="0" resource="0" file="Source/ScreenGUI.h"/>
       </GROUP>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>

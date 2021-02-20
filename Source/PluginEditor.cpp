@@ -16,10 +16,10 @@ ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, 
 	// Make sure that before the constructor has finished, you've set the
 	// editor's size to whatever you need it to be.
 	setResizable(true, true);
-	mainPanel.reset(new MainPanel{vTree});
-	addAndMakeVisible(*mainPanel);
+	screenGUI.reset(new ScreenGUI{vTree});
+	addAndMakeVisible(*screenGUI);
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
-	setSize(400, 300);
+	setSize(1000, 800);
 }
 
 ScreenAudioProcessorEditor::~ScreenAudioProcessorEditor()
@@ -35,7 +35,7 @@ void ScreenAudioProcessorEditor::paint(juce::Graphics& g)
 
 void ScreenAudioProcessorEditor::resized()
 {
-	mainPanel->setBounds(getBounds());
+	screenGUI->setBounds(getBounds());
 }
 
 

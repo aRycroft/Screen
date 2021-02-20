@@ -18,7 +18,7 @@ enum TreeChildren {
 namespace Ids
 {
     /*AUDIO SOURCE*/
-    static juce::Identifier audioSource("audioSource");
+    static juce::Identifier audioFile("audioFile");
     static juce::Identifier lowSample("lowSample");
     static juce::Identifier highSample("highSample");
     /*FILE*/
@@ -59,7 +59,7 @@ namespace util {
         int highSample
     )
     {
-        juce::ValueTree newAudioFileTree(Ids::audioSource);
+        juce::ValueTree newAudioFileTree(Ids::audioFile);
         newAudioFileTree.setProperty("x", x, nullptr);
         newAudioFileTree.setProperty("y", y, nullptr);
         newAudioFileTree.setProperty(Ids::lowSample, lowSample, nullptr);

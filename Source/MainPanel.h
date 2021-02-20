@@ -13,6 +13,7 @@
 #include "GrainGeneratorVis.h"
 #include "GenListener.h"
 #include "IGrainGenHandler.h"
+#include "AudioFileVis.h"
 #include "FileListener.h"
 #include "IAudioFileHandler.h"
 #include "Utils.h"
@@ -66,7 +67,9 @@ public:
 	
 	void addAudioFile(juce::ValueTree audioSource, juce::ValueTree childOfSource) 
 	{
-	
+		audioFileVis.add(new AudioFileVis(childOfSource));
+		addAndMakeVisible(audioFileVis.getLast());
+		audioFileVis.getLast()->setBounds(audioFileVis.getLast()->calculateBounds().toNearestInt());
 	};
 
 	void mouseDoubleClick(const juce::MouseEvent& event) override 
@@ -81,6 +84,7 @@ public:
 			genTree.addChild(createGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight()), -1, nullptr);
 		}
 	}
+
 private:
 
 	juce::ValueTree createGeneratorValueTree(float x, float y)
@@ -95,6 +99,17 @@ private:
 		return newTree;
 	}
 
+	juce::ValueTree createAudioSourceValueTree(int parentAudioSourceIndex, float x, float y)
+	{
+		juce::ValueTree newTree{ Ids::audioFile};
+		newTree
+			.setProperty(Ids::active, true, nullptr)
+			.setProperty(Ids::x, x, nullptr)
+			.setProperty(Ids::y, y, nullptr);
+		fileTree.getChild(parentAudioSourceIndex).addChild(newTree, -1, nullptr);
+		return newTree;
+	}
+
 	void sendChangeMessageOnValueTree(juce::ValueTree state)
 	{
 		for (auto param : state) {
@@ -105,29 +120,10 @@ private:
 			}
 		}
 	}
-
-	class FileListener : public juce::ValueTree::Listener
-	{
-	public:
-		FileListener(MainPanel* panel, juce::ValueTree tree)
-			: vTree(tree)
-		{
-			mainPanel = panel;
-			vTree.addListener(this);
-		};
-
-		void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
-		{
-			DBG("Hell");
-		};
-	private:
-		MainPanel* mainPanel;
-		juce::ValueTree vTree;
-	};
-
+	
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
+	juce::OwnedArray<AudioFileVis> audioFileVis;
 	juce::ValueTree genTree, fileTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
-
 };

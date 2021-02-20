@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 #include "GrainGeneratorVis.h"
 #include "MainPanel.h"
+#include "ScreenGUI.h"
 
 //==============================================================================
 /**
@@ -29,8 +30,6 @@ public:
 private:
     ScreenAudioProcessor& audioProcessor;
     juce::ValueTree& vTree;
-    //std::unique_ptr<GrainGeneratorVis> generatorVis[NUM_NODES];
-    juce::OwnedArray<GrainGeneratorVis> generatorVis;
-    std::unique_ptr<MainPanel> mainPanel;
+    std::unique_ptr<ScreenGUI> screenGUI;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ScreenAudioProcessorEditor)
 };

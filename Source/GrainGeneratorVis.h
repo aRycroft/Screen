@@ -32,12 +32,6 @@ public:
 	{
 	}
 
-	juce::Rectangle<float> calculateBounds() 
-	{
-		return  juce::Rectangle<float>{ (float)paramTree.getProperty(Ids::x) * (this->getParentWidth() - getWidth()),
-			(float)paramTree.getProperty(Ids::y) * (getParentHeight() - getHeight()), 60, 60 };
-	}
-
 	juce::ValueTree getValueTree() 
 	{
 		return paramTree;
