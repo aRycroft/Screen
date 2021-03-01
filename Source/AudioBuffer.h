@@ -26,7 +26,10 @@ public:
     float getSampleAtBoundedIndex(int channel, int index) 
     {
         int boundedIndex = index + lowSample;
-        if (boundedIndex < 0 || boundedIndex >= highSample) return 0.0f;
+        if (boundedIndex < 0 || boundedIndex >= highSample)
+        {
+            return 0.0f;
+        }
         float sampleValue = audio->getSample(channel, boundedIndex);
         float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeByProportion((float) index / (highSample - lowSample));
         return sampleWithWindow;

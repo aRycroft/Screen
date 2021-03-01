@@ -29,15 +29,17 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
 	fileListener.reset(new FileListener(this, fileTree));
 	genListener.reset(new GenListener(this, genTree));
+	positionListener.reset(new PositionListener(this, genTree, fileTree));
 
 	fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
-	fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
-	fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
-	fileChoiceHandler->loadSoundFileToMemory("sin", "C:/Users/Alex/Music/Samples/440hz sin.wav");
-
-	util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 2);
-	util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
-	util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 10);
+	
+	
+	//fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
+	//fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
+	//fileChoiceHandler->loadSoundFileToMemory("sin", "C:/Users/Alex/Music/Samples/440hz sin.wav");
+	//util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 2);
+	//util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
+	//util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 10);
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -199,7 +201,6 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
 		juce::AudioBuffer<float> newBuffer;
 		if (reader.get() != nullptr) {
-			auto duration = (float)reader->lengthInSamples / reader->sampleRate;
 			newBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
 			reader->read(&newBuffer,
 				0,
@@ -229,7 +230,6 @@ void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
-	generators.getLast()->addActiveSound(allSounds[1]);
 	generatorValueTree.setProperty(Ids::numVoices, 1, nullptr);
 	generatorValueTree.setProperty(Ids::active, true, nullptr);
 }
@@ -237,5 +237,15 @@ void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTr
 void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
 {
 	generators.remove(indexToRemove);
+}
+
+void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex)
+{
+	generators[grainGenIndex]->addActiveSound(allSounds[audioBufferIndex]);
+}
+
+void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex)
+{
+	generators[grainGenIndex]->removeSound(allSounds[audioBufferIndex]);
 }
 

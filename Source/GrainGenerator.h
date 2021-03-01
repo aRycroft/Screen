@@ -59,14 +59,14 @@ public:
 
 	void addActiveSound(AudioBuffer* newAudioFile)
 	{
-		if (newAudioFile != nullptr) {
+		if (newAudioFile != nullptr && !activeSounds.contains(newAudioFile)) {
 			activeSounds.add(newAudioFile);
 		}
 	}
 
 	void removeSound(AudioBuffer* soundToRemove)
 	{
-		if (soundToRemove != nullptr) {
+		if (soundToRemove != nullptr && activeSounds.contains(soundToRemove)) {
 			activeSounds.removeAllInstancesOf(soundToRemove);
 		}
 	}
@@ -75,6 +75,7 @@ public:
 	{
 		return numVoices;
 	}
+
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
 		if (property == Ids::active) {
@@ -98,7 +99,6 @@ public:
 		}
 	}
 	bool isActive{ true };
-
 private:
 	juce::ValueTree paramTree;
 	juce::Array<AudioBuffer*> activeSounds;

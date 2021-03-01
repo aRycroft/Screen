@@ -21,20 +21,21 @@ public:
 	Grain(juce::Array<AudioBuffer*>* sounds)
 	{
 		activeSounds = sounds;
+		currentSample = 0;
 	}
 
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
 		bool allSoundsFinished{ true };
 		for (auto* currentSound : *activeSounds) {
-			if (currentSound->getMaxIndex() > currentSample) {
+			if (currentSound->getMaxIndex() > currentSample + currentSound->getMinIndex()) {
 				allSoundsFinished = false;
 			}
 			for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
 				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) {
-					outputBuffer->setSample(channelIndex, i, 
-						outputBuffer->getSample(channelIndex, i) + 
-							currentSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
+					outputBuffer->setSample(channelIndex, i,
+						outputBuffer->getSample(channelIndex, i) +
+						currentSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
 				}
 			}
 		}
@@ -56,6 +57,6 @@ public:
 	}
 private:
 	bool isGrainPlaying{ false };
-	int startSample, endSample, currentSample;
+	int currentSample;
 	juce::Array<AudioBuffer*>* activeSounds;
 };

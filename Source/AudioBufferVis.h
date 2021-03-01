@@ -15,14 +15,13 @@ class AudioBufferVis : public DraggableComponent
 {
 public:
     AudioBufferVis(juce::ValueTree vTree)
-        : DraggableComponent(vTree),
-		paramTree(vTree)
+        : DraggableComponent(vTree)
 	{
 	}
 
 	void paint(juce::Graphics& g) override
 	{
-		g.setColour(juce::Colours::black);
+		g.setColour(juce::Colours::red);
 		g.fillRect(getLocalBounds().reduced(1));
 	}
 
@@ -30,5 +29,4 @@ public:
 	{
 	}
 private:
-	juce::ValueTree paramTree;
 };

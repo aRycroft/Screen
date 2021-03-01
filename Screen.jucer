@@ -12,7 +12,10 @@
               file="Source/IGrainGenHandler.h"/>
       </GROUP>
       <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
-        <FILE id="jeyH1u" name="AudioFileVis.h" compile="0" resource="0" file="Source/AudioFileVis.h"/>
+        <FILE id="Meiv18" name="AudioBufferSelectorVis.h" compile="0" resource="0"
+              file="Source/AudioBufferSelectorVis.h"/>
+        <FILE id="Fjr8ur" name="AudioBufferVis.h" compile="0" resource="0"
+              file="Source/AudioBufferVis.h"/>
         <FILE id="exn5JV" name="DraggableComponent.h" compile="0" resource="0"
               file="Source/DraggableComponent.h"/>
         <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
@@ -31,13 +34,15 @@
             file="Source/PluginEditor.cpp"/>
       <FILE id="ocYUrD" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
       <FILE id="vMHPJl" name="Utils.h" compile="0" resource="0" file="Source/Utils.h"/>
-      <FILE id="jmi3HQ" name="AudioFile.h" compile="0" resource="0" file="Source/AudioFile.h"/>
+      <FILE id="W5dbsb" name="AudioBuffer.h" compile="0" resource="0" file="Source/AudioBuffer.h"/>
       <FILE id="KZHM5U" name="GrainGenerator.h" compile="0" resource="0"
             file="Source/GrainGenerator.h"/>
       <FILE id="SeJWJp" name="FileChoiceHandler.h" compile="0" resource="0"
             file="Source/FileChoiceHandler.h"/>
       <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
             file="Source/AmplitudeEnvelope.h"/>
+      <FILE id="PwaJli" name="PositionListener.h" compile="0" resource="0"
+            file="Source/PositionListener.h"/>
       <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
       <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
     </GROUP>

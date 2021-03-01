@@ -31,6 +31,7 @@ public:
 		fileTree(state.getChildWithName(Ids::fileTree))
 	{
 		genListener.reset(new GenListener(this, genTree));
+		fileListener.reset(new FileListener(this, fileTree));
 		sendChangeMessageOnValueTree(state);
 	}
 
@@ -59,6 +60,9 @@ public:
 	{
 		generatorVis.remove(indexToRemove);
 	}
+
+	void addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex) override {};
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex) override {};
 	
 	void addAudioFile(juce::ValueTree newAudioSource) override 
 	{
@@ -96,17 +100,6 @@ private:
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr);
 		genTree.addChild(newTree, -1, nullptr);
-		return newTree;
-	}
-
-	juce::ValueTree createAudioSourceValueTree(int parentAudioSourceIndex, float x, float y)
-	{
-		juce::ValueTree newTree{ Ids::audioFile};
-		newTree
-			.setProperty(Ids::active, true, nullptr)
-			.setProperty(Ids::x, x, nullptr)
-			.setProperty(Ids::y, y, nullptr);
-		fileTree.getChild(parentAudioSourceIndex).addChild(newTree, -1, nullptr);
 		return newTree;
 	}
 

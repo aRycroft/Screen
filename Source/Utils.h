@@ -19,6 +19,7 @@ namespace Ids
 {
     /*AUDIO SOURCE*/
     static juce::Identifier audioFile("audioFile");
+    static juce::Identifier audioBuffer("audioBuffer");
     static juce::Identifier lowSample("lowSample");
     static juce::Identifier highSample("highSample");
     /*FILE*/

@@ -21,6 +21,7 @@
 #include "IAudioFileHandler.h"
 #include "GenListener.h"
 #include "FileListener.h"
+#include "PositionListener.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
@@ -53,8 +54,10 @@ public:
 	void getStateInformation(juce::MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
-	void createGrainGenerator(juce::ValueTree generatorValueTree);
-	void removeGrainGenerator(int indexToRemove);
+	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
+	void removeGrainGenerator(int indexToRemove) override;
+	void addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex) override;
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex) override;
 private:
 	void addAudioFile(juce::ValueTree newAudioSource);
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
@@ -69,6 +72,7 @@ private:
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
+	std::unique_ptr<PositionListener> positionListener;
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)

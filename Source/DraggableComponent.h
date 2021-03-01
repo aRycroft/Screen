@@ -26,6 +26,11 @@ public:
 		mouseDownWithinTarget = e.getEventRelativeTo(this).getMouseDownPosition();
 	}
 
+	void mouseUp(const juce::MouseEvent& e) override
+	{
+		this->getParentComponent()->mouseUp(e);
+	}
+
 	void mouseDrag(const juce::MouseEvent& e) override
 	{
 		auto bounds = getBounds();
@@ -58,7 +63,8 @@ public:
 		}
 		return juce::Rectangle<float>();
 	}
-private:
+protected:
 	juce::Point<int> mouseDownWithinTarget;
+private:
 	juce::ValueTree paramTree;
 };
