@@ -63,15 +63,14 @@ private:
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
 	void removeAudioFile(juce::File newFile);
 
-	juce::ValueTree vTree{ "ParamTree" };
-	juce::ValueTree fileTree{ Ids::fileTree };
-	juce::ValueTree genTree{ Ids::genTree };
+	juce::ValueTree vTree;
+	juce::ValueTree fileTree;
+	juce::ValueTree genTree;
 	juce::OwnedArray<GrainGenerator> generators;
 	juce::OwnedArray<AudioBuffer> allSounds;
 	juce::OwnedArray<juce::AudioSampleBuffer> fileBuffers;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
-	std::unique_ptr<FileChoiceHandler> fileChoiceHandler;
 	std::unique_ptr<PositionListener> positionListener;
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;

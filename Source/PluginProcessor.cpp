@@ -22,24 +22,18 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 #endif
 	)
 #endif
+	,vTree("ParamTree")
+	,fileTree(Ids::fileTree)
+	,genTree(Ids::genTree)
 {
 	formatManager.registerBasicFormats();
 
 	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
+
 	fileListener.reset(new FileListener(this, fileTree));
 	genListener.reset(new GenListener(this, genTree));
 	positionListener.reset(new PositionListener(this, genTree, fileTree));
-
-	fileChoiceHandler.reset(new FileChoiceHandler{ fileTree });
-	
-	
-	//fileChoiceHandler->loadSoundFileToMemory("pretty_rhodes_delay", "C:/Users/Alex/Music/borderlands_defaults/pretty_rhodes_delay.wav");
-	//fileChoiceHandler->loadSoundFileToMemory("hidden_mechanics_stems_borderlands_stereo", "C:/Users/Alex/Music/borderlands_defaults/hidden_mechanics_stems_borderlands_stereo.wav");
-	//fileChoiceHandler->loadSoundFileToMemory("sin", "C:/Users/Alex/Music/Samples/440hz sin.wav");
-	//util::addAudioFileToTree(&fileTree.getChildWithName("sin"), 0, 0, 0, DUMMYSAMPLERATE * 2);
-	//util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 1);
-	//util::addAudioFileToTree(&fileTree.getChildWithName("pretty_rhodes_delay"), 0, 0, 0, DUMMYSAMPLERATE * 10);
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
