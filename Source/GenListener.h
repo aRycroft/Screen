@@ -15,24 +15,24 @@
 class GenListener : public juce::ValueTree::Listener
 {
 public:
-	GenListener(IGrainGenHandler* processor, juce::ValueTree tree)
-		: vTree(tree)
+	GenListener(IGrainGenHandler* handler, juce::ValueTree tree)
+		: grainGenTree(tree)
 	{
-		proc = processor;
-		vTree.addListener(this);
+		_handler = handler;
+		grainGenTree.addListener(this);
 	};
 
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{
-		proc->createGrainGenerator(childWhichHasBeenAdded);
+		_handler->createGrainGenerator(childWhichHasBeenAdded);
 	};
 
 	void valueTreeChildRemoved(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override
 	{
-		proc->removeGrainGenerator(indexFromWhichChildWasRemoved);
+		_handler->removeGrainGenerator(indexFromWhichChildWasRemoved);
 	};
 
 private:
-	IGrainGenHandler* proc;
-	juce::ValueTree vTree;
+	IGrainGenHandler* _handler;
+	juce::ValueTree grainGenTree;
 };
