@@ -15,11 +15,11 @@
 class PositionListener : public juce::ValueTree::Listener
 {
 public:
-	PositionListener(IGrainGenHandler* processor,
+	PositionListener(IGrainGenHandler* handler,
 		juce::ValueTree grainGeneratorTree, juce::ValueTree audioFileTree)
 		: grainGenTree(grainGeneratorTree), fileTree(audioFileTree)
 	{
-		proc = processor;
+		_handler = handler;
 		grainGenTree.addListener(this);
 		fileTree.addListener(this);
 	}
@@ -30,31 +30,58 @@ public:
 		{
 			if (treeWhosePropertyHasChanged.hasType(Ids::generator))
 			{
-				for each (juce::ValueTree file in fileTree)
-				{
-					for each (juce::ValueTree buffer in file)
-					{
-						if (isInRange(0.1, treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
-							treeWhosePropertyHasChanged[Ids::y], buffer[Ids::y])) 
-						{
-							proc->addSoundToGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
-						}
-						else 
-						{
-							proc->removeSoundFromGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
-						}
-					}
-				}
+				checkAllFileBuffersForRange(treeWhosePropertyHasChanged);
 			}
 			else if (treeWhosePropertyHasChanged.hasType(Ids::audioBuffer))
 			{
-
+				checkAllGrainGeneratorsForRange(treeWhosePropertyHasChanged);
 			}
 		}
 	}
+
+	void checkAllFileBuffersForRange(juce::ValueTree& treeWhosePropertyHasChanged)
+	{
+		for each (juce::ValueTree file in fileTree)
+		{
+			for each (juce::ValueTree buffer in file)
+			{
+				if (isInRange(0.1, treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
+					treeWhosePropertyHasChanged[Ids::y], buffer[Ids::y]))
+				{
+					_handler->addSoundToGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
+				}
+				else
+				{
+					_handler->removeSoundFromGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
+				}
+			}
+		}
+	}
+
+	void checkAllGrainGeneratorsForRange(juce::ValueTree& treeWhosePropertyHasChanged) 
+	{
+		for each (juce::ValueTree generator in grainGenTree)
+		{
+			if (isInRange(0.1, treeWhosePropertyHasChanged[Ids::x], generator[Ids::x],
+				treeWhosePropertyHasChanged[Ids::y], generator[Ids::y]))
+			{
+				_handler->addSoundToGrainGenerator(grainGenTree.indexOf(generator), 
+					treeWhosePropertyHasChanged.getParent().indexOf(treeWhosePropertyHasChanged));
+			}
+			else
+			{
+				_handler->removeSoundFromGrainGenerator(grainGenTree.indexOf(generator),
+					treeWhosePropertyHasChanged.getParent().indexOf(treeWhosePropertyHasChanged));
+			}
+		}
+	}
+
+
+
+
 private:
 	juce::ValueTree grainGenTree, fileTree;
-	IGrainGenHandler* proc;
+	IGrainGenHandler* _handler;
 
 	bool isInRange(float distance, float x1, float x2, float y1, float y2)
 	{
