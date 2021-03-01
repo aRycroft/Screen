@@ -10,53 +10,44 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include <vector>
-#include <tuple>
-#include "Utils.h"
 #include "AudioBuffer.h"
 
 class Grain
 {
 public:
-	Grain(juce::Array<AudioBuffer*>* sounds)
-	{
-		activeSounds = sounds;
-		currentSample = 0;
-	}
-
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		bool allSoundsFinished{ true };
-		for (auto* currentSound : *activeSounds) {
-			if (currentSound->getMaxIndex() > currentSample + currentSound->getMinIndex()) {
-				allSoundsFinished = false;
-			}
-			for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) {
-				for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) {
-					outputBuffer->setSample(channelIndex, i,
-						outputBuffer->getSample(channelIndex, i) +
-						currentSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
-				}
+		if (grainSound->getMaxIndex() < currentSample + grainSound->getMinIndex()) 
+		{
+			isGrainPlaying = false;
+		}
+
+		for (int channelIndex{ 0 }; channelIndex < outputBuffer->getNumChannels(); channelIndex++) 
+		{
+			for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) 
+			{
+				outputBuffer->setSample(channelIndex, i,
+					outputBuffer->getSample(channelIndex, i) +
+					grainSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
-		if (allSoundsFinished) {
-			isGrainPlaying = false;
-		}
 	}
 
-	void startPlaying(int startSample, int endSample)
+	void startPlaying(AudioBuffer* bufferToPlay)
 	{
 		isGrainPlaying = true;
 		currentSample = 0;
+		grainSound = bufferToPlay;
 	}
 
 	bool isPlaying()
 	{
 		return isGrainPlaying;
 	}
+
 private:
 	bool isGrainPlaying{ false };
-	int currentSample;
-	juce::Array<AudioBuffer*>* activeSounds;
+	int currentSample{ 0 };
+	AudioBuffer* grainSound;
 };

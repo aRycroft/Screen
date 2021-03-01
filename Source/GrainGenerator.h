@@ -34,54 +34,47 @@ public:
 
 	void playGrain()
 	{
-		for (auto grain : grains) {
-			if (!grain->isPlaying()) {
-				grain->startPlaying(0, 0);
-				return;
+		for (auto sound : activeSounds) {
+			for (auto grain : grains) {
+				if (!grain->isPlaying()) {
+					grain->startPlaying(sound);
+					return;
+				}
 			}
 		}
 	}
 
-	void addGrainVoice()
+	void addActiveSound(AudioBuffer* newAudioBuffer)
 	{
-		grains.push_back(new Grain{ &activeSounds});
-		numVoices++;
-	}
-
-	void removeGrainVoice()
-	{
-		if (!grains.empty())
+		if (newAudioBuffer != nullptr && !activeSounds.contains(newAudioBuffer)) 
 		{
-			grains.pop_back();
-			numVoices--;
+			activeSounds.add(newAudioBuffer);
 		}
 	}
 
-	void addActiveSound(AudioBuffer* newAudioFile)
+	void removeSound(AudioBuffer* bufferToRemove)
 	{
-		if (newAudioFile != nullptr && !activeSounds.contains(newAudioFile)) {
-			activeSounds.add(newAudioFile);
+		if (bufferToRemove != nullptr && activeSounds.contains(bufferToRemove)) 
+		{
+			activeSounds.removeFirstMatchingValue(bufferToRemove);
 		}
 	}
 
-	void removeSound(AudioBuffer* soundToRemove)
-	{
-		if (soundToRemove != nullptr && activeSounds.contains(soundToRemove)) {
-			activeSounds.removeAllInstancesOf(soundToRemove);
-		}
-	}
+	bool isActive{ true };
 
-	int getNumVoices()
-	{
-		return numVoices;
-	}
+private:
+	juce::ValueTree paramTree;
+	juce::Array<AudioBuffer*> activeSounds;
+	std::vector<Grain*> grains;
+	int sampleRate;
+	int numVoices{ 0 };
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
 		if (property == Ids::active) {
 			isActive = vTree.getProperty(property);
 		}
-		else if (property == Ids::numVoices) 
+		else if (property == Ids::numVoices)
 		{
 			int targetNumberofVoices = vTree.getProperty(property);
 			int currentNumberofVoices = numVoices;
@@ -98,11 +91,20 @@ public:
 			}
 		}
 	}
-	bool isActive{ true };
-private:
-	juce::ValueTree paramTree;
-	juce::Array<AudioBuffer*> activeSounds;
-	std::vector<Grain*> grains;
-	int sampleRate, numVoices = 0;
+
+	void addGrainVoice()
+	{
+		grains.push_back(new Grain{});
+		numVoices++;
+	}
+
+	void removeGrainVoice()
+	{
+		if (!grains.empty())
+		{
+			grains.pop_back();
+			numVoices--;
+		}
+	}
 };
 

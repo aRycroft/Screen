@@ -9,7 +9,7 @@
 */
 
 #pragma once
-#define NUMSAMPLES 2048
+constexpr auto NUMSAMPLES = 2048;
 #include <JuceHeader.h>
 
 class AmplitudeEnvelope {

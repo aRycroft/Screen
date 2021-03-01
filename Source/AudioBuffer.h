@@ -30,7 +30,8 @@ public:
         {
             return 0.0f;
         }
-        float sampleValue = audio->getSample(channel, boundedIndex);
+
+        float sampleValue = audio->getSample((channel % audio->getNumChannels()), boundedIndex);
         float sampleWithWindow = sampleValue * hammingWindow.getAmplitudeByProportion((float) index / (highSample - lowSample));
         return sampleWithWindow;
     }
