@@ -16,7 +16,6 @@
 #include "GrainGenerator.h"
 #include "Utils.h"
 #include "AudioBuffer.h"
-#include "FileChoiceHandler.h"
 #include "IGrainGenHandler.h"
 #include "IAudioFileHandler.h"
 #include "GenListener.h"

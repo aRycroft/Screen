@@ -15,23 +15,25 @@
 class FileListener : public juce::ValueTree::Listener
 {
 public:
-	FileListener(IAudioFileHandler* processor, juce::ValueTree tree)
-		: vTree(tree)
+	FileListener(IAudioFileHandler* handler, juce::ValueTree tree)
+		: fileTree(tree)
 	{
-		proc = processor;
-		vTree.addListener(this);
+		_handler = handler;
+		fileTree.addListener(this);
 	};
 
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{
-		if (parentTree == vTree) {
-			proc->addAudioFile(childWhichHasBeenAdded);
+		if (parentTree == fileTree) 
+		{
+			_handler->addAudioFile(childWhichHasBeenAdded);
 		}
-		else if (parentTree.isAChildOf(vTree)) {
-			proc->addAudioBuffer(parentTree, childWhichHasBeenAdded);
+		else if (parentTree.isAChildOf(fileTree)) 
+		{
+			_handler->addAudioBuffer(parentTree, childWhichHasBeenAdded);
 		}
 	}
 private:
-	IAudioFileHandler* proc;
-	juce::ValueTree vTree;
+	IAudioFileHandler* _handler;
+	juce::ValueTree fileTree;
 };
