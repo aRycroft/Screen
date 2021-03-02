@@ -9,6 +9,7 @@
 #pragma once
 #define NUM_NODES 4
 #define DUMMYSAMPLERATE 48000
+#define CPGSAMPLERATE 10000
 
 #include <JuceHeader.h>
 #include <vector>
@@ -22,6 +23,7 @@
 #include "GenListener.h"
 #include "FileListener.h"
 #include "PositionListener.h"
+#include "CPGNetwork.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
@@ -63,6 +65,7 @@ private:
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
 	void removeAudioFile(juce::File newFile);
 
+	CPGNetwork cpgNetwork;
 	juce::ValueTree vTree;
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;

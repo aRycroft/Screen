@@ -25,6 +25,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	,vTree("ParamTree")
 	,fileTree(Ids::fileTree)
 	,genTree(Ids::genTree)
+	,cpgNetwork(CPGSAMPLERATE)
 {
 	formatManager.registerBasicFormats();
 
@@ -142,7 +143,29 @@ bool ScreenAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) co
 void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
 	buffer.clear();
-	for (auto grainGen : generators)
+	for (int i{ 0 }; i < buffer.getNumSamples(); i++) 
+	{
+		if (counter++ % CPGSAMPLERATE == 0) {
+			cpgNetwork.stepAndCheckForTriggeredNodes();
+		}
+	}
+
+	for (unsigned triggeredNode : cpgNetwork.triggeredNodes) 
+	{
+		auto generator = generators[triggeredNode];
+		if(generator != nullptr)
+		{
+			generator->playGrain();
+		}
+	}
+
+	for (auto grainGen : generators) 
+	{
+		grainGen->fillNextBuffer(&buffer);
+	}
+
+	cpgNetwork.triggeredNodes.clear();
+	/*for (auto grainGen : generators)
 	{
 		if (grainGen->shouldPlayGrain()) {
 			grainGen->playGrain();
@@ -151,8 +174,7 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	}
 	if (counter % 500 == 0) {
 		DBG(vTree.toXmlString());
-	}
-	counter++;
+	}*/
 }
 
 //==============================================================================
