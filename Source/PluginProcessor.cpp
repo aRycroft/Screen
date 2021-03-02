@@ -151,6 +151,9 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 			grainGen->fillNextBuffer(&buffer);
 		}
 	}
+	if (counter % 500 == 0) {
+		DBG(vTree.toXmlString());
+	}
 	counter++;
 }
 
@@ -193,16 +196,16 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 	if (newAudioFile.existsAsFile()) 
 	{
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
-		juce::AudioBuffer<float> newBuffer;
+		auto* newBuffer = fileBuffers.add(new AudioFile());
+
 		if (reader.get() != nullptr) {
-			newBuffer.setSize((int)reader->numChannels, (int)reader->lengthInSamples);
-			reader->read(&newBuffer,
+			newBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
+			reader->read(newBuffer,
 				0,
 				(int)reader->lengthInSamples,
 				0,
 				true,
 				true);
-			fileBuffers.add(std::make_unique<juce::AudioSampleBuffer>(newBuffer));
 		}
 	}
 }
@@ -212,8 +215,7 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	int bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
 	if (buffer != nullptr) {
-		AudioBuffer newAudioFile{ buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample] };
-		allSounds.add(std::make_unique<AudioBuffer>(newAudioFile));
+		buffer->allSounds.add(new MyAudioBuffer( buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample]));
 	}
 }
 
@@ -224,7 +226,7 @@ void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
-	generatorValueTree.setProperty(Ids::numVoices, 1, nullptr);
+	generatorValueTree.setProperty(Ids::numVoices, 200, nullptr);
 	generatorValueTree.setProperty(Ids::active, true, nullptr);
 }
 
@@ -233,13 +235,13 @@ void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove)
 	generators.remove(indexToRemove);
 }
 
-void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex)
+void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
-	generators[grainGenIndex]->addActiveSound(allSounds[audioBufferIndex]);
+	generators[grainGenIndex]->addActiveSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
 }
 
-void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex)
+void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
-	generators[grainGenIndex]->removeSound(allSounds[audioBufferIndex]);
+	generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
 }
 

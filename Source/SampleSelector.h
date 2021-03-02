@@ -50,10 +50,12 @@ public:
 private:
     void addAudioSourceTree(juce::File audioSourceFile) 
     {
-        auto fileName = audioSourceFile.getFileName();
-        juce::ValueTree newFileValueTree(juce::Identifier{ fileName });
-        newFileValueTree.setProperty(Ids::relativePath, audioSourceFile.getFullPathName(), nullptr);
-        fileTree.addChild(newFileValueTree, fileTree.getNumChildren(), nullptr);
+        if (!fileTree.getChildWithProperty(Ids::relativePath, audioSourceFile.getFullPathName()).isValid()) 
+        {
+            juce::ValueTree newFileValueTree(Ids::audioFile);
+            newFileValueTree.setProperty(Ids::relativePath, audioSourceFile.getFullPathName(), nullptr);
+            fileTree.addChild(newFileValueTree, fileTree.getNumChildren(), nullptr);
+        }
     }
 
     juce::ValueTree fileTree;

@@ -28,13 +28,13 @@ public:
 			{
 				outputBuffer->setSample(channelIndex, i,
 					outputBuffer->getSample(channelIndex, i) +
-					grainSound->getSampleAtBoundedIndex(channelIndex, currentSample + i));
+					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i));
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
 	}
 
-	void startPlaying(AudioBuffer* bufferToPlay)
+	void startPlaying(MyAudioBuffer* bufferToPlay)
 	{
 		isGrainPlaying = true;
 		currentSample = 0;
@@ -49,5 +49,5 @@ public:
 private:
 	bool isGrainPlaying{ false };
 	int currentSample{ 0 };
-	AudioBuffer* grainSound;
+	MyAudioBuffer* grainSound;
 };

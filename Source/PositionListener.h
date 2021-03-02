@@ -49,11 +49,11 @@ public:
 				if (isInRange(DISTANCE, treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
 					treeWhosePropertyHasChanged[Ids::y], buffer[Ids::y]))
 				{
-					_handler->addSoundToGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
+					_handler->addSoundToGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), fileTree.indexOf(file), file.indexOf(buffer));
 				}
 				else
 				{
-					_handler->removeSoundFromGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), file.indexOf(buffer));
+					_handler->removeSoundFromGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), fileTree.indexOf(file), file.indexOf(buffer));
 				}
 			}
 		}
@@ -63,16 +63,19 @@ public:
 	{
 		for (juce::ValueTree generator : grainGenTree)
 		{
+			auto audioFileTree = treeWhosePropertyHasChanged.getParent();
 			if (isInRange(DISTANCE, treeWhosePropertyHasChanged[Ids::x], generator[Ids::x],
 				treeWhosePropertyHasChanged[Ids::y], generator[Ids::y]))
 			{
 				_handler->addSoundToGrainGenerator(grainGenTree.indexOf(generator), 
-					treeWhosePropertyHasChanged.getParent().indexOf(treeWhosePropertyHasChanged));
+					fileTree.indexOf(audioFileTree),
+					audioFileTree.indexOf(treeWhosePropertyHasChanged));
 			}
 			else
 			{
 				_handler->removeSoundFromGrainGenerator(grainGenTree.indexOf(generator),
-					treeWhosePropertyHasChanged.getParent().indexOf(treeWhosePropertyHasChanged));
+					fileTree.indexOf(audioFileTree),
+					audioFileTree.indexOf(treeWhosePropertyHasChanged));
 			}
 		}
 	}

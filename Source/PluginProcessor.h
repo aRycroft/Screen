@@ -16,6 +16,7 @@
 #include "GrainGenerator.h"
 #include "Utils.h"
 #include "AudioBuffer.h"
+#include "AudioFile.h"
 #include "IGrainGenHandler.h"
 #include "IAudioFileHandler.h"
 #include "GenListener.h"
@@ -55,8 +56,8 @@ public:
 
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
 	void removeGrainGenerator(int indexToRemove) override;
-	void addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex) override;
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex) override;
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 private:
 	void addAudioFile(juce::ValueTree newAudioSource);
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
@@ -66,8 +67,8 @@ private:
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;
 	juce::OwnedArray<GrainGenerator> generators;
-	juce::OwnedArray<AudioBuffer> allSounds;
-	juce::OwnedArray<juce::AudioSampleBuffer> fileBuffers;
+	juce::OwnedArray<MyAudioBuffer> allSounds;
+	juce::OwnedArray<AudioFile> fileBuffers;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<PositionListener> positionListener;

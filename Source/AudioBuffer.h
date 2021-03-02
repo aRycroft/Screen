@@ -11,19 +11,18 @@
 #pragma once
 #include <JuceHeader.h>
 #include "AmplitudeEnvelope.h"
-#include "Utils.h"
 
-class AudioBuffer
+class MyAudioBuffer
 {
 public:
-    AudioBuffer(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
+    MyAudioBuffer(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
     {
         this->audio = audio;
         this->lowSample = lowSample;
         this->highSample = highSample;
     }
 
-    float getSampleAtBoundedIndex(int channel, int index) 
+    float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index) 
     {
         int boundedIndex = index + lowSample;
         if (boundedIndex < 0 || boundedIndex >= highSample)
@@ -49,16 +48,6 @@ public:
     int getMaxIndex()
     {
         return highSample;
-    }
-
-    const float** getReadPointers()
-    {
-        return audio->getArrayOfReadPointers();
-    }
-
-    void fillBufferWithValue(float val)
-    {
-        util::fillAudioBufferWithValue(audio, val);
     }
 
 private:

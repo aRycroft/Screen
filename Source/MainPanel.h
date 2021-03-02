@@ -61,8 +61,8 @@ public:
 		generatorVis.remove(indexToRemove);
 	}
 
-	void addSoundToGrainGenerator(int grainGenIndex, int audioBufferIndex) override {};
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioBufferIndex) override {};
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	
 	void addAudioFile(juce::ValueTree newAudioSource) override 
 	{

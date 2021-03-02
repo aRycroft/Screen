@@ -25,6 +25,7 @@
               file="Source/SampleSelector.h"/>
         <FILE id="fmnk5o" name="ScreenGUI.h" compile="0" resource="0" file="Source/ScreenGUI.h"/>
       </GROUP>
+      <FILE id="QdYCSm" name="AudioFile.h" compile="0" resource="0" file="Source/AudioFile.h"/>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="xKFMMH" name="PluginProcessor.h" compile="0" resource="0"
@@ -37,8 +38,6 @@
       <FILE id="W5dbsb" name="AudioBuffer.h" compile="0" resource="0" file="Source/AudioBuffer.h"/>
       <FILE id="KZHM5U" name="GrainGenerator.h" compile="0" resource="0"
             file="Source/GrainGenerator.h"/>
-      <FILE id="SeJWJp" name="FileChoiceHandler.h" compile="0" resource="0"
-            file="Source/FileChoiceHandler.h"/>
       <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
             file="Source/AmplitudeEnvelope.h"/>
       <FILE id="PwaJli" name="PositionListener.h" compile="0" resource="0"
