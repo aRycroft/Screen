@@ -24,6 +24,16 @@ public:
 		paramTree.addListener(this);
 	}
 
+	bool shouldPlayGrain()
+	{
+		if (!isActive) return false;
+
+		if (counter++ % 100 == 0) {
+			return true;
+		}
+		return false;
+	}
+
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
 		for (auto grain : grains) {
@@ -69,6 +79,7 @@ private:
 	std::vector<Grain*> grains;
 	int sampleRate;
 	int numVoices{ 0 };
+	unsigned counter{ 0 };
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{

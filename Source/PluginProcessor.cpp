@@ -144,12 +144,10 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	buffer.clear();
 	for (auto grainGen : generators)
 	{
-		if (grainGen->isActive) {
-			if (counter % 100 == 0) {
-				grainGen->playGrain();
-			}
-			grainGen->fillNextBuffer(&buffer);
+		if (grainGen->shouldPlayGrain()) {
+			grainGen->playGrain();
 		}
+		grainGen->fillNextBuffer(&buffer);
 	}
 	if (counter % 500 == 0) {
 		DBG(vTree.toXmlString());
