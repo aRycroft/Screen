@@ -15,20 +15,23 @@ class CPGNetwork : public CPG, juce::ValueTree::Listener
 {
 public:
     CPGNetwork(juce::ValueTree grainGenTree, int sampleRate)
-        : CPG(sampleRate)
-        , generatorTree(grainGenTree)
+        : CPG(sampleRate),
+        generatorTree(grainGenTree)
     {
         this->setNodeFrequency(0, 1000, false);
-        previousNodeValue = 0.0;
+        previousNodeValues.push_back(0.0);
     }
 
     void stepAndCheckForTriggeredNodes() 
     {
-        if (previousNodeValue < 0.0 && this->getNode(0).getOutput() > 0.0) 
+        for (auto node : this->getNodeList()) 
         {
-            triggeredNodes.push_back(0);
+            if (previousNodeValues[node] < 0.0 && this->getNode(node).getOutput() > 0.0)
+            {
+                triggeredNodes.push_back(node);
+            }
+            previousNodeValues[node] = this->getNode(node).getOutput();
         }
-        previousNodeValue = this->getNode(0).getOutput();
         this->step();
     }
 
@@ -41,8 +44,14 @@ public:
         }
     }
 
+    void addNode(int id) 
+    {
+        previousNodeValues.push_back(0.0);
+        this->CPG::addNode(id);
+    }
+
     std::vector<unsigned> triggeredNodes;
 private:
-    double previousNodeValue;
+    std::vector<double> previousNodeValues;
     juce::ValueTree generatorTree;
 };
