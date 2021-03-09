@@ -97,6 +97,7 @@ private:
 		newTree
 			.setProperty(Ids::active, true, nullptr)
 			.setProperty(Ids::numVoices, 20, nullptr)
+			.setProperty(Ids::frequency, 100.0, nullptr)
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr);
 		genTree.addChild(newTree, -1, nullptr);

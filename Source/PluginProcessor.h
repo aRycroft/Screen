@@ -65,10 +65,10 @@ private:
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
 	void removeAudioFile(juce::File newFile);
 
-	CPGNetwork cpgNetwork;
 	juce::ValueTree vTree;
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;
+	CPGNetwork cpgNetwork;
 	juce::OwnedArray<GrainGenerator> generators;
 	juce::OwnedArray<MyAudioBuffer> allSounds;
 	juce::OwnedArray<AudioFile> fileBuffers;

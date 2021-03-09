@@ -28,6 +28,7 @@ namespace Ids
     /*GENERATOR*/
     static juce::Identifier genTree("genTree");
     static juce::Identifier generator("generator");
+    static juce::Identifier frequency("frequency");
     static juce::Identifier numVoices("numVoices");
     /*SHARED*/
     static juce::Identifier active("active");

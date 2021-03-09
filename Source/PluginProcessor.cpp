@@ -25,7 +25,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	,vTree("ParamTree")
 	,fileTree(Ids::fileTree)
 	,genTree(Ids::genTree)
-	,cpgNetwork(CPGSAMPLERATE)
+	,cpgNetwork(genTree, CPGSAMPLERATE)
 {
 	formatManager.registerBasicFormats();
 
