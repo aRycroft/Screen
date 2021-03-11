@@ -24,6 +24,14 @@ public:
 		paramTree.addListener(this);
 	}
 
+	void initParamTreeValues()
+	{
+		for (int i = 0; i < paramTree.getNumProperties(); i++)
+		{
+			paramTree.sendPropertyChangeMessage(paramTree.getPropertyName(i));
+		}
+	}
+
 	bool shouldPlayGrain()
 	{
 		if (!isActive) return false;

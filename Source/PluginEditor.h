@@ -28,6 +28,7 @@ public:
     void resized() override;
 
 private:
+    void syncState();
     ScreenAudioProcessor& audioProcessor;
     juce::ValueTree& vTree;
     std::unique_ptr<ScreenGUI> screenGUI;

@@ -245,11 +245,10 @@ void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
 
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
-	generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
+	auto generator = generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
+	generator->initParamTreeValues();
 	cpgNetwork.addNode(generators.size());
 	cpgNetwork.setNodeFrequency(generators.size(), 1000.0, false);
-	//generatorValueTree.setProperty(Ids::numVoices, 200, nullptr);
-	//generatorValueTree.setProperty(Ids::active, true, nullptr);
 }
 
 void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 

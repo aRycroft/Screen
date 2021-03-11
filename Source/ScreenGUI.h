@@ -33,6 +33,11 @@ public:
 		formatManager.registerBasicFormats();
 	}
 
+	void syncState()
+	{
+		mainPanel->sendChangeMessageOnValueTree();
+	}
+
 	void resized() override
 	{
 		juce::Grid grid;

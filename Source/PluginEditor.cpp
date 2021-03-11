@@ -20,6 +20,7 @@ ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, 
 	addAndMakeVisible(*screenGUI);
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
 	setSize(1000, 800);
+	syncState();
 }
 
 ScreenAudioProcessorEditor::~ScreenAudioProcessorEditor()
@@ -36,6 +37,11 @@ void ScreenAudioProcessorEditor::paint(juce::Graphics& g)
 void ScreenAudioProcessorEditor::resized()
 {
 	screenGUI->setBounds(getBounds());
+}
+
+void ScreenAudioProcessorEditor::syncState()
+{
+	screenGUI->syncState();
 }
 
 

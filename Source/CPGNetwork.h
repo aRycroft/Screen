@@ -19,6 +19,7 @@ public:
         generatorTree(grainGenTree)
     {
         this->setNodeFrequency(0, 1000, false);
+        generatorTree.addListener(this);
         previousNodeValues.push_back(0.0);
     }
 
