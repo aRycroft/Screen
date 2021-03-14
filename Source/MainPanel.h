@@ -9,21 +9,22 @@
 */
 
 #pragma once
-#include <JuceHeader.h>>
+#include <JuceHeader.h>
 #include "GrainGeneratorVis.h"
 #include "GenListener.h"
 #include "IGrainGenHandler.h"
 #include "AudioBufferVis.h"
 #include "FileListener.h"
+#include "ConnectionDragMouseListener.h"
 #include "IAudioFileHandler.h"
+#include "IConnectionDragHandler.h"
 #include "Utils.h"
 
 class MainPanel :
 	public juce::Component,
 	public IGrainGenHandler,
 	public IAudioFileHandler,
-	public juce::ValueTree::Listener,
-	public juce::MouseListener
+	public IConnectionDragHandler
 {
 public:
 	MainPanel(juce::ValueTree state)
@@ -32,17 +33,25 @@ public:
 	{
 		genListener.reset(new GenListener(this, genTree));
 		fileListener.reset(new FileListener(this, fileTree));
+		connectionDragMouseListener.reset(new ConnectionDragMouseListener(this));
+		this->addMouseListener(connectionDragMouseListener.get(), true);
 	}
 
 	void paint(juce::Graphics& g) override
 	{
 		g.fillAll(juce::Colours::antiquewhite);
+		if (grainGenIsConnectionDragging)
+		{
+			auto grainGenPosition = grainGenThatIsDragging->getPosition();
+			auto line = new juce::Line<int>{ grainGenPosition, this->getMouseXYRelative() };
+			g.drawArrow(line->toFloat(), 10.0f, 50.0f, 10.0f);
+		}
 	}
 
 	void resized() override
 	{
 		for (auto grainVis : generatorVis) {
-			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
+			grainVis->setBounds(grainVis->calculateBounds().reduced(1).toNearestInt());
 		}
 	}
 
@@ -51,7 +60,6 @@ public:
 		generatorVis.add(new GrainGeneratorVis(generatorValueTree));
 		addAndMakeVisible(generatorVis.getLast());
 		generatorVis.getLast()->setBounds(generatorVis.getLast()->calculateBounds().toNearestInt());
-		generatorVis.getLast()->addMouseListener(this, false);
 	}
 
 	void removeGrainGenerator(int indexToRemove) override
@@ -62,10 +70,7 @@ public:
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 
-	void addAudioFile(juce::ValueTree newAudioSource) override
-	{
-
-	};
+	void addAudioFile(juce::ValueTree newAudioSource) override {};
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override
 	{
@@ -108,6 +113,30 @@ public:
 		}
 	}
 
+	void startConnectionDrag(GrainGeneratorVis* grainGenVis) override
+	{
+		grainGenIsConnectionDragging = true;
+		grainGenThatIsDragging = grainGenVis;
+	};
+
+	void connectionDrag() override
+	{
+		if (grainGenIsConnectionDragging) 
+		{
+			repaint();
+		}
+	};
+
+	void endConnectionDrag(const juce::MouseEvent& event) override
+	{
+		if (grainGenIsConnectionDragging) 
+		{
+			GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
+			grainGenIsConnectionDragging = false;
+			repaint();
+		}
+	};
+
 private:
 	juce::ValueTree createGeneratorValueTree(float x, float y)
 	{
@@ -127,4 +156,7 @@ private:
 	juce::ValueTree genTree, fileTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
+	std::unique_ptr<ConnectionDragMouseListener> connectionDragMouseListener;
+	bool grainGenIsConnectionDragging{ false };
+	GrainGeneratorVis* grainGenThatIsDragging;
 };

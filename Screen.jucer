@@ -44,6 +44,8 @@
       <GROUP id="{4546EF51-EF7C-F306-911D-E4A103EA0122}" name="Interfaces">
         <FILE id="r2Xc2V" name="IAudioFileHandler.h" compile="0" resource="0"
               file="Source/IAudioFileHandler.h"/>
+        <FILE id="f86PbY" name="IConnectionDragHandler.h" compile="0" resource="0"
+              file="Source/IConnectionDragHandler.h"/>
         <FILE id="dkEBiY" name="IGrainGenHandler.h" compile="0" resource="0"
               file="Source/IGrainGenHandler.h"/>
       </GROUP>
@@ -52,10 +54,14 @@
               file="Source/AudioBufferSelectorVis.h"/>
         <FILE id="Fjr8ur" name="AudioBufferVis.h" compile="0" resource="0"
               file="Source/AudioBufferVis.h"/>
+        <FILE id="RfJU69" name="ConnectionSelector.h" compile="0" resource="0"
+              file="Source/ConnectionSelector.h"/>
         <FILE id="exn5JV" name="DraggableComponent.h" compile="0" resource="0"
               file="Source/DraggableComponent.h"/>
         <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
               file="Source/GrainGeneratorVis.h"/>
+        <FILE id="uiCf1J" name="ConnectionDragMouseListener.h" compile="0"
+              resource="0" file="Source/ConnectionDragMouseListener.h"/>
         <FILE id="HKw4oi" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
         <FILE id="ZZOTQJ" name="SampleSelector.h" compile="0" resource="0"
               file="Source/SampleSelector.h"/>
