@@ -22,19 +22,22 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 #endif
 	)
 #endif
-	,vTree("ParamTree")
-	,fileTree(Ids::fileTree)
-	,genTree(Ids::genTree)
+	, vTree("ParamTree")
+	, fileTree(Ids::fileTree)
+	, genTree(Ids::genTree)
+	, connectionTree(Ids::connectionTree)
 	,cpgNetwork(genTree, CPGSAMPLERATE)
 {
 	formatManager.registerBasicFormats();
 
 	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
 	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
+	vTree.addChild(connectionTree, TreeChildren::connectionTree, nullptr);
 
 	fileListener.reset(new FileListener(this, fileTree));
 	genListener.reset(new GenListener(this, genTree));
 	positionListener.reset(new PositionListener(this, genTree, fileTree));
+	connectionListener.reset(new ConnectionListener(this, connectionTree));
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -239,10 +242,6 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	}
 }
 
-void ScreenAudioProcessor::removeAudioFile(juce::File newFile)
-{
-}
-
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	auto generator = generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
@@ -264,5 +263,14 @@ void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audio
 void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
 	generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
+}
+
+void ScreenAudioProcessor::connectionCreated(int from, int to) 
+{
+	DBG("OIOIO");
+}
+void ScreenAudioProcessor::connectionRemoved(int from, int to) 
+{
+	DBG("OIOIO");
 }
 

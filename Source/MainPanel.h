@@ -28,8 +28,9 @@ class MainPanel :
 {
 public:
 	MainPanel(juce::ValueTree state)
-		:genTree(state.getChildWithName(Ids::genTree)),
-		fileTree(state.getChildWithName(Ids::fileTree))
+		:genTree(state.getChild(TreeChildren::genTree)),
+		fileTree(state.getChild(TreeChildren::fileTree)),
+		connectionTree(state.getChild(TreeChildren::connectionTree))
 	{
 		genListener.reset(new GenListener(this, genTree));
 		fileListener.reset(new FileListener(this, fileTree));
@@ -40,6 +41,15 @@ public:
 	void paint(juce::Graphics& g) override
 	{
 		g.fillAll(juce::Colours::antiquewhite);
+
+		for(auto tree : connectionTree)
+		{
+			auto fromGrainGen = generatorVis[tree[Ids::from]];
+			auto toGrainGen = generatorVis[tree[Ids::to]];
+			auto line = new juce::Line<int>{ fromGrainGen->getPosition(), toGrainGen->getPosition() };
+			g.drawArrow(line->toFloat(), 10.0f, 50.0f, 10.0f);
+		}
+
 		if (grainGenIsConnectionDragging)
 		{
 			auto grainGenPosition = grainGenThatIsDragging->getPosition();
@@ -131,12 +141,22 @@ public:
 	{
 		if (grainGenIsConnectionDragging) 
 		{
-			GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
+			GrainGeneratorVis* clickedGrainGen = nullptr;
+			for (auto genVis : generatorVis) 
+			{
+				if (genVis->getBoundsInParent().contains(this->getMouseXYRelative())) 
+				{
+					clickedGrainGen = genVis;
+				}
+			}
+			if (clickedGrainGen != 0) 
+			{
+				createConnectionValueTree(generatorVis.indexOf(grainGenThatIsDragging), generatorVis.indexOf(clickedGrainGen));
+			}
 			grainGenIsConnectionDragging = false;
 			repaint();
 		}
 	};
-
 private:
 	juce::ValueTree createGeneratorValueTree(float x, float y)
 	{
@@ -151,12 +171,28 @@ private:
 		return newTree;
 	}
 
+	void createConnectionValueTree(int from , int to)
+	{
+		for (auto tree : connectionTree)
+		{
+			if ((int) tree[Ids::from] == from && (int) tree[Ids::to] == to)
+			{
+				return;
+			}
+		}
+		juce::ValueTree newTree{ Ids::connection };
+		newTree
+			.setProperty(Ids::from, from, nullptr)
+			.setProperty(Ids::to, to, nullptr);
+		connectionTree.addChild(newTree, -1, nullptr);
+	}
+
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
 	juce::OwnedArray<AudioBufferVis> audioFileVis;
-	juce::ValueTree genTree, fileTree;
+	juce::ValueTree genTree, fileTree, connectionTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<ConnectionDragMouseListener> connectionDragMouseListener;
 	bool grainGenIsConnectionDragging{ false };
-	GrainGeneratorVis* grainGenThatIsDragging;
+	GrainGeneratorVis* grainGenThatIsDragging{ nullptr };
 };

@@ -46,6 +46,8 @@
               file="Source/IAudioFileHandler.h"/>
         <FILE id="f86PbY" name="IConnectionDragHandler.h" compile="0" resource="0"
               file="Source/IConnectionDragHandler.h"/>
+        <FILE id="lIYpM9" name="IConnectionHandler.h" compile="0" resource="0"
+              file="Source/IConnectionHandler.h"/>
         <FILE id="dkEBiY" name="IGrainGenHandler.h" compile="0" resource="0"
               file="Source/IGrainGenHandler.h"/>
       </GROUP>
@@ -68,6 +70,8 @@
         <FILE id="fmnk5o" name="ScreenGUI.h" compile="0" resource="0" file="Source/ScreenGUI.h"/>
       </GROUP>
       <FILE id="QdYCSm" name="AudioFile.h" compile="0" resource="0" file="Source/AudioFile.h"/>
+      <FILE id="gSWAGR" name="ConnectionListener.h" compile="0" resource="0"
+            file="Source/ConnectionListener.h"/>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="xKFMMH" name="PluginProcessor.h" compile="0" resource="0"

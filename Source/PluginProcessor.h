@@ -20,14 +20,17 @@
 #include "AudioFile.h"
 #include "IGrainGenHandler.h"
 #include "IAudioFileHandler.h"
+#include "IConnectionHandler.h"
 #include "GenListener.h"
 #include "FileListener.h"
 #include "PositionListener.h"
+#include "ConnectionListener.h"
 #include "CPGNetwork.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
-							 public IAudioFileHandler
+							 public IAudioFileHandler,
+							 public IConnectionHandler
 {
 public:
 	ScreenAudioProcessor();
@@ -60,14 +63,17 @@ public:
 	void removeGrainGenerator(int indexToRemove) override;
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
+	void connectionCreated(int from, int to) override;
+	void connectionRemoved(int from, int to) override;
+	void addAudioFile(juce::ValueTree newAudioSource) override;
+	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
 private:
-	void addAudioFile(juce::ValueTree newAudioSource);
-	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource);
-	void removeAudioFile(juce::File newFile);
+
 
 	juce::ValueTree vTree;
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;
+	juce::ValueTree connectionTree;
 	CPGNetwork cpgNetwork;
 	juce::OwnedArray<GrainGenerator> generators;
 	juce::OwnedArray<MyAudioBuffer> allSounds;
@@ -75,6 +81,7 @@ private:
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<PositionListener> positionListener;
+	std::unique_ptr<ConnectionListener> connectionListener;
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)

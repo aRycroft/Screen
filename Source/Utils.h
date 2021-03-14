@@ -12,7 +12,8 @@
 #include <JuceHeader.h>
 enum TreeChildren {
     fileTree,
-    genTree
+    genTree,
+    connectionTree
 };
 
 namespace Ids
@@ -30,6 +31,12 @@ namespace Ids
     static juce::Identifier generator("generator");
     static juce::Identifier frequency("frequency");
     static juce::Identifier numVoices("numVoices");
+    /*CONNECTION*/
+    static juce::Identifier connectionTree("connectionTree");
+    static juce::Identifier connection("connection");
+    static juce::Identifier from("from");
+    static juce::Identifier to("to");
+
     /*SHARED*/
     static juce::Identifier active("active");
     static juce::Identifier x("x");
