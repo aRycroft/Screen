@@ -32,14 +32,12 @@ public:
 		connectionSelector.setInterceptsMouseClicks(false, false);
 	}
 
-	void paint(juce::Graphics& g) override
-	{
-
-	}
-
 	void paintOverChildren(juce::Graphics& g) override
 	{
-		g.setColour(juce::Colours::black);
+		if (selected)
+			g.setColour(juce::Colours::darkcyan);
+		else
+			g.setColour(juce::Colours::black);
 		g.fillRoundedRectangle(getLocalBounds().reduced(5).toFloat(), 100.0f);
 		g.setColour(juce::Colours::white);
 		g.drawText(paramTree[Ids::frequency].toString(), getLocalBounds(), juce::Justification::centred);
@@ -105,6 +103,7 @@ public:
 		auto position = event.getPosition();
 		return !visBounds.contains(position) && bounds.contains(position);
 	}
+
 	bool connectionDrag{ false };
 private:
 	juce::ValueTree paramTree;

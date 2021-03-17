@@ -267,7 +267,7 @@ void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int 
 
 void ScreenAudioProcessor::connectionCreated(int from, int to) 
 {
-	DBG("OIOIO");
+	cpgNetwork.setConnection(from, to, 5);
 }
 void ScreenAudioProcessor::connectionRemoved(int from, int to) 
 {
