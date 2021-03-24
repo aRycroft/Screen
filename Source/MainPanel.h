@@ -18,6 +18,7 @@
 #include "ConnectionDragMouseListener.h"
 #include "IAudioFileHandler.h"
 #include "IConnectionDragHandler.h"
+#include "GroupDragMouseListener.h"
 #include "Utils.h"
 
 class MainPanel :
@@ -37,9 +38,10 @@ public:
 		genListener.reset(new GenListener(this, genTree));
 		fileListener.reset(new FileListener(this, fileTree));
 		connectionDragMouseListener.reset(new ConnectionDragMouseListener(this));
+		groupDragMouseListener.reset(new GroupDragMouseListener());
 		this->addMouseListener(connectionDragMouseListener.get(), true);
 		this->addAndMakeVisible(lasso);
-		foundItems.addChangeListener(this);
+		groupDragMouseListener->draggableItemSet.addChangeListener(this);
 	}
 
 	void paint(juce::Graphics& g) override
@@ -74,6 +76,8 @@ public:
 		auto genVis = generatorVis.add(new GrainGeneratorVis(generatorValueTree));
 		addAndMakeVisible(genVis);
 		genVis->setBounds(genVis->calculateBounds().toNearestInt());
+		genVis->addMouseListener(groupDragMouseListener.get(), false);
+		genVis->setAlwaysOnTop(true);
 	}
 
 	void removeGrainGenerator(int indexToRemove) override
@@ -91,18 +95,18 @@ public:
 		auto audioBuffer = audioFileVis.add(new AudioBufferVis(childOfSource));
 		addAndMakeVisible(audioBuffer);
 		audioBuffer->setBounds(audioBuffer->calculateBounds().toNearestInt());
+		audioBuffer->addMouseListener(groupDragMouseListener.get(), false);
 	};
 
 	void mouseDown(const juce::MouseEvent& event)
 	{
+		groupDragMouseListener->draggableItemSet.deselectAll();
 		lasso.beginLasso(event, this);
 	}
 
 	void mouseDrag(const juce::MouseEvent& event)
 	{
 		lasso.dragLasso(event);
-		for (auto item : foundItems)
-			item->selected = true;
 	}
 
 	void mouseUp(const juce::MouseEvent& event) 
@@ -188,18 +192,25 @@ public:
 				itemsFound.add(genVis);
 			}
 		}
+		for (auto& fileVis : audioFileVis)
+		{
+			if (area.contains(fileVis->getBounds()))
+			{
+				itemsFound.add(fileVis);
+			}
+		}
 	}
 
 	juce::SelectedItemSet<DraggableComponent*>& getLassoSelection() override
 	{
-		return foundItems;
+		return groupDragMouseListener->draggableItemSet;
 	}
 
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override
 	{
 		for (auto gen : generatorVis) 
 		{
-			if (foundItems.isSelected(gen)) 
+			if (groupDragMouseListener->draggableItemSet.isSelected(gen)) 
 			{
 				gen->selected = true;
 			}
@@ -246,8 +257,8 @@ private:
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<ConnectionDragMouseListener> connectionDragMouseListener;
+	std::unique_ptr<GroupDragMouseListener> groupDragMouseListener;
 	bool grainGenIsConnectionDragging{ false };
 	GrainGeneratorVis* grainGenThatIsDragging{ nullptr };
 	juce::LassoComponent<DraggableComponent*> lasso;
-	juce::SelectedItemSet<DraggableComponent*> foundItems;
 };

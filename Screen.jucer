@@ -52,6 +52,8 @@
               file="Source/IGrainGenHandler.h"/>
       </GROUP>
       <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
+        <FILE id="meBbyb" name="GroupDragMouseListener.h" compile="0" resource="0"
+              file="Source/GroupDragMouseListener.h"/>
         <FILE id="Hi3GSl" name="DraggableComponentLassoSource.h" compile="0"
               resource="0" file="Source/DraggableComponentLassoSource.h"/>
         <FILE id="Meiv18" name="AudioBufferSelectorVis.h" compile="0" resource="0"
