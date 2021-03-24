@@ -38,6 +38,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	genListener.reset(new GenListener(this, genTree));
 	positionListener.reset(new PositionListener(this, genTree, fileTree));
 	connectionListener.reset(new ConnectionListener(this, connectionTree));
+	connectionChangeListener.reset(new ConnectionChangeListener(this, connectionTree, genTree));
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -242,6 +243,7 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	}
 }
 
+
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	auto generator = generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
@@ -272,5 +274,10 @@ void ScreenAudioProcessor::connectionCreated(int from, int to)
 void ScreenAudioProcessor::connectionRemoved(int from, int to) 
 {
 	DBG("OIOIO");
+}
+
+void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
+{
+	cpgNetwork.setConnection(from, to, weight);
 }
 

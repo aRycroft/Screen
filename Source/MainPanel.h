@@ -27,7 +27,8 @@ class MainPanel :
 	public IAudioFileHandler,
 	public IConnectionDragHandler,
 	public juce::LassoSource<DraggableComponent*>,
-	public juce::ChangeListener
+	public juce::ChangeListener,
+	public juce::ValueTree::Listener
 {
 public:
 	MainPanel(juce::ValueTree state)
@@ -42,6 +43,7 @@ public:
 		this->addMouseListener(connectionDragMouseListener.get(), true);
 		this->addAndMakeVisible(lasso);
 		groupDragMouseListener->draggableItemSet.addChangeListener(this);
+		genTree.addListener(this);
 	}
 
 	void paint(juce::Graphics& g) override
@@ -227,8 +229,8 @@ private:
 		juce::ValueTree newTree{ Ids::generator };
 		newTree
 			.setProperty(Ids::active, true, nullptr)
-			.setProperty(Ids::numVoices, 20, nullptr)
-			.setProperty(Ids::frequency, 100.0, nullptr)
+			.setProperty(Ids::numVoices, 100, nullptr)
+			.setProperty(Ids::frequency, 1000.0, nullptr)
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr);
 		genTree.addChild(newTree, -1, nullptr);
@@ -247,8 +249,24 @@ private:
 		juce::ValueTree newTree{ Ids::connection };
 		newTree
 			.setProperty(Ids::from, from, nullptr)
-			.setProperty(Ids::to, to, nullptr);
+			.setProperty(Ids::to, to, nullptr)
+			.setProperty(Ids::weight, 5, nullptr);
 		connectionTree.addChild(newTree, -1, nullptr);
+	}
+
+	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
+	{
+		if (property == Ids::x)
+		{
+			int indexOfGenVis = genTree.indexOf(treeWhosePropertyHasChanged);
+			for (auto child : connectionTree) 
+			{
+				if (indexOfGenVis == (int) child[Ids::from] || indexOfGenVis == (int) child[Ids::to])
+				{
+					child.sendPropertyChangeMessage(Ids::weight);
+				}
+			}
+		}
 	}
 
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;

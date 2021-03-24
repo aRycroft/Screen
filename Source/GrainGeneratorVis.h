@@ -85,10 +85,6 @@ public:
 	void mouseUp(const juce::MouseEvent& event) override
 	{
 		connectionDrag = false;
-		/*if (event.mods.isRightButtonDown())
-		{
-			frequencySlider.setInterceptsMouseClicks(false, false);
-		}*/
 	}
 
 	void sliderValueChanged(juce::Slider* slider) override

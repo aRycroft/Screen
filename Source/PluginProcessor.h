@@ -25,6 +25,7 @@
 #include "FileListener.h"
 #include "PositionListener.h"
 #include "ConnectionListener.h"
+#include "ConnectionChangeListener.h"
 #include "CPGNetwork.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
@@ -82,7 +83,11 @@ private:
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<PositionListener> positionListener;
 	std::unique_ptr<ConnectionListener> connectionListener;
+	std::unique_ptr<ConnectionChangeListener> connectionChangeListener;
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)
+
+		// Inherited via IConnectionHandler
+		virtual void connectionWeightChanged(int from, int to, float weight) override;
 };

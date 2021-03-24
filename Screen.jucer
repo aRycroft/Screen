@@ -95,6 +95,8 @@
       <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
       <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
       <FILE id="lhohPx" name="CPGNetwork.h" compile="0" resource="0" file="Source/CPGNetwork.h"/>
+      <FILE id="OqOjWD" name="ConnectionChangeListener.h" compile="0" resource="0"
+            file="Source/ConnectionChangeListener.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

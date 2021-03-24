@@ -23,6 +23,10 @@ public:
 
 	void mouseDown(const juce::MouseEvent& event) override
 	{
+		if (!event.mods.isLeftButtonDown())
+		{
+			return;
+		}
 		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
 		if (clickedGrainGen != 0)
 		{
@@ -40,6 +44,10 @@ public:
 
 	void mouseDrag(const juce::MouseEvent& event) override
 	{
+		if (!event.mods.isLeftButtonDown())
+		{
+			return;
+		}
 		_handler->connectionDrag();
 	}
 

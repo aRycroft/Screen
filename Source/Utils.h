@@ -36,7 +36,7 @@ namespace Ids
     static juce::Identifier connection("connection");
     static juce::Identifier from("from");
     static juce::Identifier to("to");
-
+    static juce::Identifier weight("weight");
     /*SHARED*/
     static juce::Identifier active("active");
     static juce::Identifier x("x");
