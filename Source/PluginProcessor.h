@@ -68,9 +68,11 @@ public:
 	void connectionRemoved(int from, int to) override;
 	void addAudioFile(juce::ValueTree newAudioSource) override;
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
+	juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
 private:
+	void copyValueTreesFromXmlString();
 
-
+	juce::AudioProcessorValueTreeState apvts;
 	juce::ValueTree vTree;
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;

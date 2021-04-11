@@ -22,6 +22,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 #endif
 	)
 #endif
+	, apvts(*this, nullptr, juce::Identifier{ "ParamTree" }, {})
 	, vTree("ParamTree")
 	, fileTree(Ids::fileTree)
 	, genTree(Ids::genTree)
@@ -39,6 +40,38 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	positionListener.reset(new PositionListener(this, genTree, fileTree));
 	connectionListener.reset(new ConnectionListener(this, connectionTree));
 	connectionChangeListener.reset(new ConnectionChangeListener(this, connectionTree, genTree));
+	copyValueTreesFromXmlString();
+}
+
+void ScreenAudioProcessor::copyValueTreesFromXmlString()
+{
+	juce::File testTree("C:\\Users\\Alex\\Documents\\GitHub\\Screen\\Source\\testTree.txt");
+	if (testTree.existsAsFile())
+	{
+		auto xmlElement = juce::parseXML(testTree);
+		auto newTree = vTree.fromXml(xmlElement->toString());
+
+		for (auto child : newTree.getChild(TreeChildren::genTree))
+		{
+			genTree.addChild(child.createCopy(), genTree.getNumChildren(), nullptr);
+		}
+
+		for (auto child : newTree.getChild(TreeChildren::fileTree))
+		{
+			auto fileChildWithoutChildren = child.createCopy();
+			fileChildWithoutChildren.removeAllChildren(nullptr);
+			fileTree.addChild(fileChildWithoutChildren.createCopy(), fileTree.getNumChildren(), nullptr);
+			for (auto buffer : child)
+			{
+				fileTree.getChild(newTree.getChild(TreeChildren::fileTree).indexOf(child)).addChild(buffer.createCopy(), -1, nullptr);
+			}
+		}
+
+		for (auto child : newTree.getChild(TreeChildren::connectionTree))
+		{
+			connectionTree.addChild(child.createCopy(), connectionTree.getNumChildren(), nullptr);
+		}
+	}
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -243,6 +276,12 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	}
 }
 
+juce::AudioProcessorValueTreeState::ParameterLayout ScreenAudioProcessor::createLayout()
+{
+	juce::AudioProcessorValueTreeState::ParameterLayout params;
+	return params;
+}
+
 
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
@@ -264,7 +303,9 @@ void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audio
 
 void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
-	generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
+	if (generators[grainGenIndex] != nullptr) {
+		generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
+	}
 }
 
 void ScreenAudioProcessor::connectionCreated(int from, int to) 

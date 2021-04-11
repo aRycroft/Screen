@@ -1,0 +1,17 @@
+<ParamTree>
+  <fileTree>
+    <audioFile relativePath="C:\Users\Alex\Music\borderlands_defaults\2_rhodes_high_2.wav">
+      <audioBuffer active="1" x="0.4390000104904175" y="0.534375011920929" lowSample="262040"
+                   highSample="393060"/>
+    </audioFile>
+  </fileTree>
+  <genTree>
+    <generator active="1" numVoices="100" frequency="1000.0" x="0.410638302564621"
+               y="0.7051724195480347"/>
+    <generator active="1" numVoices="100" frequency="1000.0" x="0.5734042525291443"
+               y="0.5896551609039307"/>
+  </genTree>
+  <connectionTree>
+    <connection from="0" to="1" weight="5"/>
+  </connectionTree>
+</ParamTree>

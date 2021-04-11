@@ -35,7 +35,6 @@ public:
 
     void setWeight(int from, int to, double mult)
     {
-        DBG(grainGenTree.toXmlString());
         double fromX = grainGenTree.getChild(from).getProperty(Ids::x);
         double fromY = grainGenTree.getChild(from).getProperty(Ids::y);
 

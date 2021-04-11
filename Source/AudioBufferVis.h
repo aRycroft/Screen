@@ -21,7 +21,14 @@ public:
 
 	void paint(juce::Graphics& g) override
 	{
-		g.setColour(juce::Colours::red);
+		if (this->selected) 
+		{
+			g.setColour(juce::Colours::darkcyan);
+		}
+		else 
+		{
+			g.setColour(juce::Colours::red);
+		}
 		g.fillRect(getLocalBounds().reduced(1));
 	}
 

@@ -50,7 +50,7 @@ public:
 	{
 		g.fillAll(juce::Colours::antiquewhite);
 
-		for(auto tree : connectionTree)
+		for (auto tree : connectionTree)
 		{
 			auto fromGrainGen = generatorVis[tree[Ids::from]];
 			auto toGrainGen = generatorVis[tree[Ids::to]];
@@ -222,6 +222,18 @@ public:
 			}
 			gen->repaint();
 		}
+		for (auto gen : audioFileVis)
+		{
+			if (groupDragMouseListener->draggableItemSet.isSelected(gen))
+			{
+				gen->selected = true;
+			}
+			else
+			{
+				gen->selected = false;
+			}
+			gen->repaint();
+		}
 	}
 private:
 	juce::ValueTree createGeneratorValueTree(float x, float y)
@@ -250,7 +262,7 @@ private:
 		newTree
 			.setProperty(Ids::from, from, nullptr)
 			.setProperty(Ids::to, to, nullptr)
-			.setProperty(Ids::weight, 5, nullptr);
+			.setProperty(Ids::weight, 1, nullptr);
 		connectionTree.addChild(newTree, -1, nullptr);
 	}
 
