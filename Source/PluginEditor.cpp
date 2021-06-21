@@ -13,11 +13,9 @@
 ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, juce::ValueTree state)
 	: AudioProcessorEditor(&p), audioProcessor(p), vTree(state)
 {
-	// Make sure that before the constructor has finished, you've set the
-	// editor's size to whatever you need it to be.
-	setResizable(true, true);
 	screenGUI.reset(new ScreenGUI{vTree});
 	addAndMakeVisible(*screenGUI);
+	setResizable(true, true);
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);
 	setSize(1000, 800);
 	syncState();

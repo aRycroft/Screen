@@ -129,7 +129,7 @@ public:
 		}
 	}
 
-	void sendChangeMessageOnValueTree()
+	void sendChangeMessagesOnValueTree()
 	{
 		for (auto child : genTree) {
 			genListener->valueTreeChildAdded(genTree, child);

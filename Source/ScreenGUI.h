@@ -13,7 +13,7 @@
 #include "MainPanel.h"
 #include "SampleSelector.h"
 #include "AudioBufferSelectorVis.h"
-#define NUMBEROFSECTIONS 10
+constexpr auto NUMBEROFSECTIONS = 10;
 
 class ScreenGUI : public juce::Component,
 	public IAudioFileHandler,
@@ -24,6 +24,7 @@ public:
 		: vTree(state)
 	{
 		fileListener.reset(new FileListener(this, state.getChildWithName(Ids::fileTree)));
+
 		mainPanel.reset(new MainPanel{ state });
 		addAndMakeVisible(*mainPanel);
 
@@ -35,7 +36,7 @@ public:
 
 	void syncState()
 	{
-		mainPanel->sendChangeMessageOnValueTree();
+		mainPanel->sendChangeMessagesOnValueTree();
 	}
 
 	void resized() override
@@ -80,17 +81,19 @@ public:
 	}
 
 private:
-	juce::ValueTree createAudioBufferValueTree(juce::ValueTree fileTree, int parentAudioSourceIndex, float x, float y, int startSample, int endSample)
+	void createAudioBufferValueTree(juce::ValueTree fileTree, int parentAudioSourceIndex, float x, float y, int startSample, int endSample)
 	{
 		juce::ValueTree newTree{ Ids::audioBuffer };
-		newTree
-			.setProperty(Ids::active, true, nullptr)
+		newTree.setProperty(Ids::active, true, nullptr)
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr)
 			.setProperty(Ids::lowSample, startSample, nullptr)
 			.setProperty(Ids::highSample, endSample, nullptr);
-		fileTree.getChild(parentAudioSourceIndex).addChild(newTree, -1, nullptr);
-		return newTree;
+		auto parentTree = fileTree.getChild(parentAudioSourceIndex);
+		parentTree.addChild(newTree, -1, nullptr);
+		auto addedTree = parentTree.getChild(parentTree.getNumChildren() - 1);
+		addedTree.sendPropertyChangeMessage(Ids::x);
+		addedTree.sendPropertyChangeMessage(Ids::y);
 	}
 
 	void generateSampleSections(int audioFileTreeId, int numberOfSections, int numSamplesInFile)
