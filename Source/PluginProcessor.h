@@ -7,9 +7,9 @@
 */
 
 #pragma once
-#define NUM_NODES 4
-#define DUMMYSAMPLERATE 48000
-#define CPGSAMPLERATE 10000
+constexpr auto NUM_NODES = 4;
+constexpr auto DUMMYSAMPLERATE = 48000;
+constexpr auto CPGSAMPLERATE = 10000;
 
 #include <JuceHeader.h>
 #include <vector>
@@ -62,34 +62,38 @@ public:
 
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
 	void removeGrainGenerator(int indexToRemove) override;
+
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
+
 	void connectionCreated(int from, int to) override;
 	void connectionRemoved(int from, int to) override;
+
 	void addAudioFile(juce::ValueTree newAudioSource) override;
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
-	juce::AudioProcessorValueTreeState::ParameterLayout createLayout();
+
+	void connectionWeightChanged(int from, int to, float weight) override;
 private:
 	void copyValueTreesFromXmlString();
+	void fillValueTreesFromXmlElement(const juce::XmlElement& xmlElement);
 
-	juce::AudioProcessorValueTreeState apvts;
-	juce::ValueTree vTree;
+	juce::ValueTree paramTree;
 	juce::ValueTree fileTree;
 	juce::ValueTree genTree;
 	juce::ValueTree connectionTree;
+
 	CPGNetwork cpgNetwork;
 	juce::OwnedArray<GrainGenerator> generators;
 	juce::OwnedArray<MyAudioBuffer> allSounds;
 	juce::OwnedArray<AudioFile> fileBuffers;
+
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<PositionListener> positionListener;
 	std::unique_ptr<ConnectionListener> connectionListener;
 	std::unique_ptr<ConnectionChangeListener> connectionChangeListener;
+
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;
 	JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(ScreenAudioProcessor)
-
-		// Inherited via IConnectionHandler
-		virtual void connectionWeightChanged(int from, int to, float weight) override;
 };

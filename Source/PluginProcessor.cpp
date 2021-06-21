@@ -22,56 +22,25 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 #endif
 	)
 #endif
-	, apvts(*this, nullptr, juce::Identifier{ "ParamTree" }, {})
-	, vTree("ParamTree")
+	, paramTree("ParamTree")
 	, fileTree(Ids::fileTree)
 	, genTree(Ids::genTree)
 	, connectionTree(Ids::connectionTree)
-	,cpgNetwork(genTree, CPGSAMPLERATE)
+	, cpgNetwork(genTree, CPGSAMPLERATE)
 {
 	formatManager.registerBasicFormats();
 
-	vTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
-	vTree.addChild(genTree, TreeChildren::genTree, nullptr);
-	vTree.addChild(connectionTree, TreeChildren::connectionTree, nullptr);
+	paramTree.addChild(fileTree, TreeChildren::fileTree, nullptr);
+	paramTree.addChild(genTree, TreeChildren::genTree, nullptr);
+	paramTree.addChild(connectionTree, TreeChildren::connectionTree, nullptr);
 
 	fileListener.reset(new FileListener(this, fileTree));
 	genListener.reset(new GenListener(this, genTree));
 	positionListener.reset(new PositionListener(this, genTree, fileTree));
 	connectionListener.reset(new ConnectionListener(this, connectionTree));
 	connectionChangeListener.reset(new ConnectionChangeListener(this, connectionTree, genTree));
+
 	copyValueTreesFromXmlString();
-}
-
-void ScreenAudioProcessor::copyValueTreesFromXmlString()
-{
-	juce::File testTree("C:\\Users\\Alex\\Documents\\GitHub\\Screen\\Source\\testTree.txt");
-	if (testTree.existsAsFile())
-	{
-		auto xmlElement = juce::parseXML(testTree);
-		auto newTree = vTree.fromXml(xmlElement->toString());
-
-		for (auto child : newTree.getChild(TreeChildren::genTree))
-		{
-			genTree.addChild(child.createCopy(), genTree.getNumChildren(), nullptr);
-		}
-
-		for (auto child : newTree.getChild(TreeChildren::fileTree))
-		{
-			auto fileChildWithoutChildren = child.createCopy();
-			fileChildWithoutChildren.removeAllChildren(nullptr);
-			fileTree.addChild(fileChildWithoutChildren.createCopy(), fileTree.getNumChildren(), nullptr);
-			for (auto buffer : child)
-			{
-				fileTree.getChild(newTree.getChild(TreeChildren::fileTree).indexOf(child)).addChild(buffer.createCopy(), -1, nullptr);
-			}
-		}
-
-		for (auto child : newTree.getChild(TreeChildren::connectionTree))
-		{
-			connectionTree.addChild(child.createCopy(), connectionTree.getNumChildren(), nullptr);
-		}
-	}
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -187,7 +156,7 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 		}
 	}
 
-	for (unsigned triggeredNode : cpgNetwork.triggeredNodes) 
+	for (auto triggeredNode : cpgNetwork.triggeredNodes) 
 	{
 		auto generator = generators[triggeredNode];
 		if(generator != nullptr)
@@ -196,22 +165,12 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 		}
 	}
 
+	cpgNetwork.triggeredNodes.clear();
+	
 	for (auto grainGen : generators) 
 	{
 		grainGen->fillNextBuffer(&buffer);
 	}
-
-	cpgNetwork.triggeredNodes.clear();
-	/*for (auto grainGen : generators)
-	{
-		if (grainGen->shouldPlayGrain()) {
-			grainGen->playGrain();
-		}
-		grainGen->fillNextBuffer(&buffer);
-	}
-	if (counter % 500 == 0) {
-		DBG(vTree.toXmlString());
-	}*/
 }
 
 //==============================================================================
@@ -222,21 +181,22 @@ bool ScreenAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* ScreenAudioProcessor::createEditor()
 {
-	return new ScreenAudioProcessorEditor(*this, vTree);
+	return new ScreenAudioProcessorEditor(*this, paramTree);
 }
 
 //==============================================================================
 void ScreenAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
-	// You should use this method to store your parameters in the memory block.
-	// You could do that either as raw data, or use the XML or ValueTree classes
-	// as intermediaries to make it easy to save and load complex data.
+	std::unique_ptr<juce::XmlElement> xml (paramTree.createXml());
+	copyXmlToBinary(*xml, destData);
 }
 
 void ScreenAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-	// You should use this method to restore your parameters from this memory block,
-	// whose contents will have been created by the getStateInformation() call.
+	std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+	if (xmlState.get() != nullptr)
+		if (xmlState->hasTagName(paramTree.getType()))
+			fillValueTreesFromXmlElement(*xmlState);
 }
 
 //==============================================================================
@@ -276,13 +236,6 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	}
 }
 
-juce::AudioProcessorValueTreeState::ParameterLayout ScreenAudioProcessor::createLayout()
-{
-	juce::AudioProcessorValueTreeState::ParameterLayout params;
-	return params;
-}
-
-
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
 	auto generator = generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
@@ -312,6 +265,7 @@ void ScreenAudioProcessor::connectionCreated(int from, int to)
 {
 	cpgNetwork.setConnection(from, to, 5);
 }
+
 void ScreenAudioProcessor::connectionRemoved(int from, int to) 
 {
 	DBG("OIOIO");
@@ -320,5 +274,40 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
 	cpgNetwork.setConnection(from, to, weight);
+}
+
+void ScreenAudioProcessor::copyValueTreesFromXmlString()
+{
+	juce::File testTree("C:\\Users\\Alex\\Documents\\GitHub\\Screen\\Source\\testTree.txt");
+	if (testTree.existsAsFile())
+	{
+		fillValueTreesFromXmlElement(*juce::parseXML(testTree));
+	}
+}
+
+void ScreenAudioProcessor::fillValueTreesFromXmlElement(const juce::XmlElement& xmlElement)
+{
+	auto newTree = paramTree.fromXml(xmlElement.toString());
+
+	for (auto child : newTree.getChild(TreeChildren::genTree))
+	{
+		genTree.addChild(child.createCopy(), genTree.getNumChildren(), nullptr);
+	}
+
+	for (auto child : newTree.getChild(TreeChildren::fileTree))
+	{
+		auto fileChildWithoutChildren = child.createCopy();
+		fileChildWithoutChildren.removeAllChildren(nullptr);
+		fileTree.addChild(fileChildWithoutChildren.createCopy(), fileTree.getNumChildren(), nullptr);
+		for (auto buffer : child)
+		{
+			fileTree.getChild(newTree.getChild(TreeChildren::fileTree).indexOf(child)).addChild(buffer.createCopy(), -1, nullptr);
+		}
+	}
+
+	for (auto child : newTree.getChild(TreeChildren::connectionTree))
+	{
+		connectionTree.addChild(child.createCopy(), connectionTree.getNumChildren(), nullptr);
+	}
 }
 
