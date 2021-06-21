@@ -42,6 +42,7 @@ public:
 		groupDragMouseListener.reset(new GroupDragMouseListener());
 		this->addMouseListener(connectionDragMouseListener.get(), true);
 		this->addAndMakeVisible(lasso);
+		this->setInterceptsMouseClicks(true, false);
 		groupDragMouseListener->draggableItemSet.addChangeListener(this);
 		genTree.addListener(this);
 	}
@@ -189,14 +190,14 @@ public:
 	{
 		for (auto& genVis : generatorVis)
 		{
-			if (area.contains(genVis->getBounds()))
+			if (area.intersects(genVis->getBounds()))
 			{
 				itemsFound.add(genVis);
 			}
 		}
 		for (auto& fileVis : audioFileVis)
 		{
-			if (area.contains(fileVis->getBounds()))
+			if (area.intersects(fileVis->getBounds()))
 			{
 				itemsFound.add(fileVis);
 			}

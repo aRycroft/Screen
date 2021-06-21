@@ -70,13 +70,15 @@ public:
 	void mouseUp(const juce::MouseEvent& event) override
 	{
 		auto* audioBufferVis = dynamic_cast <AudioBufferSelectorVis*> (event.eventComponent);
-		if (audioBufferVis != nullptr && checkAudioBufferVisIsInMainPanel(audioBufferVis))
+		if (audioBufferVis != nullptr && audioBufferVisIsInMainPanel(audioBufferVis)) 
+		{
 			createAudioBufferValueTree(vTree.getChildWithName(Ids::fileTree),
 				audioBufferVis->audioFileTreeId,
-				(float)audioBufferVis->getX() / mainPanel->getWidth(),
-				(float)audioBufferVis->getY() / mainPanel->getHeight(),
+				(float) audioBufferVis->getX() / mainPanel->getWidth(),
+				(float) audioBufferVis->getY() / mainPanel->getHeight(),
 				audioBufferVis->lowSample,
 				audioBufferVis->highSample);
+		}
 		layoutSampleSections();
 	}
 
@@ -119,7 +121,7 @@ private:
 		fb.performLayout(sampleSelector->getBounds().toFloat());
 	}
 
-	bool checkAudioBufferVisIsInMainPanel(AudioBufferSelectorVis* audioBuffer)
+	bool audioBufferVisIsInMainPanel(AudioBufferSelectorVis* audioBuffer)
 	{
 		auto position = audioBuffer->getPosition();
 		auto mainPanelBounds = mainPanel->getScreenBounds();

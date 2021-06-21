@@ -1,9 +1,9 @@
 /*
   ==============================================================================
 
-    GroupDragMouseListener.h
-    Created: 24 Mar 2021 7:16:54pm
-    Author:  Alex
+	GroupDragMouseListener.h
+	Created: 24 Mar 2021 7:16:54pm
+	Author:  Alex
 
   ==============================================================================
 */
@@ -14,13 +14,18 @@
 class GroupDragMouseListener : public juce::MouseListener
 {
 public:
-    GroupDragMouseListener()
-    {
-            
-    }
+	GroupDragMouseListener()
+	{
+
+	}
 
 	void mouseDown(const juce::MouseEvent& e) override
 	{
+		auto draggableComponent = dynamic_cast <DraggableComponent*> (e.eventComponent);
+		if (!draggableItemSet.isSelected(draggableComponent))
+		{
+			draggableItemSet.deselectAll();
+		}
 		for (auto component : draggableItemSet)
 		{
 			if (component != e.eventComponent)
@@ -32,14 +37,14 @@ public:
 
 	void mouseDrag(const juce::MouseEvent& e) override
 	{
-		for (auto component : draggableItemSet) 
+		for (auto component : draggableItemSet)
 		{
-			if (component != e.eventComponent) 
+			if (component != e.eventComponent)
 			{
 				component->mouseDrag(e);
 			}
 		}
 	}
 
-    juce::SelectedItemSet<DraggableComponent*> draggableItemSet;
+	juce::SelectedItemSet<DraggableComponent*> draggableItemSet;
 };
