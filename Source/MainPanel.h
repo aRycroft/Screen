@@ -19,7 +19,6 @@
 #include "IAudioFileHandler.h"
 #include "IConnectionDragHandler.h"
 #include "GroupDragMouseListener.h"
-#include "Utils.h"
 
 class MainPanel :
 	public juce::Component,
@@ -55,22 +54,22 @@ public:
 		{
 			auto fromGrainGen = generatorVis[tree[Ids::from]];
 			auto toGrainGen = generatorVis[tree[Ids::to]];
-			auto line = new juce::Line<int>{ fromGrainGen->getPosition(), toGrainGen->getPosition() };
-			g.drawArrow(line->toFloat(), 10.0f, 50.0f, 10.0f);
+			auto line = calculateConnectionLine(*fromGrainGen, *toGrainGen).toFloat();
+			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
 
 		if (grainGenIsConnectionDragging)
 		{
-			auto grainGenPosition = grainGenThatIsDragging->getPosition();
-			auto line = new juce::Line<int>{ grainGenPosition, this->getMouseXYRelative() };
-			g.drawArrow(line->toFloat(), 10.0f, 50.0f, 10.0f);
+			auto grainGenPosition = util::getPointOnEdge(*grainGenThatIsDragging) + grainGenThatIsDragging->getPosition().toFloat();
+			auto line = juce::Line<float>{ grainGenPosition, this->getMouseXYRelative().toFloat() };
+			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
 	}
 
 	void resized() override
 	{
 		for (auto grainVis : generatorVis) {
-			grainVis->setBounds(grainVis->calculateBounds().reduced(1).toNearestInt());
+			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
 		}
 	}
 
@@ -188,13 +187,16 @@ public:
 
 	void findLassoItemsInArea(juce::Array<DraggableComponent*>& itemsFound, const juce::Rectangle<int>& area) override 
 	{
-		for (auto& genVis : generatorVis)
+		for (GrainGeneratorVis* genVis : generatorVis)
 		{
-			if (area.intersects(genVis->getBounds()))
+			auto bounds = genVis->getBounds();
+			auto nearestPoint = area.getConstrainedPoint(bounds.getCentre());
+			if (genVis->hitTest(nearestPoint.getX() - bounds.getX(), nearestPoint.getY() - bounds.getY()))
 			{
 				itemsFound.add(genVis);
 			}
 		}
+
 		for (auto& fileVis : audioFileVis)
 		{
 			if (area.intersects(fileVis->getBounds()))
@@ -280,6 +282,17 @@ private:
 				}
 			}
 		}
+	}
+
+	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to) 
+	{
+		auto fromCentre = from.getBounds().getCentre();
+		auto toCentre = to.getBounds().getCentre();
+		auto fromAngle = fromCentre.getAngleToPoint(toCentre);
+		auto toAngle = fromAngle - juce::MathConstants<float>::pi;
+		auto fromCentreOnEdge = juce::Line<double>::fromStartAndAngle(fromCentre.toDouble(), 25, fromAngle).getEnd();
+		auto toCentreOnEdge = juce::Line<double>::fromStartAndAngle(toCentre.toDouble(), 25, toAngle).getEnd();
+		return juce::Line<int>{ fromCentreOnEdge.toInt(), toCentreOnEdge.toInt()};
 	}
 
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;

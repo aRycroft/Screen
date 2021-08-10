@@ -15,7 +15,6 @@ constexpr auto CPGSAMPLERATE = 10000;
 #include <vector>
 #include "Grain.h"
 #include "GrainGenerator.h"
-#include "Utils.h"
 #include "AudioBuffer.h"
 #include "AudioFile.h"
 #include "IGrainGenHandler.h"

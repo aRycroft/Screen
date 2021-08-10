@@ -11,7 +11,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include "DraggableComponent.h"
-#include "ConnectionSelector.h"
 
 class GrainGeneratorVis : public DraggableComponent, public juce::Slider::Listener
 {
@@ -27,26 +26,31 @@ public:
 		frequencySlider.setInterceptsMouseClicks(false, false);
 		frequencySlider.setSliderStyle(juce::Slider::SliderStyle::LinearVertical);
 		frequencySlider.addListener(this);
-
-		this->addAndMakeVisible(connectionSelector);
-		connectionSelector.setInterceptsMouseClicks(false, false);
 	}
 
 	void paintOverChildren(juce::Graphics& g) override
 	{
+		g.setColour(juce::Colours::green);
+		g.fillEllipse(getLocalBounds().reduced(5).toFloat());
+
 		if (selected)
 			g.setColour(juce::Colours::darkcyan);
 		else
 			g.setColour(juce::Colours::black);
-		g.fillRoundedRectangle(getLocalBounds().reduced(5).toFloat(), 100.0f);
+		g.fillEllipse(getLocalBounds().reduced(innerCircleReduction).toFloat());
 		g.setColour(juce::Colours::white);
 		g.drawText(paramTree[Ids::frequency].toString(), getLocalBounds(), juce::Justification::centred);
+		g.setColour(juce::Colours::green);
+
+		if (mouseIn) {
+			auto pointToDraw = util::getPointOnEdge(*this);
+			g.fillEllipse(pointToDraw.getX() - 5, pointToDraw.getY() - 5, 10, 10);
+		}
 	}
 
 	void resized() override
 	{
 		frequencySlider.setBounds(0, 0, getWidth() * 4, getHeight() * 4);
-		connectionSelector.setBounds(getLocalBounds());
 	}
 
 	juce::ValueTree getValueTree()
@@ -60,7 +64,7 @@ public:
 		{
 			frequencySlider.mouseDown(event);
 		}
-		else if(mouseDownOnEdge(event))
+		else if (mouseIn)
 		{
 			connectionDrag = true;
 		}
@@ -70,13 +74,19 @@ public:
 		}
 	}
 
+	bool hitTest(int x, int y) override
+	{
+		int radius = getLocalBounds().getWidth() / 2;
+		return pointIsInCircle(x, y, radius);
+	}
+
 	void mouseDrag(const juce::MouseEvent& event) override
 	{
 		if (event.mods.isRightButtonDown())
 		{
 			frequencySlider.mouseDrag(event);
 		}
-		else if (!connectionDrag) 
+		else if (!connectionDrag)
 		{
 			DraggableComponent::mouseDrag(event);
 		}
@@ -87,6 +97,35 @@ public:
 		connectionDrag = false;
 	}
 
+	void mouseEnter(const juce::MouseEvent& event) override
+	{
+		auto point = event.getPosition();
+		if (!pointIsInCircle(point.x, point.y, getLocalBounds().reduced(5).getWidth() / 2 - innerCircleReduction))
+		{
+			mouseIn = true;
+		}
+	}
+
+	void mouseMove(const juce::MouseEvent& event) override
+	{
+		auto point = event.getPosition();
+		if (!pointIsInCircle(point.x, point.y, getLocalBounds().reduced(5).getWidth() / 2 - innerCircleReduction))
+		{
+			mouseIn = true;
+		}
+		else 
+		{
+			mouseIn = false;
+		}
+		repaint();
+	}
+
+	void mouseExit(const juce::MouseEvent& event) override
+	{
+		mouseIn = false;
+		repaint();
+	}
+
 	void sliderValueChanged(juce::Slider* slider) override
 	{
 		paramTree.setProperty(Ids::frequency, slider->getValue(), nullptr);
@@ -94,15 +133,21 @@ public:
 
 	bool mouseDownOnEdge(const juce::MouseEvent& event)
 	{
-		auto bounds = getLocalBounds();
-		auto visBounds = getLocalBounds().reduced(5);
-		auto position = event.getPosition();
-		return !visBounds.contains(position) && bounds.contains(position);
+		auto point = event.getPosition();
+		return !pointIsInCircle(point.x, point.y, getLocalBounds().getWidth() / 2 - innerCircleReduction);
 	}
 
 	bool connectionDrag{ false };
+
+	bool pointIsInCircle(int x, int y, int radius)
+	{
+		int centreX, centreY;
+		centreX = centreY = getLocalBounds().getWidth() / 2;
+		return juce::square(x - centreX) + juce::square(y - centreY) < juce::square(radius);
+	}
 private:
 	juce::ValueTree paramTree;
 	juce::Slider frequencySlider;
-	ConnectionSelector connectionSelector;
+	int innerCircleReduction = 10;
+	bool mouseIn = false;
 };

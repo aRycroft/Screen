@@ -11,7 +11,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include "IConnectionHandler.h"
-#include "Utils.h"
 
 class ConnectionChangeListener : public juce::ValueTree::Listener 
 {

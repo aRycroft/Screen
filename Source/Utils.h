@@ -44,36 +44,16 @@ namespace Ids
 }
 
 
-namespace util {
-    static void fillAudioBufferWithValue(juce::AudioBuffer<float>* bufferToFill, float value)
+namespace util 
+{
+    static juce::Point<float> getPointOnEdge(juce::Component& component)
     {
-        for (int i{ 0 }; i < bufferToFill->getNumSamples(); i++) {
-            for (int channel{ 0 }; channel < bufferToFill->getNumChannels(); channel++) {
-                bufferToFill->setSample(channel, i, value);
-            }
-        }
-    }
-
-    static juce::ValueTree createSourceValueTree(int sourceID, juce::String relativePath)
-    {
-        juce::ValueTree sourceTree{ juce::String{sourceID} };
-        sourceTree.setProperty(Ids::relativePath, relativePath, nullptr);
-        return sourceTree;
-    }
-
-    static void addAudioFileToTree(juce::ValueTree* sourceTree,
-        int x,
-        int y,
-        int lowSample,
-        int highSample
-    )
-    {
-        juce::ValueTree newAudioFileTree(Ids::audioFile);
-        newAudioFileTree.setProperty("x", x, nullptr);
-        newAudioFileTree.setProperty("y", y, nullptr);
-        newAudioFileTree.setProperty(Ids::lowSample, lowSample, nullptr);
-        newAudioFileTree.setProperty(Ids::highSample, highSample, nullptr);
-        sourceTree->addChild(newAudioFileTree, sourceTree->getNumChildren(), nullptr);
+        auto mousePoint = component.getMouseXYRelative().toFloat();
+        auto centre = component.getLocalBounds().getCentre().toFloat();
+        auto radius = component.getLocalBounds().getWidth() / 2.0 - 7.5;
+        auto angle = centre.getAngleToPoint(mousePoint);
+        auto line = juce::Line<float>::fromStartAndAngle(centre, radius, angle);
+        return line.getEnd();
     }
 }
 

@@ -17,7 +17,7 @@ public:
 	void paint(juce::Graphics& g) override
 	{
 		g.setColour(juce::Colours::green);
-		g.fillRoundedRectangle(getLocalBounds().toFloat(), 100.0f);
+		g.fillRect(getLocalBounds().toFloat());
 	}
 
 	void resized() override

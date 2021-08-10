@@ -10,7 +10,7 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "Utils.h"
+
 constexpr auto DISTANCE = 0.1;
 
 class PositionListener : public juce::ValueTree::Listener
