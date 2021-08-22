@@ -37,6 +37,7 @@ public:
 	void syncState()
 	{
 		mainPanel->sendChangeMessagesOnValueTree();
+		mainPanel->resized();
 	}
 
 	void resized() override

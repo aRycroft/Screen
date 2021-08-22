@@ -66,7 +66,7 @@ public:
 			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
 
-		for (auto fileVis : audioFileVis) 
+		for (auto fileVis : audioFileVis)
 		{
 			auto position = fileVis->getPosition();
 			auto distance = fileVis->getValueTreeProperty(Ids::distance);
@@ -81,11 +81,11 @@ public:
 
 	void resized() override
 	{
-		for (auto grainVis : generatorVis) 
+		for (auto grainVis : generatorVis)
 		{
 			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
 		}
-		for (auto fileVis : audioFileVis) 
+		for (auto fileVis : audioFileVis)
 		{
 			fileVis->setBounds(fileVis->calculateBounds().toNearestInt());
 		}
@@ -171,7 +171,7 @@ public:
 
 	void connectionDrag() override
 	{
-		if (grainGenIsConnectionDragging) 
+		if (grainGenIsConnectionDragging)
 		{
 			repaint();
 		}
@@ -179,17 +179,17 @@ public:
 
 	void endConnectionDrag(const juce::MouseEvent& event) override
 	{
-		if (grainGenIsConnectionDragging) 
+		if (grainGenIsConnectionDragging)
 		{
 			GrainGeneratorVis* clickedGrainGen = nullptr;
-			for (auto genVis : generatorVis) 
+			for (auto genVis : generatorVis)
 			{
-				if (genVis->getBoundsInParent().contains(this->getMouseXYRelative())) 
+				if (genVis->getBoundsInParent().contains(this->getMouseXYRelative()))
 				{
 					clickedGrainGen = genVis;
 				}
 			}
-			if (clickedGrainGen != 0) 
+			if (clickedGrainGen != 0 && grainGenThatIsDragging != clickedGrainGen)
 			{
 				createConnectionValueTree(generatorVis.indexOf(grainGenThatIsDragging), generatorVis.indexOf(clickedGrainGen));
 			}
@@ -198,7 +198,7 @@ public:
 		}
 	};
 
-	void findLassoItemsInArea(juce::Array<DraggableComponent*>& itemsFound, const juce::Rectangle<int>& area) override 
+	void findLassoItemsInArea(juce::Array<DraggableComponent*>& itemsFound, const juce::Rectangle<int>& area) override
 	{
 		for (GrainGeneratorVis* genVis : generatorVis)
 		{
@@ -226,13 +226,13 @@ public:
 
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override
 	{
-		for (auto gen : generatorVis) 
+		for (auto gen : generatorVis)
 		{
-			if (groupDragMouseListener->draggableItemSet.isSelected(gen)) 
+			if (groupDragMouseListener->draggableItemSet.isSelected(gen))
 			{
 				gen->selected = true;
 			}
-			else 
+			else
 			{
 				gen->selected = false;
 			}
@@ -269,11 +269,11 @@ private:
 		return newTree;
 	}
 
-	void createConnectionValueTree(int from , int to)
+	void createConnectionValueTree(int from, int to)
 	{
 		for (auto tree : connectionTree)
 		{
-			if ((int) tree[Ids::from] == from && (int) tree[Ids::to] == to)
+			if ((int)tree[Ids::from] == from && (int)tree[Ids::to] == to)
 			{
 				return;
 			}
@@ -291,9 +291,9 @@ private:
 		if (property == Ids::x || property == Ids::y)
 		{
 			int indexOfGenVis = genTree.indexOf(treeWhosePropertyHasChanged);
-			for (auto child : connectionTree) 
+			for (auto child : connectionTree)
 			{
-				if (indexOfGenVis == (int) child[Ids::from] || indexOfGenVis == (int) child[Ids::to])
+				if (indexOfGenVis == (int)child[Ids::from] || indexOfGenVis == (int)child[Ids::to])
 				{
 					child.sendPropertyChangeMessage(Ids::weight);
 				}
@@ -301,7 +301,7 @@ private:
 		}
 	}
 
-	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to) 
+	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
 	{
 		auto fromCentre = from.getBounds().getCentre();
 		auto toCentre = to.getBounds().getCentre();

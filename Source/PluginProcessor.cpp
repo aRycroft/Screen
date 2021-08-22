@@ -263,17 +263,23 @@ void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int 
 
 void ScreenAudioProcessor::connectionCreated(int from, int to) 
 {
-	cpgNetwork.setConnection(from, to, 5);
+	if (from != to) {
+		cpgNetwork.setConnection(from, to, 5);
+	}
 }
 
 void ScreenAudioProcessor::connectionRemoved(int from, int to) 
 {
-	DBG("OIOIO");
+	if (from != to) {
+		cpgNetwork.removeConnection(from, to);
+	}
 }
 
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
-	cpgNetwork.setConnection(from, to, weight);
+	if (from != to) {
+		cpgNetwork.setConnection(from, to, weight);
+	}
 }
 
 void ScreenAudioProcessor::copyValueTreesFromXmlString()
