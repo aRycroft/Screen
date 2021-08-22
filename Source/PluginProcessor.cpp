@@ -208,7 +208,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 {
-	auto filePath = newAudioSource.getProperty(Ids::relativePath);
+	auto& filePath = newAudioSource.getProperty(Ids::relativePath);
 	juce::File newAudioFile{ filePath };
 	if (newAudioFile.existsAsFile()) 
 	{

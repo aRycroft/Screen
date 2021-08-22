@@ -39,6 +39,7 @@ public:
 		fileListener.reset(new FileListener(this, fileTree));
 		connectionDragMouseListener.reset(new ConnectionDragMouseListener(this));
 		groupDragMouseListener.reset(new GroupDragMouseListener());
+
 		this->addMouseListener(connectionDragMouseListener.get(), true);
 		this->addAndMakeVisible(lasso);
 		this->setInterceptsMouseClicks(true, false);
@@ -64,12 +65,58 @@ public:
 			auto line = juce::Line<float>{ grainGenPosition, this->getMouseXYRelative().toFloat() };
 			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
+
+		for (auto fileVis : audioFileVis) 
+		{
+			auto position = fileVis->getPosition();
+			auto distance = fileVis->getValueTreeProperty(Ids::distance);
+			auto distanceRectangle = fileVis->calculateBounds();
+			distanceRectangle.setX(distanceRectangle.getX() - distance * getWidth() / 2);
+			distanceRectangle.setY(distanceRectangle.getY() - distance * getHeight() / 2);
+			distanceRectangle.setWidth(distanceRectangle.getWidth() + distance * getWidth());
+			distanceRectangle.setHeight(distanceRectangle.getHeight() + distance * getHeight());
+			g.drawRect(distanceRectangle);
+		}
 	}
 
 	void resized() override
 	{
-		for (auto grainVis : generatorVis) {
+		for (auto grainVis : generatorVis) 
+		{
 			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
+		}
+		for (auto fileVis : audioFileVis) 
+		{
+			fileVis->setBounds(fileVis->calculateBounds().toNearestInt());
+		}
+	}
+
+	void mouseDown(const juce::MouseEvent& event)
+	{
+		groupDragMouseListener->draggableItemSet.deselectAll();
+		lasso.beginLasso(event, this);
+	}
+
+	void mouseDrag(const juce::MouseEvent& event)
+	{
+		lasso.dragLasso(event);
+	}
+
+	void mouseUp(const juce::MouseEvent& event)
+	{
+		lasso.endLasso();
+	}
+
+	void mouseDoubleClick(const juce::MouseEvent& event) override
+	{
+		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
+
+		if (clickedGrainGen != 0) {
+			genTree.removeChild(clickedGrainGen->getValueTree(), nullptr);
+		}
+		else
+		{
+			genTree.addChild(createGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight()), -1, nullptr);
 		}
 	}
 
@@ -87,11 +134,6 @@ public:
 		generatorVis.remove(indexToRemove);
 	}
 
-	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
-
-	void addAudioFile(juce::ValueTree newAudioSource) override {};
-
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override
 	{
 		auto audioBuffer = audioFileVis.add(new AudioBufferVis(childOfSource));
@@ -99,35 +141,6 @@ public:
 		audioBuffer->setBounds(audioBuffer->calculateBounds().toNearestInt());
 		audioBuffer->addMouseListener(groupDragMouseListener.get(), false);
 	};
-
-	void mouseDown(const juce::MouseEvent& event)
-	{
-		groupDragMouseListener->draggableItemSet.deselectAll();
-		lasso.beginLasso(event, this);
-	}
-
-	void mouseDrag(const juce::MouseEvent& event)
-	{
-		lasso.dragLasso(event);
-	}
-
-	void mouseUp(const juce::MouseEvent& event) 
-	{
-		lasso.endLasso();
-	}
-
-	void mouseDoubleClick(const juce::MouseEvent& event) override
-	{
-		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
-
-		if (clickedGrainGen != 0) {
-			genTree.removeChild(clickedGrainGen->getValueTree(), nullptr);
-		}
-		else
-		{
-			genTree.addChild(createGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight()), -1, nullptr);
-		}
-	}
 
 	void sendChangeMessagesOnValueTree()
 	{
@@ -238,6 +251,10 @@ public:
 			gen->repaint();
 		}
 	}
+
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
+	void addAudioFile(juce::ValueTree newAudioSource) override {};
 private:
 	juce::ValueTree createGeneratorValueTree(float x, float y)
 	{
@@ -271,7 +288,7 @@ private:
 
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
 	{
-		if (property == Ids::x)
+		if (property == Ids::x || property == Ids::y)
 		{
 			int indexOfGenVis = genTree.indexOf(treeWhosePropertyHasChanged);
 			for (auto child : connectionTree) 

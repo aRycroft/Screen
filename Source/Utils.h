@@ -23,6 +23,7 @@ namespace Ids
     static juce::Identifier audioBuffer("audioBuffer");
     static juce::Identifier lowSample("lowSample");
     static juce::Identifier highSample("highSample");
+    static juce::Identifier distance("distance");
     /*FILE*/
     static juce::Identifier fileTree("fileTree");
     static juce::Identifier relativePath("relativePath");

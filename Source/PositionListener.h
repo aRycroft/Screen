@@ -11,8 +11,6 @@
 #pragma once
 #include <JuceHeader.h>
 
-constexpr auto DISTANCE = 0.1;
-
 class PositionListener : public juce::ValueTree::Listener
 {
 public:
@@ -46,7 +44,8 @@ public:
 		{
 			for (juce::ValueTree buffer : file)
 			{
-				if (isInRange(DISTANCE, treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
+				if (isInRange(buffer[Ids::distance],
+					treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
 					treeWhosePropertyHasChanged[Ids::y], buffer[Ids::y]))
 				{
 					_handler->addSoundToGrainGenerator(grainGenTree.indexOf(treeWhosePropertyHasChanged), fileTree.indexOf(file), file.indexOf(buffer));
@@ -64,7 +63,8 @@ public:
 		for (juce::ValueTree generator : grainGenTree)
 		{
 			auto audioFileTree = treeWhosePropertyHasChanged.getParent();
-			if (isInRange(DISTANCE, treeWhosePropertyHasChanged[Ids::x], generator[Ids::x],
+			if (isInRange(treeWhosePropertyHasChanged[Ids::distance], 
+				treeWhosePropertyHasChanged[Ids::x], generator[Ids::x],
 				treeWhosePropertyHasChanged[Ids::y], generator[Ids::y]))
 			{
 				_handler->addSoundToGrainGenerator(grainGenTree.indexOf(generator), 
@@ -79,9 +79,6 @@ public:
 			}
 		}
 	}
-
-
-
 
 private:
 	juce::ValueTree grainGenTree, fileTree;

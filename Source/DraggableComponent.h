@@ -10,17 +10,14 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "Utils.h"
 
 class DraggableComponent : public juce::Component
 {
 public:
 	DraggableComponent(){}
 
-	DraggableComponent(juce::ValueTree vTree)
-		: paramTree(vTree)
-	{
-		
-	}
+	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree) {}
 
 	void mouseDown(const juce::MouseEvent& e) override
 	{
@@ -47,24 +44,34 @@ public:
 
 		bounds.setX(x);
 		bounds.setY(y);
+
 		setBounds(bounds);
-		if (paramTree.isValid()) {
+
+		if (paramTree.isValid()) 
+		{
 			paramTree.setProperty(Ids::x, (float)bounds.getX() / (getParentWidth() - getWidth()), nullptr);
 			paramTree.setProperty(Ids::y, (float)bounds.getY() / (getParentHeight() - getHeight()), nullptr);
 		}
-		/*This is inefficient but it makes components move smoothly so who cares*/
+
 		getParentComponent()->repaint();
 	}
 
 	juce::Rectangle<float> calculateBounds(float size = 60)
 	{
-		if (paramTree.isValid()) {
-			return  juce::Rectangle<float>{ (float)paramTree.getProperty(Ids::x)* (this->getParentWidth() - getWidth()),
-				(float)paramTree.getProperty(Ids::y)* (getParentHeight() - getHeight()), size, size };
+		if (paramTree.isValid()) 
+		{
+			return  juce::Rectangle<float>{ (float) paramTree.getProperty(Ids::x) * (getParentWidth() - getWidth()),
+				(float) paramTree.getProperty(Ids::y)* (getParentHeight() - getHeight()), size, size };
 		}
 		return juce::Rectangle<float>();
 	}
+	
 	bool selected{ false };
+
+	float getValueTreeProperty(juce::Identifier key) 
+	{
+		return paramTree[key];
+	}
 protected:
 	juce::Point<int> mouseDownWithinTarget;
 private:
