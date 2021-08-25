@@ -13,7 +13,7 @@
 ScreenAudioProcessorEditor::ScreenAudioProcessorEditor(ScreenAudioProcessor& p, juce::ValueTree state)
 	: AudioProcessorEditor(&p), audioProcessor(p), vTree(state)
 {
-	screenGUI.reset(new ScreenGUI{vTree});
+	screenGUI = std::make_unique<ScreenGUI>(vTree);
 	addAndMakeVisible(*screenGUI);
 	setResizable(true, true);
 	setResizeLimits(200, 200, INT16_MAX, INT16_MAX);

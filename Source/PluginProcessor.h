@@ -83,7 +83,6 @@ private:
 
 	CPGNetwork cpgNetwork;
 	juce::OwnedArray<GrainGenerator> generators;
-	juce::OwnedArray<MyAudioBuffer> allSounds;
 	juce::OwnedArray<AudioFile> fileBuffers;
 
 	std::unique_ptr<FileListener> fileListener;

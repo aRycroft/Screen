@@ -68,6 +68,16 @@ public:
 	
 	bool selected{ false };
 
+	juce::ValueTree getValueTree() 
+	{
+		return paramTree;
+	}
+
+	void setValueTree(juce::ValueTree valueTree)
+	{
+		paramTree = valueTree;
+	}
+
 	float getValueTreeProperty(juce::Identifier key) 
 	{
 		return paramTree[key];

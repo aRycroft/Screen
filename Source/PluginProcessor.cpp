@@ -34,11 +34,11 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	paramTree.addChild(genTree, TreeChildren::genTree, nullptr);
 	paramTree.addChild(connectionTree, TreeChildren::connectionTree, nullptr);
 
-	fileListener.reset(new FileListener(this, fileTree));
-	genListener.reset(new GenListener(this, genTree));
-	positionListener.reset(new PositionListener(this, genTree, fileTree));
-	connectionListener.reset(new ConnectionListener(this, connectionTree));
-	connectionChangeListener.reset(new ConnectionChangeListener(this, connectionTree, genTree));
+	fileListener = std::make_unique<FileListener>(this, fileTree);
+	genListener = std::make_unique<GenListener>(this, genTree);
+	positionListener = std::make_unique<PositionListener>(this, genTree, fileTree);
+	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
+	connectionChangeListener = std::make_unique<ConnectionChangeListener>(this, connectionTree, genTree);
 
 	copyValueTreesFromXmlString();
 }
@@ -213,7 +213,7 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 	if (newAudioFile.existsAsFile()) 
 	{
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
-		auto* newBuffer = fileBuffers.add(new AudioFile());
+		auto* newBuffer = fileBuffers.add(std::make_unique<AudioFile>());
 
 		if (reader.get() != nullptr) {
 			newBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
@@ -229,16 +229,16 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 
 void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource)
 {
-	int bufferIndex = fileTree.indexOf(audioSource);
+	auto bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
 	if (buffer != nullptr) {
-		buffer->allSounds.add(new MyAudioBuffer( buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample]));
+		buffer->allSounds.add(std::make_unique<MyAudioBuffer>(buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample]));
 	}
 }
 
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
-	auto generator = generators.add(new GrainGenerator{ DUMMYSAMPLERATE, generatorValueTree });
+	auto generator = generators.add(std::make_unique<GrainGenerator>( DUMMYSAMPLERATE, generatorValueTree ));
 	generator->initParamTreeValues();
 	cpgNetwork.addNode(generators.size());
 	cpgNetwork.setNodeFrequency(generators.size(), 1000.0, false);

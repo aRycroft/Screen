@@ -19,6 +19,7 @@
 #include "IAudioFileHandler.h"
 #include "IConnectionDragHandler.h"
 #include "GroupDragMouseListener.h"
+#include "SelectedOption.h"
 
 class MainPanel :
 	public juce::Component,
@@ -31,20 +32,22 @@ class MainPanel :
 {
 public:
 	MainPanel(juce::ValueTree state)
-		:genTree(state.getChild(TreeChildren::genTree)),
+		: genTree(state.getChild(TreeChildren::genTree)),
 		fileTree(state.getChild(TreeChildren::fileTree)),
 		connectionTree(state.getChild(TreeChildren::connectionTree))
 	{
-		genListener.reset(new GenListener(this, genTree));
-		fileListener.reset(new FileListener(this, fileTree));
-		connectionDragMouseListener.reset(new ConnectionDragMouseListener(this));
-		groupDragMouseListener.reset(new GroupDragMouseListener());
+		genListener = std::make_unique<GenListener>(this, genTree);
+		fileListener = std::make_unique<FileListener>(this, fileTree);
+		connectionDragMouseListener = std::make_unique<ConnectionDragMouseListener>(this);
+		groupDragMouseListener = std::make_unique<GroupDragMouseListener>();
+		selectedOption = std::make_unique<SelectedOption>();
 
 		this->addMouseListener(connectionDragMouseListener.get(), true);
 		this->addAndMakeVisible(lasso);
 		this->setInterceptsMouseClicks(true, false);
 		groupDragMouseListener->draggableItemSet.addChangeListener(this);
 		genTree.addListener(this);
+		fileTree.addListener(this);
 	}
 
 	void paint(juce::Graphics& g) override
@@ -66,16 +69,9 @@ public:
 			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
 
-		for (auto fileVis : audioFileVis)
+		for (auto fileVis : audioBufferVis)
 		{
-			auto position = fileVis->getPosition();
-			auto distance = fileVis->getValueTreeProperty(Ids::distance);
-			auto distanceRectangle = fileVis->calculateBounds();
-			distanceRectangle.setX(distanceRectangle.getX() - distance * getWidth() / 2);
-			distanceRectangle.setY(distanceRectangle.getY() - distance * getHeight() / 2);
-			distanceRectangle.setWidth(distanceRectangle.getWidth() + distance * getWidth());
-			distanceRectangle.setHeight(distanceRectangle.getHeight() + distance * getHeight());
-			g.drawRect(distanceRectangle);
+			DrawBufferVisRectangle(fileVis, g);
 		}
 	}
 
@@ -85,7 +81,7 @@ public:
 		{
 			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
 		}
-		for (auto fileVis : audioFileVis)
+		for (auto fileVis : audioBufferVis)
 		{
 			fileVis->setBounds(fileVis->calculateBounds().toNearestInt());
 		}
@@ -122,7 +118,7 @@ public:
 
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override
 	{
-		auto genVis = generatorVis.add(new GrainGeneratorVis(generatorValueTree));
+		auto genVis = generatorVis.add(std::make_unique<GrainGeneratorVis>(generatorValueTree));
 		addAndMakeVisible(genVis);
 		genVis->setBounds(genVis->calculateBounds().toNearestInt());
 		genVis->addMouseListener(groupDragMouseListener.get(), false);
@@ -136,7 +132,7 @@ public:
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override
 	{
-		auto audioBuffer = audioFileVis.add(new AudioBufferVis(childOfSource));
+		auto audioBuffer = audioBufferVis.add(std::make_unique<AudioBufferVis>(childOfSource));
 		addAndMakeVisible(audioBuffer);
 		audioBuffer->setBounds(audioBuffer->calculateBounds().toNearestInt());
 		audioBuffer->addMouseListener(groupDragMouseListener.get(), false);
@@ -210,11 +206,11 @@ public:
 			}
 		}
 
-		for (auto& fileVis : audioFileVis)
+		for (auto& bufferVis : audioBufferVis)
 		{
-			if (area.intersects(fileVis->getBounds()))
+			if (area.intersects(bufferVis->getBounds()))
 			{
-				itemsFound.add(fileVis);
+				itemsFound.add(bufferVis);
 			}
 		}
 	}
@@ -226,32 +222,54 @@ public:
 
 	void changeListenerCallback(juce::ChangeBroadcaster* source) override
 	{
+		bool menuHasBeenSelected = false;
+		auto numSelected = groupDragMouseListener->draggableItemSet.getNumSelected();
+		if (numSelected == 0 || numSelected > 1)
+		{
+			selectedOption->setMenu(MenuOption::Sample);
+			menuHasBeenSelected = true;
+		}
+
+		int i = 0;
 		for (auto gen : generatorVis)
 		{
 			if (groupDragMouseListener->draggableItemSet.isSelected(gen))
 			{
 				gen->selected = true;
+				if (!menuHasBeenSelected)
+				{
+					selectedOption->selectedMenuId = i;
+					selectedOption->setMenu(MenuOption::GrainMenu);
+				}
 			}
 			else
 			{
 				gen->selected = false;
 			}
 			gen->repaint();
+			i++;
 		}
-		for (auto gen : audioFileVis)
+
+		for (auto buffer : audioBufferVis)
 		{
-			if (groupDragMouseListener->draggableItemSet.isSelected(gen))
+			if (groupDragMouseListener->draggableItemSet.isSelected(buffer))
 			{
-				gen->selected = true;
+				buffer->selected = true;
+				if (!menuHasBeenSelected)
+				{
+					selectedOption->valueTree = buffer->getValueTree();
+					selectedOption->setMenu(MenuOption::Buffer);
+				}
 			}
 			else
 			{
-				gen->selected = false;
+				buffer->selected = false;
 			}
-			gen->repaint();
+			buffer->repaint();
+			i++;
 		}
 	}
-
+	std::unique_ptr<SelectedOption> selectedOption;
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void addAudioFile(juce::ValueTree newAudioSource) override {};
@@ -271,13 +289,6 @@ private:
 
 	void createConnectionValueTree(int from, int to)
 	{
-		for (auto tree : connectionTree)
-		{
-			if ((int)tree[Ids::from] == from && (int)tree[Ids::to] == to)
-			{
-				return;
-			}
-		}
 		juce::ValueTree newTree{ Ids::connection };
 		newTree
 			.setProperty(Ids::from, from, nullptr)
@@ -288,17 +299,29 @@ private:
 
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
 	{
-		if (property == Ids::x || property == Ids::y)
+		if (treeWhosePropertyHasChanged == genTree) 
 		{
-			int indexOfGenVis = genTree.indexOf(treeWhosePropertyHasChanged);
-			for (auto child : connectionTree)
+			if (property == Ids::x || property == Ids::y)
 			{
-				if (indexOfGenVis == (int)child[Ids::from] || indexOfGenVis == (int)child[Ids::to])
+				int indexOfGenVis = genTree.indexOf(treeWhosePropertyHasChanged);
+				for (auto child : connectionTree)
 				{
-					child.sendPropertyChangeMessage(Ids::weight);
+					if (indexOfGenVis == (int)child[Ids::from] || indexOfGenVis == (int)child[Ids::to])
+					{
+						child.sendPropertyChangeMessage(Ids::weight);
+					}
 				}
 			}
 		}
+		else if (treeWhosePropertyHasChanged.getType() == Ids::audioBuffer) 
+		{
+			if (property == Ids::distance) 
+			{
+				repaint();
+			}
+		}
+
+
 	}
 
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
@@ -312,8 +335,20 @@ private:
 		return juce::Line<int>{ fromCentreOnEdge.toInt(), toCentreOnEdge.toInt()};
 	}
 
+	void DrawBufferVisRectangle(AudioBufferVis* fileVis, juce::Graphics& g)
+	{
+		auto position = fileVis->getPosition();
+		auto distance = fileVis->getValueTreeProperty(Ids::distance);
+		auto distanceRectangle = fileVis->calculateBounds();
+		g.drawRect(distanceRectangle
+			.withX(distanceRectangle.getX() - distance * getWidth() / 2)
+			.withY(distanceRectangle.getY() - distance * getHeight() / 2)
+			.withWidth(distanceRectangle.getWidth() + distance * getWidth())
+			.withHeight(distanceRectangle.getHeight() + distance * getHeight()));
+	}
+
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
-	juce::OwnedArray<AudioBufferVis> audioFileVis;
+	juce::OwnedArray<AudioBufferVis> audioBufferVis;
 	juce::ValueTree genTree, fileTree, connectionTree;
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;

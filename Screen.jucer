@@ -5,6 +5,16 @@
               pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth">
   <MAINGROUP id="qMqydQ" name="Screen">
     <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
+      <GROUP id="{4134314D-4F85-CF6D-95E9-48FE81C292F2}" name="Listeners">
+        <FILE id="gSWAGR" name="ConnectionListener.h" compile="0" resource="0"
+              file="Source/ConnectionListener.h"/>
+        <FILE id="PwaJli" name="PositionListener.h" compile="0" resource="0"
+              file="Source/PositionListener.h"/>
+        <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
+        <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
+        <FILE id="OqOjWD" name="ConnectionChangeListener.h" compile="0" resource="0"
+              file="Source/ConnectionChangeListener.h"/>
+      </GROUP>
       <GROUP id="{6FED0C61-2ADE-72EF-A77A-EF407A8FC343}" name="CPGLib-master">
         <FILE id="Uiu77p" name="core.cpp" compile="1" resource="0" file="Source/CPGLib-master/core.cpp"/>
         <FILE id="exZHWC" name="core.h" compile="0" resource="0" file="Source/CPGLib-master/core.h"/>
@@ -52,6 +62,12 @@
               file="Source/IGrainGenHandler.h"/>
       </GROUP>
       <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
+        <FILE id="B5Pnzo" name="GrainOptionsPanel.h" compile="0" resource="0"
+              file="Source/GrainOptionsPanel.h"/>
+        <FILE id="te0FRe" name="SelectedOption.h" compile="0" resource="0"
+              file="Source/SelectedOption.h"/>
+        <FILE id="qJtc3F" name="BufferOptionsPanel.h" compile="0" resource="0"
+              file="Source/BufferOptionsPanel.h"/>
         <FILE id="meBbyb" name="GroupDragMouseListener.h" compile="0" resource="0"
               file="Source/GroupDragMouseListener.h"/>
         <FILE id="Hi3GSl" name="DraggableComponentLassoSource.h" compile="0"
@@ -74,8 +90,6 @@
         <FILE id="fmnk5o" name="ScreenGUI.h" compile="0" resource="0" file="Source/ScreenGUI.h"/>
       </GROUP>
       <FILE id="QdYCSm" name="AudioFile.h" compile="0" resource="0" file="Source/AudioFile.h"/>
-      <FILE id="gSWAGR" name="ConnectionListener.h" compile="0" resource="0"
-            file="Source/ConnectionListener.h"/>
       <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="xKFMMH" name="PluginProcessor.h" compile="0" resource="0"
@@ -90,13 +104,7 @@
             file="Source/GrainGenerator.h"/>
       <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
             file="Source/AmplitudeEnvelope.h"/>
-      <FILE id="PwaJli" name="PositionListener.h" compile="0" resource="0"
-            file="Source/PositionListener.h"/>
-      <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
-      <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
       <FILE id="lhohPx" name="CPGNetwork.h" compile="0" resource="0" file="Source/CPGNetwork.h"/>
-      <FILE id="OqOjWD" name="ConnectionChangeListener.h" compile="0" resource="0"
-            file="Source/ConnectionChangeListener.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>

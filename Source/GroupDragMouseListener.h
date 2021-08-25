@@ -25,6 +25,7 @@ public:
 		if (!draggableItemSet.isSelected(draggableComponent))
 		{
 			draggableItemSet.deselectAll();
+			draggableItemSet.addToSelection(draggableComponent);
 		}
 		for (auto component : draggableItemSet)
 		{

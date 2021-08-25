@@ -12,26 +12,37 @@
 #include <JuceHeader.h>
 #include "MainPanel.h"
 #include "SampleSelector.h"
+#include "BufferOptionsPanel.h"
+#include "GrainOptionsPanel.h"
 #include "AudioBufferSelectorVis.h"
 constexpr auto NUMBEROFSECTIONS = 10;
 
 class ScreenGUI : public juce::Component,
 	public IAudioFileHandler,
-	public juce::MouseListener
+	public juce::MouseListener,
+	public juce::ChangeListener
 {
 public:
 	ScreenGUI(juce::ValueTree state)
 		: vTree(state)
 	{
-		fileListener.reset(new FileListener(this, state.getChildWithName(Ids::fileTree)));
+		fileListener = std::make_unique<FileListener>(this, state.getChildWithName(Ids::fileTree));
 
-		mainPanel.reset(new MainPanel{ state });
+		mainPanel = std::make_unique<MainPanel>(state);
 		addAndMakeVisible(*mainPanel);
 
-		sampleSelector.reset(new SampleSelector{ state.getChildWithName(Ids::fileTree) });
+		sampleSelector = std::make_unique<SampleSelector>(state.getChildWithName(Ids::fileTree));
 		addAndMakeVisible(*sampleSelector);
 
+		bufferOptionsPanel = std::make_unique<BufferOptionsPanel>();
+		addChildComponent(*bufferOptionsPanel);
+
+		grainOptionsPanel = std::make_unique<GrainOptionsPanel>();
+		addChildComponent(*grainOptionsPanel);
+
 		formatManager.registerBasicFormats();
+		
+		mainPanel->selectedOption->addChangeListener(this);
 	}
 
 	void syncState()
@@ -49,12 +60,40 @@ public:
 
 		grid.templateColumns = { Track(Fr(1)) };
 		grid.templateRows = { Track(Fr(4)), Track(Fr(1)) };
+		
+		hideAllPanels();
 
-		grid.items = { juce::GridItem(*mainPanel), juce::GridItem(*sampleSelector) };
-
+		switch (selectedMenu)
+		{
+		case MenuOption::Sample:
+			sampleSelector->setVisible(true);
+			showSampleSections(true);
+			grid.items = { juce::GridItem(*mainPanel), juce::GridItem(*sampleSelector) };
+			layoutSampleSections();
+			showSampleSections(true);
+			break;
+		case MenuOption::GrainMenu:
+			grainOptionsPanel->setVisible(true);
+			grainOptionsPanel->setValueTree(mainPanel->selectedOption->valueTree);
+			grid.items = { juce::GridItem(*mainPanel), juce::GridItem(*grainOptionsPanel) };
+			break;
+		case MenuOption::Buffer:
+			bufferOptionsPanel->setVisible(true);
+			bufferOptionsPanel->setValueTree(mainPanel->selectedOption->valueTree);
+			grid.items = { juce::GridItem(*mainPanel), juce::GridItem(*bufferOptionsPanel) };
+			break;
+		default:
+			break;
+		}
 		grid.performLayout(getLocalBounds());
+	}
 
-		layoutSampleSections();
+	void hideAllPanels()
+	{
+		bufferOptionsPanel->setVisible(false);
+		grainOptionsPanel->setVisible(false);
+		sampleSelector->setVisible(false);
+		showSampleSections(false);
 	}
 
 	void addAudioFile(juce::ValueTree newAudioSource) override
@@ -83,6 +122,12 @@ public:
 		layoutSampleSections();
 	}
 
+	void changeListenerCallback(juce::ChangeBroadcaster* source) override 
+	{
+		selectedMenu = mainPanel->selectedOption->getMenu();
+		resized();
+		repaint();
+	}
 private:
 	void createAudioBufferValueTree(juce::ValueTree fileTree, int parentAudioSourceIndex, float x, float y, int startSample, int endSample)
 	{
@@ -106,7 +151,15 @@ private:
 		int samplesPerSection = numSamplesInFile / numberOfSections;
 		for (int i = 0; i < numberOfSections; i++)
 		{
-			addAndMakeVisible(sampleSections.add(new AudioBufferSelectorVis(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection)));
+			addAndMakeVisible(sampleSections.add(std::make_unique<AudioBufferSelectorVis>(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection)));
+		}
+	}
+
+	void showSampleSections(bool shouldBeShown)
+	{
+		for (auto section : sampleSections)
+		{
+			section->setVisible(shouldBeShown);
 		}
 	}
 
@@ -132,8 +185,11 @@ private:
 
 	std::unique_ptr<MainPanel> mainPanel;
 	std::unique_ptr<SampleSelector> sampleSelector;
+	std::unique_ptr<BufferOptionsPanel> bufferOptionsPanel;
+	std::unique_ptr<GrainOptionsPanel> grainOptionsPanel;
 	std::unique_ptr<FileListener> fileListener;
 	juce::OwnedArray<AudioBufferSelectorVis> sampleSections;
 	juce::ValueTree vTree;
 	juce::AudioFormatManager formatManager;
+	MenuOption selectedMenu = MenuOption::Sample;
 };

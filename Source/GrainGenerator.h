@@ -10,9 +10,9 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include <vector>
 #include "Grain.h"
 #include "Utils.h"
-#include <vector>
 
 class GrainGenerator : public juce::ValueTree::Listener
 {
@@ -44,7 +44,7 @@ public:
 
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		for (auto grain : grains) {
+		for (auto grain : grains2) {
 			if (grain->isPlaying()) {
 				grain->fillNextBuffer(outputBuffer);
 			}
@@ -54,7 +54,7 @@ public:
 	void playGrain()
 	{
 		for (auto sound : activeSounds) {
-			for (auto grain : grains) {
+			for (auto grain : grains2) {
 				if (!grain->isPlaying()) {
 					grain->startPlaying(sound);
 					break;
@@ -84,7 +84,7 @@ public:
 private:
 	juce::ValueTree paramTree;
 	juce::Array<MyAudioBuffer*> activeSounds;
-	std::vector<Grain*> grains;
+	juce::OwnedArray<Grain> grains2;
 	int sampleRate;
 	int numVoices{ 0 };
 	unsigned counter{ 0 };
@@ -114,15 +114,15 @@ private:
 
 	void addGrainVoice()
 	{
-		grains.push_back(new Grain{});
+		grains2.add(std::make_unique<Grain>());
 		numVoices++;
 	}
 
 	void removeGrainVoice()
 	{
-		if (!grains.empty())
+		if (!grains2.isEmpty())
 		{
-			grains.pop_back();
+			grains2.removeLast(1);
 			numVoices--;
 		}
 	}

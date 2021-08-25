@@ -10,6 +10,8 @@
 
 #pragma once
 #include <JuceHeader.h>
+#include "IGrainGenHandler.h"
+#include "Utils.h"
 
 class PositionListener : public juce::ValueTree::Listener
 {
@@ -25,7 +27,7 @@ public:
 
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
 	{
-		if (property == Ids::x || property == Ids::y)
+		if (property == Ids::x || property == Ids::y || property == Ids::distance)
 		{
 			if (treeWhosePropertyHasChanged.hasType(Ids::generator))
 			{

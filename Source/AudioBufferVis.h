@@ -35,5 +35,10 @@ public:
 	void resized() override
 	{
 	}
+
+	void mouseUp(const juce::MouseEvent& event) override
+	{
+	}
+
 private:
 };
