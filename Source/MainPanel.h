@@ -69,9 +69,9 @@ public:
 			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
 		}
 
-		for (auto fileVis : audioBufferVis)
+		for (auto generatorVis : generatorVis)
 		{
-			DrawBufferVisRectangle(fileVis, g);
+			DrawGenVisDistanceCircle(generatorVis, g);
 		}
 	}
 
@@ -89,6 +89,7 @@ public:
 
 	void mouseDown(const juce::MouseEvent& event)
 	{
+
 		groupDragMouseListener->draggableItemSet.deselectAll();
 		lasso.beginLasso(event, this);
 	}
@@ -282,7 +283,8 @@ private:
 			.setProperty(Ids::numVoices, 100, nullptr)
 			.setProperty(Ids::frequency, 1000.0, nullptr)
 			.setProperty(Ids::x, x, nullptr)
-			.setProperty(Ids::y, y, nullptr);
+			.setProperty(Ids::y, y, nullptr)
+			.setProperty(Ids::distance, 0.1, nullptr);
 		genTree.addChild(newTree, -1, nullptr);
 		return newTree;
 	}
@@ -312,16 +314,11 @@ private:
 					}
 				}
 			}
-		}
-		else if (treeWhosePropertyHasChanged.getType() == Ids::audioBuffer) 
-		{
-			if (property == Ids::distance) 
+			else if (property == Ids::distance)
 			{
 				repaint();
 			}
 		}
-
-
 	}
 
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
@@ -335,16 +332,16 @@ private:
 		return juce::Line<int>{ fromCentreOnEdge.toInt(), toCentreOnEdge.toInt()};
 	}
 
-	void DrawBufferVisRectangle(AudioBufferVis* fileVis, juce::Graphics& g)
+	void DrawGenVisDistanceCircle(GrainGeneratorVis* grainVis, juce::Graphics& g)
 	{
-		auto position = fileVis->getPosition();
-		auto distance = fileVis->getValueTreeProperty(Ids::distance);
-		auto distanceRectangle = fileVis->calculateBounds();
-		g.drawRect(distanceRectangle
+		auto position = grainVis->getPosition();
+		auto distance = grainVis->getValueTreeProperty(Ids::distance);
+		auto distanceRectangle = grainVis->calculateBounds();
+		g.drawEllipse(distanceRectangle
 			.withX(distanceRectangle.getX() - distance * getWidth() / 2)
 			.withY(distanceRectangle.getY() - distance * getHeight() / 2)
 			.withWidth(distanceRectangle.getWidth() + distance * getWidth())
-			.withHeight(distanceRectangle.getHeight() + distance * getHeight()));
+			.withHeight(distanceRectangle.getHeight() + distance * getHeight()), 1.0f);
 	}
 
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;

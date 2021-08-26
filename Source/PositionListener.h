@@ -46,7 +46,7 @@ public:
 		{
 			for (juce::ValueTree buffer : file)
 			{
-				if (isInRange(buffer[Ids::distance],
+				if (isInRange(treeWhosePropertyHasChanged[Ids::distance],
 					treeWhosePropertyHasChanged[Ids::x], buffer[Ids::x],
 					treeWhosePropertyHasChanged[Ids::y], buffer[Ids::y]))
 				{
@@ -65,7 +65,7 @@ public:
 		for (juce::ValueTree generator : grainGenTree)
 		{
 			auto audioFileTree = treeWhosePropertyHasChanged.getParent();
-			if (isInRange(treeWhosePropertyHasChanged[Ids::distance], 
+			if (isInRange(generator[Ids::distance], 
 				treeWhosePropertyHasChanged[Ids::x], generator[Ids::x],
 				treeWhosePropertyHasChanged[Ids::y], generator[Ids::y]))
 			{

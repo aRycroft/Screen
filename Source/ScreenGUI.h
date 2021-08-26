@@ -136,8 +136,7 @@ private:
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr)
 			.setProperty(Ids::lowSample, startSample, nullptr)
-			.setProperty(Ids::highSample, endSample, nullptr)
-			.setProperty(Ids::distance, 0.1, nullptr);
+			.setProperty(Ids::highSample, endSample, nullptr);
 		auto parentTree = fileTree.getChild(parentAudioSourceIndex);
 		parentTree.addChild(newTree, -1, nullptr);
 		auto addedTree = parentTree.getChild(parentTree.getNumChildren() - 1);
