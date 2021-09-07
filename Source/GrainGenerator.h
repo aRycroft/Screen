@@ -32,19 +32,9 @@ public:
 		}
 	}
 
-	bool shouldPlayGrain()
-	{
-		if (!isActive) return false;
-
-		if (counter++ % 100 == 0) {
-			return true;
-		}
-		return false;
-	}
-
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		for (auto grain : grains2) {
+		for (auto grain : grains) {
 			if (grain->isPlaying()) {
 				grain->fillNextBuffer(outputBuffer);
 			}
@@ -54,7 +44,7 @@ public:
 	void playGrain()
 	{
 		for (auto sound : activeSounds) {
-			for (auto grain : grains2) {
+			for (auto grain : grains) {
 				if (!grain->isPlaying()) {
 					grain->startPlaying(sound);
 					break;
@@ -80,14 +70,12 @@ public:
 	}
 
 	bool isActive{ true };
-
 private:
 	juce::ValueTree paramTree;
 	juce::Array<MyAudioBuffer*> activeSounds;
-	juce::OwnedArray<Grain> grains2;
+	juce::OwnedArray<Grain> grains;
 	int sampleRate;
 	int numVoices{ 0 };
-	unsigned counter{ 0 };
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
@@ -114,15 +102,15 @@ private:
 
 	void addGrainVoice()
 	{
-		grains2.add(std::make_unique<Grain>());
+		grains.add(std::make_unique<Grain>(paramTree.getPropertyAsValue(Ids::jitter, nullptr)));
 		numVoices++;
 	}
 
 	void removeGrainVoice()
 	{
-		if (!grains2.isEmpty())
+		if (!grains.isEmpty())
 		{
-			grains2.removeLast(1);
+			grains.removeLast(1);
 			numVoices--;
 		}
 	}

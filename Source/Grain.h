@@ -15,9 +15,14 @@
 class Grain
 {
 public:
+	Grain(juce::Value jitter)
+	{
+		this->jitterValue.referTo(jitter);
+	}
+
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		if (grainSound->getMaxIndex() < currentSample + grainSound->getMinIndex()) 
+		if ((grainSound->getMaxIndex() + jitter) < currentSample + (grainSound->getMinIndex() + jitter)) 
 		{
 			isGrainPlaying = false;
 		}
@@ -28,7 +33,7 @@ public:
 			{
 				outputBuffer->setSample(channelIndex, i,
 					outputBuffer->getSample(channelIndex, i) +
-					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i));
+					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i, jitter));
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
@@ -37,6 +42,8 @@ public:
 	void startPlaying(MyAudioBuffer* bufferToPlay)
 	{
 		isGrainPlaying = true;
+		int jitterVal = jitterValue.getValue();
+		jitter = rng.nextInt(juce::Range<int>(-jitterVal, jitterVal));
 		currentSample = 0;
 		grainSound = bufferToPlay;
 	}
@@ -48,6 +55,8 @@ public:
 
 private:
 	bool isGrainPlaying{ false };
-	int currentSample{ 0 };
+	int currentSample{ 0 }, jitter{ 0 };
 	MyAudioBuffer* grainSound;
+	juce::Value jitterValue;
+	juce::Random rng;
 };

@@ -14,12 +14,13 @@
 class AudioBufferSelectorVis : public DraggableComponent
 {
 public:
-	AudioBufferSelectorVis(int audioFileTreeId, int lowSample, int highSample)
+	AudioBufferSelectorVis(int audioFileTreeId, int lowSample, int highSample, int maxSample)
 		: DraggableComponent()
 	{
 		this->audioFileTreeId = audioFileTreeId;
 		this->lowSample = lowSample;
 		this->highSample = highSample;
+		this->maxSample = maxSample;
 	}
 
 	void mouseDown(const juce::MouseEvent& e) override
@@ -37,6 +38,6 @@ public:
 	{
 	}
 
-	int audioFileTreeId, lowSample, highSample;
+	int audioFileTreeId, lowSample, highSample, maxSample;
 private:
 };

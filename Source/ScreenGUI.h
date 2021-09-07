@@ -112,12 +112,7 @@ public:
 		auto* audioBufferVis = dynamic_cast <AudioBufferSelectorVis*> (event.eventComponent);
 		if (audioBufferVis != nullptr && audioBufferVisIsInMainPanel(audioBufferVis)) 
 		{
-			createAudioBufferValueTree(vTree.getChildWithName(Ids::fileTree),
-				audioBufferVis->audioFileTreeId,
-				(float) audioBufferVis->getX() / mainPanel->getWidth(),
-				(float) audioBufferVis->getY() / mainPanel->getHeight(),
-				audioBufferVis->lowSample,
-				audioBufferVis->highSample);
+			createAudioBufferValueTree(vTree.getChildWithName(Ids::fileTree), audioBufferVis);
 		}
 		layoutSampleSections();
 	}
@@ -129,15 +124,16 @@ public:
 		repaint();
 	}
 private:
-	void createAudioBufferValueTree(juce::ValueTree fileTree, int parentAudioSourceIndex, float x, float y, int startSample, int endSample)
+	void createAudioBufferValueTree(juce::ValueTree fileTree, AudioBufferSelectorVis* audioBufferVis)
 	{
 		juce::ValueTree newTree{ Ids::audioBuffer };
 		newTree.setProperty(Ids::active, true, nullptr)
-			.setProperty(Ids::x, x, nullptr)
-			.setProperty(Ids::y, y, nullptr)
-			.setProperty(Ids::lowSample, startSample, nullptr)
-			.setProperty(Ids::highSample, endSample, nullptr);
-		auto parentTree = fileTree.getChild(parentAudioSourceIndex);
+			.setProperty(Ids::x, (float)audioBufferVis->getX() / mainPanel->getWidth(), nullptr)
+			.setProperty(Ids::y, (float)audioBufferVis->getY() / mainPanel->getHeight(), nullptr)
+			.setProperty(Ids::lowSample, audioBufferVis->lowSample, nullptr)
+			.setProperty(Ids::highSample, audioBufferVis->highSample, nullptr)
+			.setProperty(Ids::maxSample, audioBufferVis->maxSample, nullptr);
+		auto parentTree = fileTree.getChild(audioBufferVis->audioFileTreeId);
 		parentTree.addChild(newTree, -1, nullptr);
 		auto addedTree = parentTree.getChild(parentTree.getNumChildren() - 1);
 		addedTree.sendPropertyChangeMessage(Ids::x);
@@ -150,7 +146,7 @@ private:
 		int samplesPerSection = numSamplesInFile / numberOfSections;
 		for (int i = 0; i < numberOfSections; i++)
 		{
-			addAndMakeVisible(sampleSections.add(std::make_unique<AudioBufferSelectorVis>(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection)));
+			addAndMakeVisible(sampleSections.add(std::make_unique<AudioBufferSelectorVis>(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection, numSamplesInFile)));
 		}
 	}
 

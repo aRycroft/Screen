@@ -10,15 +10,15 @@
 
 #pragma once
 #include <JuceHeader.h>
-
 class BufferOptionsPanel : public juce::Component
 {
 public:
     BufferOptionsPanel()
     {
-		addAndMakeVisible(distanceSlider);
-		distanceSlider.setRange(0.0, 1.0);
-		distanceSlider.setTextValueSuffix(" Hz");
+		addAndMakeVisible(lowSampleSlider);
+		addAndMakeVisible(highSampleSlider);
+		lowSampleSlider.setTextValueSuffix(" Samples");
+		highSampleSlider.setTextValueSuffix(" Samples");
 	}
 
 	void paint(juce::Graphics& g) override
@@ -29,15 +29,24 @@ public:
 
 	void resized() override
 	{
-		distanceSlider.setBounds(0, 0, 200, 100);
+		juce::Grid grid;
+		using Track = juce::Grid::TrackInfo;
+		using Fr = juce::Grid::Fr;
+		grid.templateRows = { Track(Fr(1))};
+		grid.templateColumns = { Track(Fr(1)), Track(Fr(1)) };
+		grid.items = {juce::GridItem(lowSampleSlider), juce::GridItem(highSampleSlider)};
+		grid.performLayout(getLocalBounds());
 	}
 
 	void setValueTree(juce::ValueTree valueTree)
 	{
 		bufferValueTree = valueTree;
-		distanceSlider.getValueObject().referTo(bufferValueTree.getPropertyAsValue(Ids::distance, nullptr));
+		lowSampleSlider.setNormalisableRange(juce::NormalisableRange<double>(0.0, bufferValueTree[Ids::maxSample]));
+		lowSampleSlider.getValueObject().referTo(bufferValueTree.getPropertyAsValue(Ids::lowSample, nullptr));
+		highSampleSlider.setNormalisableRange(juce::NormalisableRange<double>(0.0, bufferValueTree[Ids::maxSample]));
+		highSampleSlider.getValueObject().referTo(bufferValueTree.getPropertyAsValue(Ids::highSample, nullptr));
 	}
 private:
 	juce::ValueTree bufferValueTree;
-	juce::Slider distanceSlider;
+	juce::Slider lowSampleSlider, highSampleSlider;
 };

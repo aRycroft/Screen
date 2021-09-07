@@ -23,7 +23,7 @@ namespace Ids
     static juce::Identifier audioBuffer("audioBuffer");
     static juce::Identifier lowSample("lowSample");
     static juce::Identifier highSample("highSample");
-    static juce::Identifier distance("distance");
+    static juce::Identifier maxSample("maxSample");
     /*FILE*/
     static juce::Identifier fileTree("fileTree");
     static juce::Identifier relativePath("relativePath");
@@ -32,6 +32,8 @@ namespace Ids
     static juce::Identifier generator("generator");
     static juce::Identifier frequency("frequency");
     static juce::Identifier numVoices("numVoices");
+    static juce::Identifier distance("distance");
+    static juce::Identifier jitter("jitter");
     /*CONNECTION*/
     static juce::Identifier connectionTree("connectionTree");
     static juce::Identifier connection("connection");

@@ -2,7 +2,7 @@
   <fileTree>
     <audioFile relativePath="C:\Users\Alex\Music\borderlands_defaults\2_rhodes_high_2.wav">
       <audioBuffer active="1" x="0.4390000104904175" y="0.534375011920929" lowSample="262040"
-                   highSample="393060" distance="0.1"/>
+                   highSample="393060", maxSample="400000" distance="0.1"/>
     </audioFile>
   </fileTree>
   <genTree>

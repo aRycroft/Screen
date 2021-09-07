@@ -15,16 +15,18 @@
 class MyAudioBuffer
 {
 public:
-    MyAudioBuffer(juce::AudioBuffer<float>* audio, int lowSample, int highSample)
+    MyAudioBuffer(juce::AudioBuffer<float>* audio, const juce::Value lowSample, const juce::Value highSample)
     {
         this->audio = audio;
-        this->lowSample = lowSample;
-        this->highSample = highSample;
+        this->lowSampleValue.referTo(lowSample);
+        this->highSampleValue.referTo(highSample);
     }
 
-    float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index) 
+    float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index, int jitter) 
     {
-        int boundedIndex = index + lowSample;
+        int lowSample = (int)lowSampleValue.getValue() + jitter;
+        int highSample = (int)highSampleValue.getValue() + jitter;
+        int boundedIndex = index + (int) lowSample;
         if (boundedIndex < 0 || boundedIndex >= highSample)
         {
             return 0.0f;
@@ -42,16 +44,15 @@ public:
 
     int getMinIndex()
     {
-        return lowSample;
+        return (int)lowSampleValue.getValue();
     }
 
     int getMaxIndex()
     {
-        return highSample;
+        return (int)highSampleValue.getValue();
     }
-
 private:
     AmplitudeEnvelope hammingWindow;
     juce::AudioBuffer<float>* audio;
-    int lowSample, highSample;
+    juce::Value lowSampleValue, highSampleValue;
 };

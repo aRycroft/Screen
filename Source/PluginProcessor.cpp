@@ -40,7 +40,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
 	connectionChangeListener = std::make_unique<ConnectionChangeListener>(this, connectionTree, genTree);
 
-	copyValueTreesFromXmlString();
+	//copyValueTreesFromXmlString();
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -193,10 +193,10 @@ void ScreenAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 
 void ScreenAudioProcessor::setStateInformation(const void* data, int sizeInBytes)
 {
-	std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
-	if (xmlState.get() != nullptr)
-		if (xmlState->hasTagName(paramTree.getType()))
-			fillValueTreesFromXmlElement(*xmlState);
+	//std::unique_ptr<juce::XmlElement> xmlState(getXmlFromBinary(data, sizeInBytes));
+	//if (xmlState.get() != nullptr)
+	//	if (xmlState->hasTagName(paramTree.getType()))
+	//		fillValueTreesFromXmlElement(*xmlState);
 }
 
 //==============================================================================
@@ -232,7 +232,9 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	auto bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
 	if (buffer != nullptr) {
-		buffer->allSounds.add(std::make_unique<MyAudioBuffer>(buffer, childOfSource[Ids::lowSample], childOfSource[Ids::highSample]));
+		buffer->allSounds.add(
+			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), childOfSource.getPropertyAsValue(Ids::highSample, nullptr))
+		);
 	}
 }
 

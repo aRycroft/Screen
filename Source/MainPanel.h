@@ -284,7 +284,8 @@ private:
 			.setProperty(Ids::frequency, 1000.0, nullptr)
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr)
-			.setProperty(Ids::distance, 0.1, nullptr);
+			.setProperty(Ids::distance, 0.1, nullptr)
+			.setProperty(Ids::jitter, 50000, nullptr);
 		genTree.addChild(newTree, -1, nullptr);
 		return newTree;
 	}
