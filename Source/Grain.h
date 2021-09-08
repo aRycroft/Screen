@@ -22,7 +22,7 @@ public:
 
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		if ((grainSound->getMaxIndex() + jitter) < currentSample + (grainSound->getMinIndex() + jitter)) 
+		if (grainSound->getMaxIndex() < currentSample + grainSound->getMinIndex()) 
 		{
 			isGrainPlaying = false;
 		}
@@ -31,9 +31,8 @@ public:
 		{
 			for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) 
 			{
-				outputBuffer->setSample(channelIndex, i,
-					outputBuffer->getSample(channelIndex, i) +
-					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i, jitter));
+				outputBuffer->setSample(channelIndex, i, outputBuffer->getSample(channelIndex, i) +
+					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i, jitter, lowSample, highSample));
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();
@@ -45,6 +44,8 @@ public:
 		int jitterVal = jitterValue.getValue();
 		jitter = rng.nextInt(juce::Range<int>(-jitterVal, jitterVal));
 		currentSample = 0;
+		lowSample = bufferToPlay->getMinIndex() + jitter;
+		highSample = bufferToPlay->getMaxIndex() + jitter;
 		grainSound = bufferToPlay;
 	}
 
@@ -55,7 +56,7 @@ public:
 
 private:
 	bool isGrainPlaying{ false };
-	int currentSample{ 0 }, jitter{ 0 };
+	int currentSample{ 0 }, jitter{ 0 }, lowSample{ 0 }, highSample{ 0 };
 	MyAudioBuffer* grainSound;
 	juce::Value jitterValue;
 	juce::Random rng;

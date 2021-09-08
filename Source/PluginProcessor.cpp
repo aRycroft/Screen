@@ -40,7 +40,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
 	connectionChangeListener = std::make_unique<ConnectionChangeListener>(this, connectionTree, genTree);
 
-	//copyValueTreesFromXmlString();
+	copyValueTreesFromXmlString();
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()

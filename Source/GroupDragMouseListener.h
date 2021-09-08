@@ -21,28 +21,33 @@ public:
 
 	void mouseDown(const juce::MouseEvent& e) override
 	{
-		auto draggableComponent = dynamic_cast <DraggableComponent*> (e.eventComponent);
-		if (!draggableItemSet.isSelected(draggableComponent))
-		{
-			draggableItemSet.deselectAll();
-			draggableItemSet.addToSelection(draggableComponent);
-		}
-		for (auto component : draggableItemSet)
-		{
-			if (component != e.eventComponent)
+		if (e.mods.isLeftButtonDown()) {
+			auto draggableComponent = dynamic_cast <DraggableComponent*> (e.eventComponent);
+			if (!draggableItemSet.isSelected(draggableComponent))
 			{
-				component->mouseDown(e);
+				draggableItemSet.deselectAll();
+				draggableItemSet.addToSelection(draggableComponent);
+			}
+			for (auto component : draggableItemSet)
+			{
+				if (component != e.eventComponent)
+				{
+					component->mouseDown(e);
+				}
 			}
 		}
 	}
 
 	void mouseDrag(const juce::MouseEvent& e) override
 	{
-		for (auto component : draggableItemSet)
+		if (e.mods.isLeftButtonDown()) 
 		{
-			if (component != e.eventComponent)
+			for (auto component : draggableItemSet)
 			{
-				component->mouseDrag(e);
+				if (component != e.eventComponent)
+				{
+					component->mouseDrag(e);
+				}
 			}
 		}
 	}

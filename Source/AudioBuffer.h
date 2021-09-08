@@ -22,10 +22,8 @@ public:
         this->highSampleValue.referTo(highSample);
     }
 
-    float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index, int jitter) 
+    float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index, int jitter, int lowSample, int highSample) 
     {
-        int lowSample = (int)lowSampleValue.getValue() + jitter;
-        int highSample = (int)highSampleValue.getValue() + jitter;
         int boundedIndex = index + (int) lowSample;
         if (boundedIndex < 0 || boundedIndex >= highSample)
         {
