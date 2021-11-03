@@ -123,6 +123,7 @@ public:
 		resized();
 		repaint();
 	}
+
 private:
 	void createAudioBufferValueTree(juce::ValueTree fileTree, AudioBufferSelectorVis* audioBufferVis)
 	{
@@ -161,12 +162,15 @@ private:
 	void layoutSampleSections()
 	{
 		juce::FlexBox fb;
+		
 		fb.flexWrap = juce::FlexBox::Wrap::wrap;
 		fb.justifyContent = juce::FlexBox::JustifyContent::center;
 		fb.alignContent = juce::FlexBox::AlignContent::center;
 
 		for (auto* section : sampleSections)
+		{
 			fb.items.add(juce::FlexItem(*section).withMinWidth(50.0f).withMinHeight(50.0f));
+		}
 
 		fb.performLayout(sampleSelector->getBounds().toFloat());
 	}

@@ -17,43 +17,13 @@ class DraggableComponent : public juce::Component
 public:
 	DraggableComponent(){}
 
-	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree) {}
-
-	void mouseDown(const juce::MouseEvent& e) override
+	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree) 
 	{
-		mouseDownWithinTarget = e.getEventRelativeTo(this).getMouseDownPosition();
 	}
 
 	void mouseUp(const juce::MouseEvent& e) override
 	{
 		this->getParentComponent()->mouseUp(e);
-	}
-
-	void mouseDrag(const juce::MouseEvent& e) override
-	{
-		auto bounds = getBounds();
-		bounds += e.getEventRelativeTo(this).getPosition() - mouseDownWithinTarget;
-
-		auto x = bounds.getX();
-		x = std::max(x, 0);
-		x = std::min(x, getParentWidth() - getWidth());
-
-		auto y = bounds.getY();
-		y = std::max(y, 0);
-		y = std::min(y, getParentHeight() - getHeight());
-
-		bounds.setX(x);
-		bounds.setY(y);
-
-		setBounds(bounds);
-
-		if (paramTree.isValid()) 
-		{
-			paramTree.setProperty(Ids::x, (float)bounds.getX() / (getParentWidth() - getWidth()), nullptr);
-			paramTree.setProperty(Ids::y, (float)bounds.getY() / (getParentHeight() - getHeight()), nullptr);
-		}
-
-		getParentComponent()->repaint();
 	}
 
 	juce::Rectangle<float> calculateBounds(float size = 60)
@@ -82,8 +52,15 @@ public:
 	{
 		return paramTree[key];
 	}
-protected:
-	juce::Point<int> mouseDownWithinTarget;
+
+	void setValueTreeProperty(const juce::Identifier &key, const float &value) 
+	{
+		if (paramTree.isValid())
+		{
+			paramTree.setProperty(key, value, nullptr);
+		}
+	}
+	bool readyToDrag{ true };
 private:
 	juce::ValueTree paramTree;
 };

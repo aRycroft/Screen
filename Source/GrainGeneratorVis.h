@@ -60,6 +60,7 @@ public:
 
 	void mouseDown(const juce::MouseEvent& event) override
 	{
+		readyToDrag = false;
 		if (event.mods.isRightButtonDown())
 		{
 			frequencySlider.mouseDown(event);
@@ -68,9 +69,9 @@ public:
 		{
 			connectionDrag = true;
 		}
-		else
+		else 
 		{
-			DraggableComponent::mouseDown(event);
+			readyToDrag = true;
 		}
 	}
 
@@ -82,13 +83,15 @@ public:
 
 	void mouseDrag(const juce::MouseEvent& event) override
 	{
+		readyToDrag = false;
+
 		if (event.mods.isRightButtonDown())
 		{
 			frequencySlider.mouseDrag(event);
 		}
 		else if (!connectionDrag)
 		{
-			DraggableComponent::mouseDrag(event);
+			readyToDrag = true;
 		}
 	}
 

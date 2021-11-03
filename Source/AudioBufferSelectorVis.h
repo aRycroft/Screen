@@ -23,19 +23,10 @@ public:
 		this->maxSample = maxSample;
 	}
 
-	void mouseDown(const juce::MouseEvent& e) override
-	{
-		mouseDownWithinTarget = e.getEventRelativeTo(this).getMouseDownPosition();
-	}
-
 	void paint(juce::Graphics& g) override
 	{
 		g.setColour(juce::Colours::black);
 		g.fillRect(getLocalBounds().reduced(1));
-	}
-
-	void resized() override
-	{
 	}
 
 	int audioFileTreeId, lowSample, highSample, maxSample;

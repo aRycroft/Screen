@@ -89,7 +89,6 @@ public:
 
 	void mouseDown(const juce::MouseEvent& event)
 	{
-
 		groupDragMouseListener->draggableItemSet.deselectAll();
 		lasso.beginLasso(event, this);
 	}
@@ -108,7 +107,8 @@ public:
 	{
 		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
 
-		if (clickedGrainGen != 0) {
+		if (clickedGrainGen != 0) 
+		{
 			genTree.removeChild(clickedGrainGen->getValueTree(), nullptr);
 		}
 		else
