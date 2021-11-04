@@ -45,7 +45,7 @@ public:
 
 	void mouseDrag(const juce::MouseEvent& e) override
 	{
-		if (componentBeingDragged->readyToDrag)
+		if (componentBeingDragged != nullptr && componentBeingDragged->readyToDrag)
 		{
 			if (e.mods.isLeftButtonDown())
 			{

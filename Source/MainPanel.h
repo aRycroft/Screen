@@ -64,14 +64,9 @@ public:
 
 		if (grainGenIsConnectionDragging)
 		{
-			auto grainGenPosition = util::getPointOnEdge(*grainGenThatIsDragging) + grainGenThatIsDragging->getPosition().toFloat();
+			auto grainGenPosition = grainGenThatIsDragging->getPointOnEdge() + grainGenThatIsDragging->getPosition().toFloat();
 			auto line = juce::Line<float>{ grainGenPosition, this->getMouseXYRelative().toFloat() };
 			g.drawArrow(line, 10.0f, 50.0f, 10.0f);
-		}
-
-		for (auto generatorVis : generatorVis)
-		{
-			DrawGenVisDistanceCircle(generatorVis, g);
 		}
 	}
 
@@ -79,7 +74,11 @@ public:
 	{
 		for (auto grainVis : generatorVis)
 		{
-			grainVis->setBounds(grainVis->calculateBounds().toNearestInt());
+			auto bounds = grainVis->calculateBounds();
+			grainVis->setBounds(bounds
+				.withWidth(bounds.getWidth() + grainVis->getValueTreeProperty(Ids::distance) * 1000)
+				.withHeight(bounds.getHeight() + grainVis->getValueTreeProperty(Ids::distance) * 1000)
+				.toNearestInt());
 		}
 		for (auto fileVis : audioBufferVis)
 		{
@@ -331,18 +330,6 @@ private:
 		auto fromCentreOnEdge = juce::Line<double>::fromStartAndAngle(fromCentre.toDouble(), 25, fromAngle).getEnd();
 		auto toCentreOnEdge = juce::Line<double>::fromStartAndAngle(toCentre.toDouble(), 25, toAngle).getEnd();
 		return juce::Line<int>{ fromCentreOnEdge.toInt(), toCentreOnEdge.toInt()};
-	}
-
-	void DrawGenVisDistanceCircle(GrainGeneratorVis* grainVis, juce::Graphics& g)
-	{
-		auto position = grainVis->getPosition();
-		auto distance = grainVis->getValueTreeProperty(Ids::distance);
-		auto distanceRectangle = grainVis->calculateBounds();
-		g.drawEllipse(distanceRectangle
-			.withX(distanceRectangle.getX() - distance * getWidth() / 2)
-			.withY(distanceRectangle.getY() - distance * getHeight() / 2)
-			.withWidth(distanceRectangle.getWidth() + distance * getWidth())
-			.withHeight(distanceRectangle.getHeight() + distance * getHeight()), 1.0f);
 	}
 
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
