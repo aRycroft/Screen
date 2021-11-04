@@ -74,12 +74,10 @@ public:
 	{
 		for (auto grainVis : generatorVis)
 		{
-			auto bounds = grainVis->calculateBounds();
-			grainVis->setBounds(bounds
-				.withWidth(bounds.getWidth() + grainVis->getValueTreeProperty(Ids::distance) * getWidth())
-				.withHeight(bounds.getHeight() + grainVis->getValueTreeProperty(Ids::distance) * getWidth())
-				.toNearestInt());
+			auto bounds = grainVis->calculateBounds(DEFAULTSIZE + grainVis->getValueTreeProperty(Ids::distance) * getWidth());
+			grainVis->setBounds(bounds.toNearestInt());
 		}
+
 		for (auto fileVis : audioBufferVis)
 		{
 			fileVis->setBounds(fileVis->calculateBounds().toNearestInt());
@@ -120,9 +118,9 @@ public:
 	{
 		auto genVis = generatorVis.add(std::make_unique<GrainGeneratorVis>(generatorValueTree));
 		addAndMakeVisible(genVis);
-		genVis->setBounds(genVis->calculateBounds().toNearestInt());
 		genVis->addMouseListener(groupDragMouseListener.get(), false);
 		genVis->setAlwaysOnTop(true);
+		resized();
 	}
 
 	void removeGrainGenerator(int indexToRemove) override

@@ -10,6 +10,8 @@
 
 #pragma once
 #include <JuceHeader.h>
+constexpr int DEFAULTSIZE = 60;
+
 enum TreeChildren {
     fileTree,
     genTree,

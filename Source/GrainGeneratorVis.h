@@ -173,9 +173,9 @@ private:
 		auto width = bounds.getWidth();
 		auto height = bounds.getHeight();
 		auto topLeft = bounds.getCentre();
-		topLeft.addXY(-30, -30);
+		topLeft.addXY(-DEFAULTSIZE / 2, -DEFAULTSIZE / 2);
 		auto bottomRight = bounds.getCentre();
-		bottomRight.addXY(30, 30);
+		bottomRight.addXY(DEFAULTSIZE / 2, DEFAULTSIZE / 2);
 		return juce::Rectangle<int>{topLeft, bottomRight};
 	}
 };

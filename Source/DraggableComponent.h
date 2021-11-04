@@ -28,8 +28,9 @@ public:
 	{
 		if (paramTree.isValid()) 
 		{
-			return  juce::Rectangle<float>{ (float) paramTree.getProperty(Ids::x) * (getParentWidth() - getWidth()),
-				(float) paramTree.getProperty(Ids::y)* (getParentHeight() - getHeight()), size, size };
+			return  juce::Rectangle<float>{ 
+				(float) paramTree.getProperty(Ids::x) * (getParentWidth() - size),
+				(float) paramTree.getProperty(Ids::y)* (getParentHeight() - size), size, size };
 		}
 		return juce::Rectangle<float>();
 	}
