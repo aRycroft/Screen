@@ -17,9 +17,7 @@ class DraggableComponent : public juce::Component
 public:
 	DraggableComponent(){}
 
-	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree) 
-	{
-	}
+	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree){}
 
 	void mouseUp(const juce::MouseEvent& e) override
 	{
@@ -36,8 +34,6 @@ public:
 		return juce::Rectangle<float>();
 	}
 	
-	bool selected{ false };
-
 	juce::ValueTree getValueTree() 
 	{
 		return paramTree;
@@ -60,7 +56,10 @@ public:
 			paramTree.setProperty(key, value, nullptr);
 		}
 	}
+
 	bool readyToDrag{ true };
+
+	bool selected{ false };
 private:
 	juce::ValueTree paramTree;
 };

@@ -19,8 +19,4 @@ public:
 		g.setColour(juce::Colours::green);
 		g.fillRect(getLocalBounds().toFloat());
 	}
-
-	void resized() override
-	{
-	}
 };

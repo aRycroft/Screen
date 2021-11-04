@@ -41,7 +41,8 @@ public:
 		addChildComponent(*grainOptionsPanel);
 
 		formatManager.registerBasicFormats();
-		
+		groupDragMouseListener = std::make_unique<GroupDragMouseListener>();
+
 		mainPanel->selectedOption->addChangeListener(this);
 	}
 
@@ -148,6 +149,7 @@ private:
 		for (int i = 0; i < numberOfSections; i++)
 		{
 			addAndMakeVisible(sampleSections.add(std::make_unique<AudioBufferSelectorVis>(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection, numSamplesInFile)));
+			sampleSections[i]->addMouseListener(groupDragMouseListener.get(), false);
 		}
 	}
 
@@ -187,6 +189,7 @@ private:
 	std::unique_ptr<BufferOptionsPanel> bufferOptionsPanel;
 	std::unique_ptr<GrainOptionsPanel> grainOptionsPanel;
 	std::unique_ptr<FileListener> fileListener;
+	std::unique_ptr<GroupDragMouseListener> groupDragMouseListener;
 	juce::OwnedArray<AudioBufferSelectorVis> sampleSections;
 	juce::ValueTree vTree;
 	juce::AudioFormatManager formatManager;

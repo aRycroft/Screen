@@ -14,6 +14,8 @@
         <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
         <FILE id="OqOjWD" name="ConnectionChangeListener.h" compile="0" resource="0"
               file="Source/ConnectionChangeListener.h"/>
+        <FILE id="meBbyb" name="GroupDragMouseListener.h" compile="0" resource="0"
+              file="Source/GroupDragMouseListener.h"/>
       </GROUP>
       <GROUP id="{6FED0C61-2ADE-72EF-A77A-EF407A8FC343}" name="CPGLib-master">
         <FILE id="Uiu77p" name="core.cpp" compile="1" resource="0" file="Source/CPGLib-master/core.cpp"/>
@@ -68,8 +70,6 @@
               file="Source/SelectedOption.h"/>
         <FILE id="qJtc3F" name="BufferOptionsPanel.h" compile="0" resource="0"
               file="Source/BufferOptionsPanel.h"/>
-        <FILE id="meBbyb" name="GroupDragMouseListener.h" compile="0" resource="0"
-              file="Source/GroupDragMouseListener.h"/>
         <FILE id="Hi3GSl" name="DraggableComponentLassoSource.h" compile="0"
               resource="0" file="Source/DraggableComponentLassoSource.h"/>
         <FILE id="Meiv18" name="AudioBufferSelectorVis.h" compile="0" resource="0"

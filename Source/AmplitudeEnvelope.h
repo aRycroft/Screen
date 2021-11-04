@@ -24,7 +24,7 @@ public:
     {
         for (int i{ 0 }; i < NUMSAMPLES; i++)
         {
-            envelopeBuffer[i] = 0.54 - 0.46 * cosf(juce::MathConstants<float>::twoPi * ((float)i / NUMSAMPLES));
+            envelopeBuffer[i] = 0.54f - 0.46f * cosf(juce::MathConstants<float>::twoPi * ((float)i / NUMSAMPLES));
         }
     };
 

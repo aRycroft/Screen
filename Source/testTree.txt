@@ -7,7 +7,7 @@
   </fileTree>
   <genTree>
     <generator active="1" numVoices="100" frequency="1000.0" x="0.410638302564621"
-               y="0.7051724195480347" distance="0.1" jitter="20000"/>
+               y="0.7051724195480347" distance="0.1" jitter="200000"/>
     <generator active="1" numVoices="100" frequency="1000.0" x="0.5734042525291443"
                y="0.5896551609039307" distance="0.1" jitter="20000"/>
   </genTree>

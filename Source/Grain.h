@@ -32,7 +32,7 @@ public:
 			for (int i{ 0 }; i < outputBuffer->getNumSamples(); i++) 
 			{
 				outputBuffer->setSample(channelIndex, i, outputBuffer->getSample(channelIndex, i) +
-					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i, jitter, lowSample, highSample));
+					grainSound->getSampleAtBoundedIndexWithAmplitudeWindow(channelIndex, currentSample + i, lowSample, highSample));
 			}
 		}
 		currentSample += outputBuffer->getNumSamples();

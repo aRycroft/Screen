@@ -23,10 +23,6 @@ public:
 		g.fillRect(getLocalBounds());
 	}
 
-	void resized() override
-	{
-	}
-
 	void setValueTree(juce::ValueTree valueTree)
 	{
 		grainValueTree = valueTree;

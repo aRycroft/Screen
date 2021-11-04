@@ -40,7 +40,7 @@ public:
         double toX = grainGenTree.getChild(to).getProperty(Ids::x);
         double toY = grainGenTree.getChild(to).getProperty(Ids::y);
 
-        float weight = sqrt(pow(toX - fromX, 2) + pow(toY - fromY, 2) * 1.0f);
+        double weight = sqrt(pow(toX - fromX, 2) + pow(toY - fromY, 2) * 1.0f);
         
         _handler->connectionWeightChanged(from, to, std::max<float>((1 - weight) * mult, 0.0f));
     }

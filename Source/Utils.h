@@ -46,17 +46,3 @@ namespace Ids
     static juce::Identifier y("y");
 }
 
-
-namespace util 
-{
-    static juce::Point<float> getPointOnEdge(juce::Component& component)
-    {
-        auto mousePoint = component.getMouseXYRelative().toFloat();
-        auto centre = component.getLocalBounds().getCentre().toFloat();
-        auto radius = component.getLocalBounds().getWidth() / 2.0 - 7.5;
-        auto angle = centre.getAngleToPoint(mousePoint);
-        auto line = juce::Line<float>::fromStartAndAngle(centre, radius, angle);
-        return line.getEnd();
-    }
-}
-

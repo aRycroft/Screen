@@ -30,5 +30,4 @@ public:
 	}
 
 	int audioFileTreeId, lowSample, highSample, maxSample;
-private:
 };

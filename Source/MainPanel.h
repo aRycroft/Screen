@@ -76,8 +76,8 @@ public:
 		{
 			auto bounds = grainVis->calculateBounds();
 			grainVis->setBounds(bounds
-				.withWidth(bounds.getWidth() + grainVis->getValueTreeProperty(Ids::distance) * 1000)
-				.withHeight(bounds.getHeight() + grainVis->getValueTreeProperty(Ids::distance) * 1000)
+				.withWidth(bounds.getWidth() + grainVis->getValueTreeProperty(Ids::distance) * getWidth())
+				.withHeight(bounds.getHeight() + grainVis->getValueTreeProperty(Ids::distance) * getWidth())
 				.toNearestInt());
 		}
 		for (auto fileVis : audioBufferVis)

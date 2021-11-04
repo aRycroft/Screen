@@ -31,14 +31,4 @@ public:
 		}
 		g.fillRect(getLocalBounds().reduced(1));
 	}
-
-	void resized() override
-	{
-	}
-
-	void mouseUp(const juce::MouseEvent& event) override
-	{
-	}
-
-private:
 };
