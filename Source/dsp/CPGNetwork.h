@@ -9,7 +9,7 @@
 */
 
 #pragma once
-#include "CPGLib-master/CPG.h"
+#include "CPG.h"
 #include <vector>
 class CPGNetwork : public CPG, juce::ValueTree::Listener
 {

@@ -1,154 +1,779 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="NSM92b" name="Screen" projectType="audioplug" useAppConfig="0"
+<JUCERPROJECT id="JCKWeA" name="Screen" projectType="audioplug" useAppConfig="0"
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
-              pluginFormats="buildVST3" pluginCharacteristicsValue="pluginIsSynth">
-  <MAINGROUP id="qMqydQ" name="Screen">
-    <GROUP id="{43BD11F1-ED31-DACA-D600-F857C0BB1659}" name="Source">
-      <GROUP id="{4134314D-4F85-CF6D-95E9-48FE81C292F2}" name="Listeners">
-        <FILE id="gSWAGR" name="ConnectionListener.h" compile="0" resource="0"
-              file="Source/ConnectionListener.h"/>
-        <FILE id="PwaJli" name="PositionListener.h" compile="0" resource="0"
-              file="Source/PositionListener.h"/>
-        <FILE id="oBKFUp" name="FileListener.h" compile="0" resource="0" file="Source/FileListener.h"/>
-        <FILE id="VSK86U" name="GenListener.h" compile="0" resource="0" file="Source/GenListener.h"/>
-        <FILE id="OqOjWD" name="ConnectionChangeListener.h" compile="0" resource="0"
-              file="Source/ConnectionChangeListener.h"/>
-        <FILE id="meBbyb" name="GroupDragMouseListener.h" compile="0" resource="0"
-              file="Source/GroupDragMouseListener.h"/>
-      </GROUP>
-      <GROUP id="{6FED0C61-2ADE-72EF-A77A-EF407A8FC343}" name="CPGLib-master">
-        <FILE id="Uiu77p" name="core.cpp" compile="1" resource="0" file="Source/CPGLib-master/core.cpp"/>
-        <FILE id="exZHWC" name="core.h" compile="0" resource="0" file="Source/CPGLib-master/core.h"/>
-        <FILE id="Gm0tVR" name="CPG.cpp" compile="1" resource="0" file="Source/CPGLib-master/CPG.cpp"/>
-        <FILE id="n3jcbj" name="CPG.h" compile="0" resource="0" file="Source/CPGLib-master/CPG.h"/>
-        <FILE id="yzNA4s" name="delayLine.h" compile="0" resource="0" file="Source/CPGLib-master/delayLine.h"/>
-        <FILE id="xplD5t" name="Matsu_calcs.cpp" compile="1" resource="0" file="Source/CPGLib-master/Matsu_calcs.cpp"/>
-        <FILE id="kR0yVQ" name="Matsu_calcs.h" compile="0" resource="0" file="Source/CPGLib-master/Matsu_calcs.h"/>
-        <FILE id="DxzT1m" name="matsu_signal_calcs.c" compile="1" resource="0"
+              headerPath="..\..\Source\dsp&#10;..\..\Source\gui&#10;..\..\Source\interfaces&#10;..\..\Source\listeners&#10;..\..\Source\CPGLib-master">
+  <MAINGROUP id="wWxdDF" name="Screen">
+    <GROUP id="{41D2D130-0E62-713F-143C-BA66EE7ED106}" name="Source">
+      <GROUP id="{D9ED4FBD-2DEB-7F2D-0F5E-952F82607546}" name="CPGLib-master">
+        <GROUP id="{7B546DA9-BC14-2B5D-E861-853ACE30404C}" name="doxygen">
+          <GROUP id="{2B74ADF3-F36A-028C-83F6-87F1A83D27F8}" name="html">
+            <GROUP id="{B249494B-2379-A3BE-9393-48FE8182AD27}" name="search">
+              <FILE id="yDKsT0" name="all_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_0.html"/>
+              <FILE id="Q6flYT" name="all_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_0.js"/>
+              <FILE id="qp0ZUW" name="all_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_1.html"/>
+              <FILE id="ANZHvJ" name="all_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_1.js"/>
+              <FILE id="i8wMnT" name="all_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_2.html"/>
+              <FILE id="Ea6hOo" name="all_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_2.js"/>
+              <FILE id="GXqNAj" name="all_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_3.html"/>
+              <FILE id="V4IQTU" name="all_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_3.js"/>
+              <FILE id="uV4DaY" name="all_4.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_4.html"/>
+              <FILE id="iXmImK" name="all_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_4.js"/>
+              <FILE id="Lna5oH" name="all_5.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_5.html"/>
+              <FILE id="v81k2q" name="all_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_5.js"/>
+              <FILE id="jSUtfc" name="all_6.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_6.html"/>
+              <FILE id="uwuUBs" name="all_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_6.js"/>
+              <FILE id="mUyzCr" name="all_7.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_7.html"/>
+              <FILE id="CzoM3T" name="all_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_7.js"/>
+              <FILE id="vcDKzA" name="all_8.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_8.html"/>
+              <FILE id="i9bqoU" name="all_8.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_8.js"/>
+              <FILE id="hJMF5l" name="all_9.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_9.html"/>
+              <FILE id="PZs4zo" name="all_9.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_9.js"/>
+              <FILE id="S7Iynv" name="all_10.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_10.html"/>
+              <FILE id="pzFBwo" name="all_10.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_10.js"/>
+              <FILE id="vigZny" name="all_11.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_11.html"/>
+              <FILE id="ToIJlr" name="all_11.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_11.js"/>
+              <FILE id="tyxBsp" name="all_12.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_12.html"/>
+              <FILE id="cNURE9" name="all_12.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_12.js"/>
+              <FILE id="f6X4lo" name="all_13.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_13.html"/>
+              <FILE id="IYRaMI" name="all_13.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_13.js"/>
+              <FILE id="fIHZ3I" name="all_14.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_14.html"/>
+              <FILE id="VMpXDD" name="all_14.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_14.js"/>
+              <FILE id="baAHLu" name="all_15.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_15.html"/>
+              <FILE id="m6xPU1" name="all_15.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_15.js"/>
+              <FILE id="wovi3m" name="all_16.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_16.html"/>
+              <FILE id="tqkGDH" name="all_16.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_16.js"/>
+              <FILE id="efWSFx" name="all_17.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_17.html"/>
+              <FILE id="QULyBN" name="all_17.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_17.js"/>
+              <FILE id="jLJKPN" name="all_18.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_18.html"/>
+              <FILE id="XauPrF" name="all_18.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_18.js"/>
+              <FILE id="ibD1Gf" name="all_19.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_19.html"/>
+              <FILE id="NHZ697" name="all_19.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_19.js"/>
+              <FILE id="RnbV3P" name="all_a.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_a.html"/>
+              <FILE id="YhlBv9" name="all_a.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_a.js"/>
+              <FILE id="RsnYfW" name="all_b.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_b.html"/>
+              <FILE id="FR040J" name="all_b.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_b.js"/>
+              <FILE id="uUHp51" name="all_c.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_c.html"/>
+              <FILE id="Ua9JAB" name="all_c.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_c.js"/>
+              <FILE id="vZDewC" name="all_d.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_d.html"/>
+              <FILE id="hHMCsC" name="all_d.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_d.js"/>
+              <FILE id="xv2QVS" name="all_e.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_e.html"/>
+              <FILE id="fQjV7s" name="all_e.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_e.js"/>
+              <FILE id="hA5bkL" name="all_f.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_f.html"/>
+              <FILE id="dX7sMU" name="all_f.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/all_f.js"/>
+              <FILE id="QwcBnX" name="classes_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_0.html"/>
+              <FILE id="rge8y6" name="classes_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_0.js"/>
+              <FILE id="YU8AlW" name="classes_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_1.html"/>
+              <FILE id="DKHlk1" name="classes_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_1.js"/>
+              <FILE id="urMj2m" name="classes_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_2.html"/>
+              <FILE id="paX29J" name="classes_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_2.js"/>
+              <FILE id="Cci6CM" name="classes_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_3.html"/>
+              <FILE id="oUJ87q" name="classes_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_3.js"/>
+              <FILE id="sYw460" name="classes_4.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_4.html"/>
+              <FILE id="rIyW5n" name="classes_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_4.js"/>
+              <FILE id="mPDltM" name="classes_5.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_5.html"/>
+              <FILE id="Cc6QY7" name="classes_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_5.js"/>
+              <FILE id="oIKxrm" name="classes_6.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_6.html"/>
+              <FILE id="cvMfKD" name="classes_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_6.js"/>
+              <FILE id="Nf7AUn" name="classes_7.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_7.html"/>
+              <FILE id="BhhiK5" name="classes_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_7.js"/>
+              <FILE id="LDzd3d" name="classes_8.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_8.html"/>
+              <FILE id="ankXz1" name="classes_8.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_8.js"/>
+              <FILE id="Nq7KAs" name="classes_9.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_9.html"/>
+              <FILE id="N6TUy8" name="classes_9.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/classes_9.js"/>
+              <FILE id="OPKpkV" name="close.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/close.png"/>
+              <FILE id="qt4Md1" name="defines_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_0.html"/>
+              <FILE id="anZsJp" name="defines_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_0.js"/>
+              <FILE id="SperHf" name="defines_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_1.html"/>
+              <FILE id="jMFFBS" name="defines_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_1.js"/>
+              <FILE id="wTjCro" name="defines_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_2.html"/>
+              <FILE id="ytka0N" name="defines_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_2.js"/>
+              <FILE id="yrDBnh" name="defines_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_3.html"/>
+              <FILE id="kK2d7H" name="defines_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_3.js"/>
+              <FILE id="pdw8zB" name="defines_4.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_4.html"/>
+              <FILE id="PsqCWE" name="defines_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_4.js"/>
+              <FILE id="cIfVcS" name="defines_5.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_5.html"/>
+              <FILE id="N1WN6G" name="defines_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_5.js"/>
+              <FILE id="r44BL5" name="defines_6.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_6.html"/>
+              <FILE id="tgGC8n" name="defines_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_6.js"/>
+              <FILE id="QGXzNl" name="defines_7.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_7.html"/>
+              <FILE id="KCya4Q" name="defines_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_7.js"/>
+              <FILE id="spvKIc" name="defines_8.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_8.html"/>
+              <FILE id="y6LJEX" name="defines_8.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_8.js"/>
+              <FILE id="mggVDe" name="defines_9.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_9.html"/>
+              <FILE id="fkq7DM" name="defines_9.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_9.js"/>
+              <FILE id="tm9Vn7" name="defines_10.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_10.html"/>
+              <FILE id="NSG59U" name="defines_10.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_10.js"/>
+              <FILE id="wE8bRd" name="defines_a.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_a.html"/>
+              <FILE id="kS2QKO" name="defines_a.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_a.js"/>
+              <FILE id="S3BJCM" name="defines_b.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_b.html"/>
+              <FILE id="diSXFX" name="defines_b.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_b.js"/>
+              <FILE id="OKOERu" name="defines_c.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_c.html"/>
+              <FILE id="kyPr7e" name="defines_c.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_c.js"/>
+              <FILE id="FEpdDy" name="defines_d.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_d.html"/>
+              <FILE id="ZDUopa" name="defines_d.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_d.js"/>
+              <FILE id="ClwD7e" name="defines_e.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_e.html"/>
+              <FILE id="Yq6X6u" name="defines_e.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_e.js"/>
+              <FILE id="ViD5kb" name="defines_f.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_f.html"/>
+              <FILE id="Zsp1wt" name="defines_f.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/defines_f.js"/>
+              <FILE id="erDkCq" name="enums_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_0.html"/>
+              <FILE id="eVls0r" name="enums_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_0.js"/>
+              <FILE id="M4nJTc" name="enums_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_1.html"/>
+              <FILE id="Jxrts4" name="enums_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_1.js"/>
+              <FILE id="dlQHXg" name="enums_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_2.html"/>
+              <FILE id="gZnC8o" name="enums_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_2.js"/>
+              <FILE id="YF1nVj" name="enums_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_3.html"/>
+              <FILE id="FE8Xys" name="enums_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enums_3.js"/>
+              <FILE id="Q6Wf56" name="enumvalues_0.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_0.html"/>
+              <FILE id="NQ5isk" name="enumvalues_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_0.js"/>
+              <FILE id="M6xHpi" name="enumvalues_1.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_1.html"/>
+              <FILE id="I3OnfB" name="enumvalues_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_1.js"/>
+              <FILE id="G9Z1tU" name="enumvalues_2.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_2.html"/>
+              <FILE id="WJ2TnA" name="enumvalues_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_2.js"/>
+              <FILE id="IA9adk" name="enumvalues_3.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_3.html"/>
+              <FILE id="Phfx3s" name="enumvalues_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_3.js"/>
+              <FILE id="MVcTLI" name="enumvalues_4.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_4.html"/>
+              <FILE id="B4tx0W" name="enumvalues_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_4.js"/>
+              <FILE id="mxOZP5" name="enumvalues_5.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_5.html"/>
+              <FILE id="xu8qxe" name="enumvalues_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_5.js"/>
+              <FILE id="ztE6FG" name="enumvalues_6.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_6.html"/>
+              <FILE id="yM58sp" name="enumvalues_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_6.js"/>
+              <FILE id="CqmSK5" name="enumvalues_7.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_7.html"/>
+              <FILE id="wTdsDP" name="enumvalues_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_7.js"/>
+              <FILE id="hAsphW" name="enumvalues_8.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_8.html"/>
+              <FILE id="fVaK65" name="enumvalues_8.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_8.js"/>
+              <FILE id="vsiCzH" name="enumvalues_9.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_9.html"/>
+              <FILE id="rbhEN4" name="enumvalues_9.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_9.js"/>
+              <FILE id="Cl8vpA" name="enumvalues_a.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_a.html"/>
+              <FILE id="cQjzaV" name="enumvalues_a.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_a.js"/>
+              <FILE id="oyv5Ka" name="enumvalues_b.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_b.html"/>
+              <FILE id="G1LXYt" name="enumvalues_b.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_b.js"/>
+              <FILE id="Tl6o6e" name="enumvalues_c.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_c.html"/>
+              <FILE id="wnj0Yj" name="enumvalues_c.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_c.js"/>
+              <FILE id="l5ix5V" name="enumvalues_d.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/enumvalues_d.html"/>
+              <FILE id="KmFW55" name="enumvalues_d.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/enumvalues_d.js"/>
+              <FILE id="xTqE14" name="files_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_0.html"/>
+              <FILE id="TLipvr" name="files_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_0.js"/>
+              <FILE id="g0vNVC" name="files_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_1.html"/>
+              <FILE id="pliA6y" name="files_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_1.js"/>
+              <FILE id="DqAD8H" name="files_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_2.html"/>
+              <FILE id="LCKDKl" name="files_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_2.js"/>
+              <FILE id="Bvx4i3" name="files_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_3.html"/>
+              <FILE id="f7Jud8" name="files_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_3.js"/>
+              <FILE id="RbR8vn" name="files_4.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_4.html"/>
+              <FILE id="mMXBcp" name="files_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_4.js"/>
+              <FILE id="ion1Wu" name="files_5.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_5.html"/>
+              <FILE id="mt1tZQ" name="files_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_5.js"/>
+              <FILE id="lSkFaV" name="files_6.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_6.html"/>
+              <FILE id="wrFcLx" name="files_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/files_6.js"/>
+              <FILE id="wyYXBA" name="functions_0.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_0.html"/>
+              <FILE id="doSyQ7" name="functions_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_0.js"/>
+              <FILE id="LWtySo" name="functions_1.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_1.html"/>
+              <FILE id="nBNPPO" name="functions_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_1.js"/>
+              <FILE id="ANzYoz" name="functions_2.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_2.html"/>
+              <FILE id="j8JxMA" name="functions_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_2.js"/>
+              <FILE id="jpbkEL" name="functions_3.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_3.html"/>
+              <FILE id="qo7P4Z" name="functions_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_3.js"/>
+              <FILE id="PSYgcr" name="functions_4.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_4.html"/>
+              <FILE id="A6bU14" name="functions_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_4.js"/>
+              <FILE id="yAOSZf" name="functions_5.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_5.html"/>
+              <FILE id="KoQ1Qz" name="functions_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_5.js"/>
+              <FILE id="ZzRgXC" name="functions_6.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_6.html"/>
+              <FILE id="YN5lx2" name="functions_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_6.js"/>
+              <FILE id="Vypfva" name="functions_7.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_7.html"/>
+              <FILE id="E9uQOd" name="functions_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_7.js"/>
+              <FILE id="Z4xTHJ" name="functions_8.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_8.html"/>
+              <FILE id="yjztZ2" name="functions_8.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_8.js"/>
+              <FILE id="SHm44f" name="functions_9.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_9.html"/>
+              <FILE id="wG0oJS" name="functions_9.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_9.js"/>
+              <FILE id="Tm2ta1" name="functions_10.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_10.html"/>
+              <FILE id="WyDwQS" name="functions_10.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_10.js"/>
+              <FILE id="C0YDpD" name="functions_11.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_11.html"/>
+              <FILE id="TtPdQH" name="functions_11.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_11.js"/>
+              <FILE id="q0HLY6" name="functions_12.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_12.html"/>
+              <FILE id="OIHnka" name="functions_12.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_12.js"/>
+              <FILE id="C3uc7z" name="functions_13.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_13.html"/>
+              <FILE id="QoPYSC" name="functions_13.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_13.js"/>
+              <FILE id="mvU5ZS" name="functions_14.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_14.html"/>
+              <FILE id="f4ZDtN" name="functions_14.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_14.js"/>
+              <FILE id="sYCtdB" name="functions_a.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_a.html"/>
+              <FILE id="ZSjX3b" name="functions_a.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_a.js"/>
+              <FILE id="GrdYCn" name="functions_b.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_b.html"/>
+              <FILE id="etZn8M" name="functions_b.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_b.js"/>
+              <FILE id="e8JH9V" name="functions_c.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_c.html"/>
+              <FILE id="V08nmP" name="functions_c.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_c.js"/>
+              <FILE id="yVuInk" name="functions_d.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_d.html"/>
+              <FILE id="JfRu0m" name="functions_d.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_d.js"/>
+              <FILE id="w5KSf7" name="functions_e.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_e.html"/>
+              <FILE id="ory7JW" name="functions_e.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_e.js"/>
+              <FILE id="mhXMxK" name="functions_f.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/functions_f.html"/>
+              <FILE id="E2aND9" name="functions_f.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/functions_f.js"/>
+              <FILE id="SZsSXZ" name="mag_sel.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/mag_sel.png"/>
+              <FILE id="hEbjhK" name="nomatches.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/nomatches.html"/>
+              <FILE id="iS4U0c" name="pages_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/pages_0.html"/>
+              <FILE id="HfVUKg" name="pages_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/pages_0.js"/>
+              <FILE id="whJrlI" name="pages_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/pages_1.html"/>
+              <FILE id="iwbNWE" name="pages_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/pages_1.js"/>
+              <FILE id="dgUmLW" name="search.css" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/search.css"/>
+              <FILE id="UqBCon" name="search.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/search.js"/>
+              <FILE id="pCwblw" name="search_l.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/search_l.png"/>
+              <FILE id="NkMm4m" name="search_m.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/search_m.png"/>
+              <FILE id="gTJvDM" name="search_r.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/search_r.png"/>
+              <FILE id="b96KX0" name="searchdata.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/searchdata.js"/>
+              <FILE id="GuOW3x" name="typedefs_0.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_0.html"/>
+              <FILE id="J7QBCc" name="typedefs_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_0.js"/>
+              <FILE id="yM6bAd" name="typedefs_1.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_1.html"/>
+              <FILE id="WWTaqS" name="typedefs_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_1.js"/>
+              <FILE id="FhRIuy" name="typedefs_2.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_2.html"/>
+              <FILE id="LLKtUZ" name="typedefs_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_2.js"/>
+              <FILE id="TT1FBZ" name="typedefs_3.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_3.html"/>
+              <FILE id="DIajQd" name="typedefs_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_3.js"/>
+              <FILE id="pOCiMh" name="typedefs_4.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_4.html"/>
+              <FILE id="I3bRdG" name="typedefs_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_4.js"/>
+              <FILE id="mUuhUw" name="typedefs_5.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_5.html"/>
+              <FILE id="N3oV7J" name="typedefs_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/typedefs_5.js"/>
+              <FILE id="pGDuZZ" name="variables_0.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_0.html"/>
+              <FILE id="CxUzov" name="variables_0.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_0.js"/>
+              <FILE id="VVzwYm" name="variables_1.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_1.html"/>
+              <FILE id="WJAS8b" name="variables_1.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_1.js"/>
+              <FILE id="Tf9SM5" name="variables_2.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_2.html"/>
+              <FILE id="k0jiwL" name="variables_2.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_2.js"/>
+              <FILE id="NZCSPv" name="variables_3.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_3.html"/>
+              <FILE id="WZdwbN" name="variables_3.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_3.js"/>
+              <FILE id="JiTIes" name="variables_4.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_4.html"/>
+              <FILE id="b9c5d6" name="variables_4.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_4.js"/>
+              <FILE id="qyqsV6" name="variables_5.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_5.html"/>
+              <FILE id="seBwLn" name="variables_5.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_5.js"/>
+              <FILE id="rgtknl" name="variables_6.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_6.html"/>
+              <FILE id="JO9jTe" name="variables_6.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_6.js"/>
+              <FILE id="bRs8dH" name="variables_7.html" compile="0" resource="1"
+                    file="Source/CPGLib-master/doxygen/html/search/variables_7.html"/>
+              <FILE id="HSrUId" name="variables_7.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/search/variables_7.js"/>
+            </GROUP>
+            <FILE id="TJg6pb" name="annotated.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/annotated.html"/>
+            <FILE id="PxAaaf" name="arrowdown.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/arrowdown.png"/>
+            <FILE id="OU7F1i" name="arrowright.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/arrowright.png"/>
+            <FILE id="PB1Ndp" name="bc_s.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/bc_s.png"/>
+            <FILE id="ZFgQB6" name="bdwn.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/bdwn.png"/>
+            <FILE id="jaVu3J" name="classcore.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/classcore.html"/>
+            <FILE id="aiflX9" name="classCPG-members.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classCPG-members.html"/>
+            <FILE id="zO6hTA" name="classCPG.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/classCPG.html"/>
+            <FILE id="Xp2Jby" name="classDelayLine-members.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classDelayLine-members.html"/>
+            <FILE id="Zw1gn7" name="classDelayLine.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classDelayLine.html"/>
+            <FILE id="mfTQ4W" name="classes.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/classes.html"/>
+            <FILE id="NOMF0e" name="classMatsuCalcs-members.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classMatsuCalcs-members.html"/>
+            <FILE id="bsh5KP" name="classMatsuCalcs.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classMatsuCalcs.html"/>
+            <FILE id="cV7eHD" name="classMatsuNode-members.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classMatsuNode-members.html"/>
+            <FILE id="VYC7wz" name="classMatsuNode.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classMatsuNode.html"/>
+            <FILE id="LkrsvB" name="classMatsuokaEngine-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classMatsuokaEngine-members.html"/>
+            <FILE id="OsqsUJ" name="classMatsuokaEngine.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classMatsuokaEngine.html"/>
+            <FILE id="cyH03H" name="classQuantisedEventQueue-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classQuantisedEventQueue-members.html"/>
+            <FILE id="Y8K6Uw" name="classQuantisedEventQueue.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classQuantisedEventQueue.html"/>
+            <FILE id="I62y8U" name="classQuantiseGrid__hard-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classQuantiseGrid__hard-members.html"/>
+            <FILE id="PazvXj" name="classQuantiseGrid__hard.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classQuantiseGrid__hard.html"/>
+            <FILE id="r7hCWi" name="classQuantiseGrid__soft-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classQuantiseGrid__soft-members.html"/>
+            <FILE id="MGduph" name="classQuantiseGrid__soft.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classQuantiseGrid__soft.html"/>
+            <FILE id="PepZuA" name="classScalingCurve-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/classScalingCurve-members.html"/>
+            <FILE id="aE4kJA" name="classScalingCurve.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classScalingCurve.html"/>
+            <FILE id="jwdMCC" name="classXORRand-members.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classXORRand-members.html"/>
+            <FILE id="bUZV4C" name="classXORRand.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/classXORRand.html"/>
+            <FILE id="qe9NnB" name="closed.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/closed.png"/>
+            <FILE id="tt6K0V" name="CMakeLists_8txt.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/CMakeLists_8txt.html"/>
+            <FILE id="Ov4uhS" name="core_8cpp.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/core_8cpp.html"/>
+            <FILE id="JfywLm" name="core_8h.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/core_8h.html"/>
+            <FILE id="QElxN7" name="core_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/core_8h_source.html"/>
+            <FILE id="NMqvyY" name="CPG_8cpp.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/CPG_8cpp.html"/>
+            <FILE id="piUlwy" name="CPG_8h.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/CPG_8h.html"/>
+            <FILE id="Sg0J6k" name="CPG_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/CPG_8h_source.html"/>
+            <FILE id="Wjkrje" name="delayLine_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/delayLine_8h.html"/>
+            <FILE id="T4FZPf" name="delayLine_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/delayLine_8h_source.html"/>
+            <FILE id="iWtVRp" name="doc.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/doc.png"/>
+            <FILE id="C1Tu6Q" name="doxygen.css" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/doxygen.css"/>
+            <FILE id="LWp58z" name="doxygen.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/doxygen.png"/>
+            <FILE id="dSfIja" name="dynsections.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/dynsections.js"/>
+            <FILE id="KeTznU" name="files.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/files.html"/>
+            <FILE id="Ifhlfn" name="folderclosed.png" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/folderclosed.png"/>
+            <FILE id="eoMzKa" name="folderopen.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/folderopen.png"/>
+            <FILE id="im0gQc" name="functions.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/functions.html"/>
+            <FILE id="rkNbLO" name="functions_0x7e.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_0x7e.html"/>
+            <FILE id="uPlhds" name="functions_c.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_c.html"/>
+            <FILE id="lTEOhH" name="functions_d.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_d.html"/>
+            <FILE id="D5dUzD" name="functions_e.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_e.html"/>
+            <FILE id="ZDgPSk" name="functions_enum.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_enum.html"/>
+            <FILE id="VYMtNP" name="functions_eval.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_eval.html"/>
+            <FILE id="F8C5Gg" name="functions_func.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func.html"/>
+            <FILE id="Ygur6U" name="functions_func_0x7e.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_0x7e.html"/>
+            <FILE id="Tba0QD" name="functions_func_c.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_c.html"/>
+            <FILE id="HopIdO" name="functions_func_d.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_d.html"/>
+            <FILE id="Qv37lf" name="functions_func_e.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_e.html"/>
+            <FILE id="yJXrH6" name="functions_func_g.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_g.html"/>
+            <FILE id="CqMQBO" name="functions_func_h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_h.html"/>
+            <FILE id="XM0JYZ" name="functions_func_i.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_i.html"/>
+            <FILE id="YnuzKV" name="functions_func_j.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_j.html"/>
+            <FILE id="U3qfsa" name="functions_func_l.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_l.html"/>
+            <FILE id="ORAZLc" name="functions_func_m.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_m.html"/>
+            <FILE id="DS7oYn" name="functions_func_n.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_n.html"/>
+            <FILE id="Ncr0jd" name="functions_func_o.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_o.html"/>
+            <FILE id="s7OJED" name="functions_func_p.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_p.html"/>
+            <FILE id="CN6E0v" name="functions_func_q.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_q.html"/>
+            <FILE id="JwedFL" name="functions_func_r.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_r.html"/>
+            <FILE id="LMgvyu" name="functions_func_s.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_s.html"/>
+            <FILE id="WzcXoo" name="functions_func_t.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_t.html"/>
+            <FILE id="vP3fZ7" name="functions_func_v.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_v.html"/>
+            <FILE id="PWDlJV" name="functions_func_x.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_x.html"/>
+            <FILE id="ERM5sP" name="functions_func_z.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_func_z.html"/>
+            <FILE id="IwQK8X" name="functions_g.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_g.html"/>
+            <FILE id="QdmdAk" name="functions_h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_h.html"/>
+            <FILE id="wwwIgw" name="functions_i.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_i.html"/>
+            <FILE id="eQJvER" name="functions_j.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_j.html"/>
+            <FILE id="qGBPe3" name="functions_l.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_l.html"/>
+            <FILE id="IvMIE3" name="functions_m.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_m.html"/>
+            <FILE id="vdBHxs" name="functions_n.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_n.html"/>
+            <FILE id="wtFGo7" name="functions_o.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_o.html"/>
+            <FILE id="CLutO8" name="functions_p.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_p.html"/>
+            <FILE id="c5DcCA" name="functions_q.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_q.html"/>
+            <FILE id="ZjjvXc" name="functions_r.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_r.html"/>
+            <FILE id="sXrAZA" name="functions_s.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_s.html"/>
+            <FILE id="MIFHg5" name="functions_t.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_t.html"/>
+            <FILE id="HEwWwg" name="functions_type.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_type.html"/>
+            <FILE id="cn94oc" name="functions_v.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_v.html"/>
+            <FILE id="WOPrm2" name="functions_vars.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_vars.html"/>
+            <FILE id="b6tPNs" name="functions_w.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_w.html"/>
+            <FILE id="u47Gdx" name="functions_x.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_x.html"/>
+            <FILE id="gNsaev" name="functions_z.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/functions_z.html"/>
+            <FILE id="nMCoKs" name="globals.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/globals.html"/>
+            <FILE id="oAiIv8" name="globals_defs.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/globals_defs.html"/>
+            <FILE id="E5OVbB" name="globals_func.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/globals_func.html"/>
+            <FILE id="HcWrfV" name="globals_type.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/globals_type.html"/>
+            <FILE id="dGpGEp" name="index.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/index.html"/>
+            <FILE id="yj6aZc" name="jquery.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/jquery.js"/>
+            <FILE id="N7aQ4x" name="mainpage_8dox.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/mainpage_8dox.html"/>
+            <FILE id="zssgHj" name="Matsu__calcs_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/Matsu__calcs_8cpp.html"/>
+            <FILE id="vCt8NJ" name="Matsu__calcs_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/Matsu__calcs_8h.html"/>
+            <FILE id="TUhCp0" name="Matsu__calcs_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/Matsu__calcs_8h_source.html"/>
+            <FILE id="S5tH1F" name="matsu__signal__calcs_8c.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/matsu__signal__calcs_8c.html"/>
+            <FILE id="cHQ1pL" name="matsu__signal__calcs_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/matsu__signal__calcs_8h.html"/>
+            <FILE id="iXldy8" name="matsu__signal__calcs_8h_source.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/matsu__signal__calcs_8h_source.html"/>
+            <FILE id="r9T5oR" name="matsuNode_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/matsuNode_8cpp.html"/>
+            <FILE id="djxgsl" name="matsuNode_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/matsuNode_8h.html"/>
+            <FILE id="cJLSPT" name="matsuNode_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/matsuNode_8h_source.html"/>
+            <FILE id="CRcYHz" name="MatsuokaEngine_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/MatsuokaEngine_8cpp.html"/>
+            <FILE id="wAGEya" name="MatsuokaEngine_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/MatsuokaEngine_8h.html"/>
+            <FILE id="tdbdW0" name="MatsuokaEngine_8h_source.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/MatsuokaEngine_8h_source.html"/>
+            <FILE id="HBfzey" name="md_O_1_Documents_Max_7_Packages_max_cpg_source_MatsuokaEngine_src_ReadMe.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/md_O_1_Documents_Max_7_Packages_max_cpg_source_MatsuokaEngine_src_ReadMe.html"/>
+            <FILE id="gAJ2iN" name="menu.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/menu.js"/>
+            <FILE id="rN3P5u" name="menudata.js" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/menudata.js"/>
+            <FILE id="XyJ5iH" name="nav_f.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/nav_f.png"/>
+            <FILE id="XYCx2Z" name="nav_g.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/nav_g.png"/>
+            <FILE id="db7gGv" name="nav_h.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/nav_h.png"/>
+            <FILE id="coxYgv" name="open.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/open.png"/>
+            <FILE id="QXk9cC" name="pages.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/pages.html"/>
+            <FILE id="z4sPxB" name="QuantisedEventQueue_8cpp.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/QuantisedEventQueue_8cpp.html"/>
+            <FILE id="C36ZLU" name="QuantisedEventQueue_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/QuantisedEventQueue_8h.html"/>
+            <FILE id="B9iF0N" name="QuantisedEventQueue_8h_source.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/QuantisedEventQueue_8h_source.html"/>
+            <FILE id="iMsTwf" name="QuantiseGrid__hard_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/QuantiseGrid__hard_8cpp.html"/>
+            <FILE id="BHJrh5" name="QuantiseGrid__hard_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/QuantiseGrid__hard_8h.html"/>
+            <FILE id="jBIHB5" name="QuantiseGrid__hard_8h_source.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/QuantiseGrid__hard_8h_source.html"/>
+            <FILE id="m6jT5b" name="QuantiseGrid__soft_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/QuantiseGrid__soft_8cpp.html"/>
+            <FILE id="NuAguo" name="QuantiseGrid__soft_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/QuantiseGrid__soft_8h.html"/>
+            <FILE id="hKyYkW" name="QuantiseGrid__soft_8h_source.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/QuantiseGrid__soft_8h_source.html"/>
+            <FILE id="Qy1faZ" name="ReadMe_8md.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/ReadMe_8md.html"/>
+            <FILE id="hPSLyy" name="ReadMe_8txt.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/ReadMe_8txt.html"/>
+            <FILE id="fBADqC" name="ScalingCurve_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/ScalingCurve_8cpp.html"/>
+            <FILE id="OgpQuZ" name="ScalingCurve_8h.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/ScalingCurve_8h.html"/>
+            <FILE id="Gwinmi" name="ScalingCurve_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/ScalingCurve_8h_source.html"/>
+            <FILE id="MqSEug" name="splitbar.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/splitbar.png"/>
+            <FILE id="FAgoMx" name="struct__matsuoka__internals-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/struct__matsuoka__internals-members.html"/>
+            <FILE id="MCJGhB" name="struct__matsuoka__internals.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/struct__matsuoka__internals.html"/>
+            <FILE id="muoSGS" name="structCPG_1_1input-members.html" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/html/structCPG_1_1input-members.html"/>
+            <FILE id="cVLQXh" name="structCPG_1_1input.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/structCPG_1_1input.html"/>
+            <FILE id="qoBKUI" name="structMatsuCalcs_1_1matsuoka__internals-members.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structMatsuCalcs_1_1matsuoka__internals-members.html"/>
+            <FILE id="OWhvKT" name="structMatsuCalcs_1_1matsuoka__internals.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structMatsuCalcs_1_1matsuoka__internals.html"/>
+            <FILE id="Kop6nD" name="structQuantisedEventQueue_1_1outputEvent-members.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structQuantisedEventQueue_1_1outputEvent-members.html"/>
+            <FILE id="gceK8I" name="structQuantisedEventQueue_1_1outputEvent.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structQuantisedEventQueue_1_1outputEvent.html"/>
+            <FILE id="TBkVGC" name="structQuantiseGrid__soft_1_1noteCoordinate-members.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structQuantiseGrid__soft_1_1noteCoordinate-members.html"/>
+            <FILE id="pTd4jL" name="structQuantiseGrid__soft_1_1noteCoordinate.html"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/structQuantiseGrid__soft_1_1noteCoordinate.html"/>
+            <FILE id="SHCBvP" name="sync_off.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/sync_off.png"/>
+            <FILE id="ch73nb" name="sync_on.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/sync_on.png"/>
+            <FILE id="qUIkBR" name="tab_a.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/tab_a.png"/>
+            <FILE id="pmx0r6" name="tab_b.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/tab_b.png"/>
+            <FILE id="qDsk2l" name="tab_h.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/tab_h.png"/>
+            <FILE id="g7sPKZ" name="tab_s.png" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/tab_s.png"/>
+            <FILE id="V2xEuV" name="tabs.css" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/tabs.css"/>
+            <FILE id="bKjDV6" name="Thumbs.db" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/Thumbs.db"/>
+            <FILE id="YEOHw9" name="XORRand_8cpp.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/XORRand_8cpp.html"/>
+            <FILE id="EE969l" name="XORRand_8h.html" compile="0" resource="1" file="Source/CPGLib-master/doxygen/html/XORRand_8h.html"/>
+            <FILE id="eneRBH" name="XORRand_8h_source.html" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/html/XORRand_8h_source.html"/>
+          </GROUP>
+          <GROUP id="{B4364F56-76E1-6FFA-3B88-68A6BE085607}" name="latex">
+            <FILE id="PACRQ8" name="annotated.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/annotated.tex"/>
+            <FILE id="vVTgrG" name="classcore.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/classcore.tex"/>
+            <FILE id="Zy5PKR" name="classCPG.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/classCPG.tex"/>
+            <FILE id="GHFLQG" name="classDelayLine.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classDelayLine.tex"/>
+            <FILE id="mLS2sb" name="classMatsuCalcs.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classMatsuCalcs.tex"/>
+            <FILE id="JdkTMH" name="classMatsuNode.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classMatsuNode.tex"/>
+            <FILE id="kBnKwZ" name="classMatsuokaEngine.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classMatsuokaEngine.tex"/>
+            <FILE id="jtlqw7" name="classQuantisedEventQueue.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classQuantisedEventQueue.tex"/>
+            <FILE id="G2XOQd" name="classQuantiseGrid__hard.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classQuantiseGrid__hard.tex"/>
+            <FILE id="E2HAPu" name="classQuantiseGrid__soft.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classQuantiseGrid__soft.tex"/>
+            <FILE id="gETEDg" name="classScalingCurve.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classScalingCurve.tex"/>
+            <FILE id="J3r0Xs" name="classXORRand.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/classXORRand.tex"/>
+            <FILE id="gghfdO" name="CMakeLists_8txt.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/CMakeLists_8txt.tex"/>
+            <FILE id="GMBGp4" name="core_8cpp.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/core_8cpp.tex"/>
+            <FILE id="cjUYbb" name="core_8h.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/core_8h.tex"/>
+            <FILE id="d2hnya" name="CPG_8cpp.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/CPG_8cpp.tex"/>
+            <FILE id="Vsx5Te" name="CPG_8h.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/CPG_8h.tex"/>
+            <FILE id="Kqwrs0" name="delayLine_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/delayLine_8h.tex"/>
+            <FILE id="DEI7Si" name="doxygen.sty" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/doxygen.sty"/>
+            <FILE id="kaVxSR" name="files.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/files.tex"/>
+            <FILE id="lRIyTx" name="index.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/index.tex"/>
+            <FILE id="mJlwO2" name="mainpage_8dox.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/mainpage_8dox.tex"/>
+            <FILE id="afJhAe" name="make.bat" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/make.bat"/>
+            <FILE id="QMz5EQ" name="Makefile" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/Makefile"/>
+            <FILE id="RWM817" name="Matsu__calcs_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/Matsu__calcs_8cpp.tex"/>
+            <FILE id="GC5Gdx" name="Matsu__calcs_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/Matsu__calcs_8h.tex"/>
+            <FILE id="pypuOx" name="matsu__signal__calcs_8c.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/matsu__signal__calcs_8c.tex"/>
+            <FILE id="SkXOvJ" name="matsu__signal__calcs_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/matsu__signal__calcs_8h.tex"/>
+            <FILE id="kV7773" name="matsuNode_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/matsuNode_8cpp.tex"/>
+            <FILE id="UprQzr" name="matsuNode_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/matsuNode_8h.tex"/>
+            <FILE id="KOjdfW" name="MatsuokaEngine_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/MatsuokaEngine_8cpp.tex"/>
+            <FILE id="qRGmbA" name="MatsuokaEngine_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/MatsuokaEngine_8h.tex"/>
+            <FILE id="kXVE9K" name="md_O_1_Documents_Max_7_Packages_max_cpg_source_MatsuokaEngine_src_ReadMe.tex"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/md_O_1_Documents_Max_7_Packages_max_cpg_source_MatsuokaEngine_src_ReadMe.tex"/>
+            <FILE id="IO30nC" name="QuantisedEventQueue_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantisedEventQueue_8cpp.tex"/>
+            <FILE id="E42fs5" name="QuantisedEventQueue_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantisedEventQueue_8h.tex"/>
+            <FILE id="BhXw1f" name="QuantiseGrid__hard_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantiseGrid__hard_8cpp.tex"/>
+            <FILE id="jee0Wt" name="QuantiseGrid__hard_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantiseGrid__hard_8h.tex"/>
+            <FILE id="JU8ma1" name="QuantiseGrid__soft_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantiseGrid__soft_8cpp.tex"/>
+            <FILE id="iT3I5H" name="QuantiseGrid__soft_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/QuantiseGrid__soft_8h.tex"/>
+            <FILE id="McPrpk" name="ReadMe_8md.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/ReadMe_8md.tex"/>
+            <FILE id="Tls0DB" name="ReadMe_8txt.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/ReadMe_8txt.tex"/>
+            <FILE id="en4129" name="refman.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/refman.tex"/>
+            <FILE id="gvokyj" name="ScalingCurve_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/ScalingCurve_8cpp.tex"/>
+            <FILE id="LAPmeJ" name="ScalingCurve_8h.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/ScalingCurve_8h.tex"/>
+            <FILE id="jIzuxo" name="struct__matsuoka__internals.tex" compile="0"
+                  resource="1" file="Source/CPGLib-master/doxygen/latex/struct__matsuoka__internals.tex"/>
+            <FILE id="g34XQP" name="structCPG_1_1input.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/structCPG_1_1input.tex"/>
+            <FILE id="mBXxJ6" name="structMatsuCalcs_1_1matsuoka__internals.tex"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/structMatsuCalcs_1_1matsuoka__internals.tex"/>
+            <FILE id="JcMyws" name="structQuantisedEventQueue_1_1outputEvent.tex"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/structQuantisedEventQueue_1_1outputEvent.tex"/>
+            <FILE id="TeHJaU" name="structQuantiseGrid__soft_1_1noteCoordinate.tex"
+                  compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/structQuantiseGrid__soft_1_1noteCoordinate.tex"/>
+            <FILE id="Lv79LF" name="XORRand_8cpp.tex" compile="0" resource="1"
+                  file="Source/CPGLib-master/doxygen/latex/XORRand_8cpp.tex"/>
+            <FILE id="PNaiRW" name="XORRand_8h.tex" compile="0" resource="1" file="Source/CPGLib-master/doxygen/latex/XORRand_8h.tex"/>
+          </GROUP>
+        </GROUP>
+        <GROUP id="{A3F7DDB7-61FC-418A-B7DB-EF7E04DC1253}" name="pybindings"/>
+        <FILE id="a6gioO" name="core.cpp" compile="1" resource="0" file="Source/CPGLib-master/core.cpp"/>
+        <FILE id="NUM8BK" name="core.h" compile="0" resource="0" file="Source/CPGLib-master/core.h"/>
+        <FILE id="VG7ggv" name="CPG.cpp" compile="1" resource="0" file="Source/CPGLib-master/CPG.cpp"/>
+        <FILE id="yW7AEB" name="CPG.h" compile="0" resource="0" file="Source/CPGLib-master/CPG.h"/>
+        <FILE id="S4leBJ" name="delayLine.h" compile="0" resource="0" file="Source/CPGLib-master/delayLine.h"/>
+        <FILE id="efTdGf" name="Matsu_calcs.cpp" compile="1" resource="0" file="Source/CPGLib-master/Matsu_calcs.cpp"/>
+        <FILE id="IDXjIb" name="Matsu_calcs.h" compile="0" resource="0" file="Source/CPGLib-master/Matsu_calcs.h"/>
+        <FILE id="vNiPBZ" name="matsu_signal_calcs.c" compile="1" resource="0"
               file="Source/CPGLib-master/matsu_signal_calcs.c"/>
-        <FILE id="B3w4YQ" name="matsu_signal_calcs.h" compile="0" resource="0"
+        <FILE id="XdDfnX" name="matsu_signal_calcs.h" compile="0" resource="0"
               file="Source/CPGLib-master/matsu_signal_calcs.h"/>
-        <FILE id="fkwppd" name="matsuNode.cpp" compile="1" resource="0" file="Source/CPGLib-master/matsuNode.cpp"/>
-        <FILE id="hfBL0b" name="matsuNode.h" compile="0" resource="0" file="Source/CPGLib-master/matsuNode.h"/>
-        <FILE id="gs3utv" name="MatsuokaEngine.cpp" compile="1" resource="0"
+        <FILE id="DXUxFU" name="matsuNode.cpp" compile="1" resource="0" file="Source/CPGLib-master/matsuNode.cpp"/>
+        <FILE id="eOu2vI" name="matsuNode.h" compile="0" resource="0" file="Source/CPGLib-master/matsuNode.h"/>
+        <FILE id="F2Mc73" name="MatsuokaEngine.cpp" compile="1" resource="0"
               file="Source/CPGLib-master/MatsuokaEngine.cpp"/>
-        <FILE id="S1tAcJ" name="MatsuokaEngine.h" compile="0" resource="0"
+        <FILE id="pSY22v" name="MatsuokaEngine.h" compile="0" resource="0"
               file="Source/CPGLib-master/MatsuokaEngine.h"/>
-        <FILE id="sYATzO" name="MatsuokaEngine_src.vcxproj" compile="0" resource="1"
+        <FILE id="Rz4uvQ" name="MatsuokaEngine_src.vcxproj" compile="0" resource="1"
               file="Source/CPGLib-master/MatsuokaEngine_src.vcxproj"/>
-        <FILE id="PjlkkF" name="MatsuokaEngine_src.vcxproj.filters" compile="0"
+        <FILE id="DoxNQD" name="MatsuokaEngine_src.vcxproj.filters" compile="0"
               resource="1" file="Source/CPGLib-master/MatsuokaEngine_src.vcxproj.filters"/>
-        <FILE id="JJIuco" name="QuantisedEventQueue.cpp" compile="1" resource="0"
+        <FILE id="C0EpEx" name="QuantisedEventQueue.cpp" compile="1" resource="0"
               file="Source/CPGLib-master/QuantisedEventQueue.cpp"/>
-        <FILE id="ispve9" name="QuantisedEventQueue.h" compile="0" resource="0"
+        <FILE id="ls6uLR" name="QuantisedEventQueue.h" compile="0" resource="0"
               file="Source/CPGLib-master/QuantisedEventQueue.h"/>
-        <FILE id="slcfBq" name="QuantiseGrid_soft.cpp" compile="1" resource="0"
+        <FILE id="KcDD0d" name="QuantiseGrid_soft.cpp" compile="1" resource="0"
               file="Source/CPGLib-master/QuantiseGrid_soft.cpp"/>
-        <FILE id="KCGuTe" name="QuantiseGrid_soft.h" compile="0" resource="0"
+        <FILE id="GnTOJW" name="QuantiseGrid_soft.h" compile="0" resource="0"
               file="Source/CPGLib-master/QuantiseGrid_soft.h"/>
-        <FILE id="AYOFSW" name="ScalingCurve.cpp" compile="1" resource="0"
+        <FILE id="KsHgj2" name="ScalingCurve.cpp" compile="1" resource="0"
               file="Source/CPGLib-master/ScalingCurve.cpp"/>
-        <FILE id="qHlG3Q" name="ScalingCurve.h" compile="0" resource="0" file="Source/CPGLib-master/ScalingCurve.h"/>
-        <FILE id="PeaUn8" name="XORRand.cpp" compile="1" resource="0" file="Source/CPGLib-master/XORRand.cpp"/>
-        <FILE id="QesYjY" name="XORRand.h" compile="0" resource="0" file="Source/CPGLib-master/XORRand.h"/>
+        <FILE id="PQpoLC" name="ScalingCurve.h" compile="0" resource="0" file="Source/CPGLib-master/ScalingCurve.h"/>
+        <FILE id="Hjzn7w" name="XORRand.cpp" compile="1" resource="0" file="Source/CPGLib-master/XORRand.cpp"/>
+        <FILE id="RQEb5w" name="XORRand.h" compile="0" resource="0" file="Source/CPGLib-master/XORRand.h"/>
       </GROUP>
-      <GROUP id="{4546EF51-EF7C-F306-911D-E4A103EA0122}" name="Interfaces">
-        <FILE id="r2Xc2V" name="IAudioFileHandler.h" compile="0" resource="0"
-              file="Source/IAudioFileHandler.h"/>
-        <FILE id="f86PbY" name="IConnectionDragHandler.h" compile="0" resource="0"
-              file="Source/IConnectionDragHandler.h"/>
-        <FILE id="lIYpM9" name="IConnectionHandler.h" compile="0" resource="0"
-              file="Source/IConnectionHandler.h"/>
-        <FILE id="dkEBiY" name="IGrainGenHandler.h" compile="0" resource="0"
-              file="Source/IGrainGenHandler.h"/>
+      <GROUP id="{99713DEB-71B6-1D51-810E-FC04716430F1}" name="dsp">
+        <FILE id="aDYVuU" name="AmplitudeEnvelope.h" compile="0" resource="0"
+              file="Source/dsp/AmplitudeEnvelope.h"/>
+        <FILE id="zZ6YVs" name="AudioBuffer.h" compile="0" resource="0" file="Source/dsp/AudioBuffer.h"/>
+        <FILE id="wTGaT6" name="AudioFile.h" compile="0" resource="0" file="Source/dsp/AudioFile.h"/>
+        <FILE id="zogUgc" name="CPGNetwork.h" compile="0" resource="0" file="Source/dsp/CPGNetwork.h"/>
+        <FILE id="i3A1CK" name="Grain.h" compile="0" resource="0" file="Source/dsp/Grain.h"/>
+        <FILE id="Vtd0on" name="GrainGenerator.h" compile="0" resource="0"
+              file="Source/dsp/GrainGenerator.h"/>
       </GROUP>
-      <GROUP id="{27DD6864-8CAE-76B6-B413-612618B9DEE9}" name="GUI">
-        <FILE id="B5Pnzo" name="GrainOptionsPanel.h" compile="0" resource="0"
-              file="Source/GrainOptionsPanel.h"/>
-        <FILE id="te0FRe" name="SelectedOption.h" compile="0" resource="0"
-              file="Source/SelectedOption.h"/>
-        <FILE id="qJtc3F" name="BufferOptionsPanel.h" compile="0" resource="0"
-              file="Source/BufferOptionsPanel.h"/>
-        <FILE id="Hi3GSl" name="DraggableComponentLassoSource.h" compile="0"
-              resource="0" file="Source/DraggableComponentLassoSource.h"/>
-        <FILE id="Meiv18" name="AudioBufferSelectorVis.h" compile="0" resource="0"
-              file="Source/AudioBufferSelectorVis.h"/>
-        <FILE id="Fjr8ur" name="AudioBufferVis.h" compile="0" resource="0"
-              file="Source/AudioBufferVis.h"/>
-        <FILE id="RfJU69" name="ConnectionSelector.h" compile="0" resource="0"
-              file="Source/ConnectionSelector.h"/>
-        <FILE id="exn5JV" name="DraggableComponent.h" compile="0" resource="0"
-              file="Source/DraggableComponent.h"/>
-        <FILE id="yVnNan" name="GrainGeneratorVis.h" compile="0" resource="0"
-              file="Source/GrainGeneratorVis.h"/>
-        <FILE id="uiCf1J" name="ConnectionDragMouseListener.h" compile="0"
-              resource="0" file="Source/ConnectionDragMouseListener.h"/>
-        <FILE id="HKw4oi" name="MainPanel.h" compile="0" resource="0" file="Source/MainPanel.h"/>
-        <FILE id="ZZOTQJ" name="SampleSelector.h" compile="0" resource="0"
-              file="Source/SampleSelector.h"/>
-        <FILE id="fmnk5o" name="ScreenGUI.h" compile="0" resource="0" file="Source/ScreenGUI.h"/>
+      <GROUP id="{CE368EAB-E3BC-B0BC-5351-5E1C1993F8D6}" name="gui">
+        <FILE id="rWnnoB" name="AudioBufferSelectorVis.h" compile="0" resource="0"
+              file="Source/gui/AudioBufferSelectorVis.h"/>
+        <FILE id="g7JSGL" name="AudioBufferVis.h" compile="0" resource="0"
+              file="Source/gui/AudioBufferVis.h"/>
+        <FILE id="bvdtXm" name="BufferOptionsPanel.h" compile="0" resource="0"
+              file="Source/gui/BufferOptionsPanel.h"/>
+        <FILE id="JD4nSk" name="ConnectionSelector.h" compile="0" resource="0"
+              file="Source/gui/ConnectionSelector.h"/>
+        <FILE id="cZ8V3v" name="DraggableComponent.h" compile="0" resource="0"
+              file="Source/gui/DraggableComponent.h"/>
+        <FILE id="amKQmB" name="DraggableComponentLassoSource.h" compile="0"
+              resource="0" file="Source/gui/DraggableComponentLassoSource.h"/>
+        <FILE id="xGtOoz" name="GrainGeneratorVis.h" compile="0" resource="0"
+              file="Source/gui/GrainGeneratorVis.h"/>
+        <FILE id="e88pft" name="GrainOptionsPanel.h" compile="0" resource="0"
+              file="Source/gui/GrainOptionsPanel.h"/>
+        <FILE id="c9sGoF" name="MainPanel.h" compile="0" resource="0" file="Source/gui/MainPanel.h"/>
+        <FILE id="eTgrqe" name="SampleSelector.h" compile="0" resource="0"
+              file="Source/gui/SampleSelector.h"/>
+        <FILE id="VorgEm" name="ScreenGUI.h" compile="0" resource="0" file="Source/gui/ScreenGUI.h"/>
+        <FILE id="dGxLOj" name="SelectedOption.h" compile="0" resource="0"
+              file="Source/gui/SelectedOption.h"/>
       </GROUP>
-      <FILE id="QdYCSm" name="AudioFile.h" compile="0" resource="0" file="Source/AudioFile.h"/>
-      <FILE id="HbqGa5" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="Source/PluginProcessor.cpp"/>
-      <FILE id="xKFMMH" name="PluginProcessor.h" compile="0" resource="0"
-            file="Source/PluginProcessor.h"/>
-      <FILE id="LeBP7a" name="Grain.h" compile="0" resource="0" file="Source/Grain.h"/>
-      <FILE id="dQl9PS" name="PluginEditor.cpp" compile="1" resource="0"
+      <GROUP id="{14277CAD-113A-196D-1432-50B095392F83}" name="interfaces">
+        <FILE id="xkpDou" name="IAudioFileHandler.h" compile="0" resource="0"
+              file="Source/interfaces/IAudioFileHandler.h"/>
+        <FILE id="rrm2h4" name="IConnectionDragHandler.h" compile="0" resource="0"
+              file="Source/interfaces/IConnectionDragHandler.h"/>
+        <FILE id="wZQAXP" name="IConnectionHandler.h" compile="0" resource="0"
+              file="Source/interfaces/IConnectionHandler.h"/>
+        <FILE id="Ybankx" name="IGrainGenHandler.h" compile="0" resource="0"
+              file="Source/interfaces/IGrainGenHandler.h"/>
+      </GROUP>
+      <GROUP id="{32462932-752B-1E85-31B6-A1002FDAD88C}" name="listeners">
+        <FILE id="slXqfO" name="ConnectionChangeListener.h" compile="0" resource="0"
+              file="Source/listeners/ConnectionChangeListener.h"/>
+        <FILE id="CjnJCN" name="ConnectionDragMouseListener.h" compile="0"
+              resource="0" file="Source/listeners/ConnectionDragMouseListener.h"/>
+        <FILE id="jJFiUB" name="ConnectionListener.h" compile="0" resource="0"
+              file="Source/listeners/ConnectionListener.h"/>
+        <FILE id="aSr0me" name="FileListener.h" compile="0" resource="0" file="Source/listeners/FileListener.h"/>
+        <FILE id="B7WE4Z" name="GenListener.h" compile="0" resource="0" file="Source/listeners/GenListener.h"/>
+        <FILE id="OJzIQk" name="GroupDragMouseListener.h" compile="0" resource="0"
+              file="Source/listeners/GroupDragMouseListener.h"/>
+        <FILE id="WrtlPv" name="PositionListener.h" compile="0" resource="0"
+              file="Source/listeners/PositionListener.h"/>
+      </GROUP>
+      <FILE id="Zf29lk" name="PluginEditor.cpp" compile="1" resource="0"
             file="Source/PluginEditor.cpp"/>
-      <FILE id="ocYUrD" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
-      <FILE id="vMHPJl" name="Utils.h" compile="0" resource="0" file="Source/Utils.h"/>
-      <FILE id="W5dbsb" name="AudioBuffer.h" compile="0" resource="0" file="Source/AudioBuffer.h"/>
-      <FILE id="KZHM5U" name="GrainGenerator.h" compile="0" resource="0"
-            file="Source/GrainGenerator.h"/>
-      <FILE id="FlzV99" name="AmplitudeEnvelope.h" compile="0" resource="0"
-            file="Source/AmplitudeEnvelope.h"/>
-      <FILE id="lhohPx" name="CPGNetwork.h" compile="0" resource="0" file="Source/CPGNetwork.h"/>
+      <FILE id="CH48uO" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+      <FILE id="gGJHDK" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="W15qjI" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="B4ctGl" name="testTree.txt" compile="0" resource="1" file="Source/testTree.txt"/>
+      <FILE id="KDut15" name="Utils.h" compile="0" resource="0" file="Source/Utils.h"/>
     </GROUP>
   </MAINGROUP>
   <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
   <EXPORTFORMATS>
-    <VS2019 targetFolder="Builds/VisualStudio2019">
+    <VS2022 targetFolder="Builds/VisualStudio2022">
       <CONFIGURATIONS>
         <CONFIGURATION isDebug="1" name="Debug" targetName="Screen"/>
         <CONFIGURATION isDebug="0" name="Release" targetName="Screen"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_core" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_data_structures" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_events" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_graphics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="../../../../../JUCE/modules"/>
-        <MODULEPATH id="juce_dsp" path="../../../../../JUCE/modules"/>
-      </MODULEPATHS>
-    </VS2019>
-    <VS2022 targetFolder="Builds/VisualStudio2022">
-      <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug"/>
-        <CONFIGURATION isDebug="0" name="Release"/>
-      </CONFIGURATIONS>
-      <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_devices" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_formats" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_processors" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_audio_utils" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_core" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_data_structures" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_dsp" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_events" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_graphics" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_gui_basics" path="C:\JUCE\modules"/>
-        <MODULEPATH id="juce_gui_extra" path="C:\JUCE\modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../../../JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../../../JUCE/modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>
@@ -162,13 +787,9 @@
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
-    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
-  <LIVE_SETTINGS>
-    <WINDOWS/>
-  </LIVE_SETTINGS>
 </JUCERPROJECT>
