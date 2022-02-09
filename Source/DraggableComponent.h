@@ -61,6 +61,8 @@ public:
 	bool readyToDrag{ true };
 
 	bool selected{ false };
+
+	juce::Point<int> mouseDownWithinTarget;
 private:
 	juce::ValueTree paramTree;
 };

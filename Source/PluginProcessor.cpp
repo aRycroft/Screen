@@ -159,7 +159,7 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	for (auto triggeredNode : cpgNetwork.triggeredNodes) 
 	{
 		auto generator = generators[triggeredNode];
-		if(generator != nullptr)
+		if (generator != nullptr)
 		{
 			generator->playGrain();
 		}
@@ -215,7 +215,8 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
 		auto* newBuffer = fileBuffers.add(std::make_unique<AudioFile>());
 
-		if (reader.get() != nullptr) {
+		if (reader.get() != nullptr) 
+		{
 			newBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
 			reader->read(newBuffer,
 				0,
@@ -233,7 +234,8 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	auto* buffer = fileBuffers[bufferIndex];
 	if (buffer != nullptr) {
 		buffer->allSounds.add(
-			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), childOfSource.getPropertyAsValue(Ids::highSample, nullptr))
+			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), 
+				childOfSource.getPropertyAsValue(Ids::highSample, nullptr))
 		);
 	}
 }
@@ -265,21 +267,24 @@ void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int 
 
 void ScreenAudioProcessor::connectionCreated(int from, int to) 
 {
-	if (from != to) {
+	if (from != to) 
+	{
 		cpgNetwork.setConnection(from, to, 5);
 	}
 }
 
 void ScreenAudioProcessor::connectionRemoved(int from, int to) 
 {
-	if (from != to) {
+	if (from != to) 
+	{
 		cpgNetwork.removeConnection(from, to);
 	}
 }
 
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
-	if (from != to) {
+	if (from != to) 
+	{
 		cpgNetwork.setConnection(from, to, weight);
 	}
 }

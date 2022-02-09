@@ -37,14 +37,14 @@ public:
 
     void buttonClicked(juce::Button* buttonThatWasClicked) 
     {
-        if (chooser->browseForFileToOpen())
-        {
-            juce::File file = chooser->getResult();
-            if (file.existsAsFile())
+        chooser->launchAsync(juce::FileBrowserComponent::canSelectFiles, [this] (const juce::FileChooser& fileChooser)
             {
-                addAudioSourceTree(file);
-            }
-        }
+                juce::File file = fileChooser.getResult();
+                if (file.existsAsFile()) 
+                {
+                    addAudioSourceTree(file);
+                }
+            });
     }
 
 private:

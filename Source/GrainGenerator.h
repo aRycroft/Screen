@@ -43,9 +43,12 @@ public:
 
 	void playGrain()
 	{
-		for (auto sound : activeSounds) {
-			for (auto grain : grains) {
-				if (!grain->isPlaying()) {
+		for (auto sound : activeSounds) 
+		{
+			for (auto grain : grains) 
+			{
+				if (!grain->isPlaying()) 
+				{
 					grain->startPlaying(sound);
 					break;
 				}
@@ -79,7 +82,8 @@ private:
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override
 	{
-		if (property == Ids::active) {
+		if (property == Ids::active) 
+		{
 			isActive = vTree.getProperty(property);
 		}
 		else if (property == Ids::numVoices)

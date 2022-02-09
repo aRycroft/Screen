@@ -16,7 +16,6 @@ class GroupDragMouseListener : public juce::MouseListener
 public:
 	void mouseDown(const juce::MouseEvent& e) override
 	{
-		deltaFromTarget.clear();
 		if (e.mods.isLeftButtonDown())
 		{
 			auto draggableComponent = dynamic_cast <DraggableComponent*> (e.eventComponent);
@@ -30,13 +29,13 @@ public:
 
 				componentBeingDragged = draggableComponent;
 
-				mouseDownWithinTarget = e.getEventRelativeTo(componentBeingDragged).getMouseDownPosition();
+				mouseDownWithinTarget = e.getEventRelativeTo(componentBeingDragged).getPosition();
 
 				for (auto component : draggableItemSet)
 				{
 					if (component != e.eventComponent)
 					{
-						deltaFromTarget.add(e.getEventRelativeTo(component).getPosition());
+						component->mouseDownWithinTarget = e.getEventRelativeTo(component).getPosition();
 					}
 				}
 			}
@@ -49,14 +48,13 @@ public:
 		{
 			if (e.mods.isLeftButtonDown())
 			{
-				int i = 0;
 				auto dragDelta = calculateDragDelta(componentBeingDragged, e);
 
 				for (auto component : draggableItemSet)
 				{
-					if (component != e.eventComponent)
+					if (component != componentBeingDragged)
 					{
-						handleMouseDrag(component, e, dragDelta + deltaFromTarget.getReference(i++));
+						handleMouseDrag(component, e, dragDelta + component->mouseDownWithinTarget);
 					}
 					else
 					{
@@ -93,7 +91,6 @@ public:
 	}
 
 	juce::SelectedItemSet<DraggableComponent*> draggableItemSet;
-	juce::Array<juce::Point<int>> deltaFromTarget;
 	juce::Point<int> mouseDownWithinTarget;
 	juce::Point<int> totalDragDelta;
 	DraggableComponent* componentBeingDragged{ nullptr };
