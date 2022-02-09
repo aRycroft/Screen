@@ -25,7 +25,7 @@ public:
     float getSampleAtBoundedIndexWithAmplitudeWindow(int channel, int index, int lowSample, int highSample) 
     {
         int boundedIndex = index + (int) lowSample;
-        if (boundedIndex < 0 || (boundedIndex >= highSample && boundedIndex >= audio->getNumSamples()))
+        if (boundedIndex < 0 || boundedIndex >= highSample || boundedIndex >= audio->getNumSamples())
         {
             return 0.0f;
         }
