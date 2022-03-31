@@ -9,7 +9,6 @@
 */
 
 #pragma once
-#include <JuceHeader.h>
 constexpr int DEFAULTSIZE = 60;
 
 enum TreeChildren {
@@ -48,3 +47,19 @@ namespace Ids
     static juce::Identifier y("y");
 }
 
+namespace Helpers
+{
+    template <class T>
+    int getNextFreeIndex(juce::OwnedArray<T>& arr, int size)
+    {
+        
+        for (int i{ 0 }; i < size; i++)
+        {
+            if (arr[i] == nullptr)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+}

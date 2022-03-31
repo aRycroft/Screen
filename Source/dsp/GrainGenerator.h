@@ -34,8 +34,10 @@ public:
 
 	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
-		for (auto grain : grains) {
-			if (grain->isPlaying()) {
+		for (auto grain : grains) 
+		{
+			if (grain->isPlaying()) 
+			{
 				grain->fillNextBuffer(outputBuffer);
 			}
 		}
@@ -73,11 +75,12 @@ public:
 	}
 
 	bool isActive{ true };
+
 private:
 	juce::ValueTree paramTree;
 	juce::Array<MyAudioBuffer*> activeSounds;
 	juce::OwnedArray<Grain> grains;
-	int sampleRate;
+	int sampleRate{ 44100 };
 	int numVoices{ 0 };
 
 	void valueTreePropertyChanged(juce::ValueTree& vTree, const juce::Identifier& property) override

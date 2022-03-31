@@ -7,7 +7,7 @@
 */
 
 #pragma once
-constexpr auto NUM_NODES = 4;
+constexpr auto NUM_NODES = 16;
 constexpr auto DUMMYSAMPLERATE = 48000;
 constexpr auto CPGSAMPLERATE = 10000;
 

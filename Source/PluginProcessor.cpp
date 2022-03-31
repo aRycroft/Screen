@@ -40,6 +40,8 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
 	connectionChangeListener = std::make_unique<ConnectionChangeListener>(this, connectionTree, genTree);
 
+	generators.ensureStorageAllocated(NUM_NODES);
+
 	copyValueTreesFromXmlString();
 }
 
@@ -232,7 +234,8 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 {
 	auto bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
-	if (buffer != nullptr) {
+	if (buffer != nullptr) 
+	{
 		buffer->allSounds.add(
 			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), 
 				childOfSource.getPropertyAsValue(Ids::highSample, nullptr))
@@ -242,10 +245,14 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 
 void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
 {
-	auto generator = generators.add(std::make_unique<GrainGenerator>( DUMMYSAMPLERATE, generatorValueTree ));
-	generator->initParamTreeValues();
-	cpgNetwork.addNode(generators.size());
-	cpgNetwork.setNodeFrequency(generators.size(), 1000.0, false);
+	int freeIndex = Helpers::getNextFreeIndex(generators, NUM_NODES);
+	if (freeIndex >= 0) 
+	{
+		auto generator = generators.insert(freeIndex, std::make_unique<GrainGenerator>(DUMMYSAMPLERATE, generatorValueTree));
+		cpgNetwork.addNode(freeIndex);
+		cpgNetwork.setNodeFrequency(freeIndex, 1000.0, false);
+		generator->initParamTreeValues();
+	}
 }
 
 void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
@@ -260,7 +267,8 @@ void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audio
 
 void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
-	if (generators[grainGenIndex] != nullptr) {
+	if (generators[grainGenIndex] != nullptr) 
+	{
 		generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
 	}
 }
