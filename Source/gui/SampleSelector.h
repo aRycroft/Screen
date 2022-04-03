@@ -15,8 +15,8 @@ class SampleSelector : public juce::Component,
     public juce::TextButton::Listener
 {
 public:
-    SampleSelector(juce::ValueTree vTree)
-        : fileTree(vTree)
+    SampleSelector(juce::ValueTree vTree, ScreenAudioProcessor& p)
+        : fileTree(vTree), audioProcessor(p)
     {
         addAndMakeVisible(chooseNewSampleButton);
         chooseNewSampleButton.addListener(this);
@@ -42,25 +42,16 @@ public:
                 juce::File file = fileChooser.getResult();
                 if (file.existsAsFile()) 
                 {
-                    addAudioSourceTree(file);
+                    audioProcessor.createAudioFileValueTree(file);
                 }
             });
     }
 
 private:
-    void addAudioSourceTree(juce::File audioSourceFile) 
-    {
-        if (!fileTree.getChildWithProperty(Ids::relativePath, audioSourceFile.getFullPathName()).isValid()) 
-        {
-            juce::ValueTree newFileValueTree(Ids::audioFile);
-            newFileValueTree.setProperty(Ids::relativePath, audioSourceFile.getFullPathName(), nullptr);
-            fileTree.addChild(newFileValueTree, fileTree.getNumChildren(), nullptr);
-        }
-    }
-
     juce::ValueTree fileTree;
     juce::TextButton chooseNewSampleButton;
     juce::OwnedArray<DraggableComponent> sampleSections;
     std::unique_ptr<juce::FileChooser> chooser;
+    ScreenAudioProcessor& audioProcessor;
 };
 

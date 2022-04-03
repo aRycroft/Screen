@@ -42,7 +42,10 @@ public:
 	{
 		isGrainPlaying = true;
 		int jitterVal = jitterValue.getValue();
-		jitter = rng.nextInt(juce::Range<int>(-jitterVal, jitterVal));
+		if (jitterVal > 0) 
+		{
+			jitter = rng.nextInt(juce::Range<int>(-jitterVal, jitterVal));
+		}
 		currentSample = 0;
 		lowSample = bufferToPlay->getMinIndex() + jitter;
 		highSample = bufferToPlay->getMaxIndex() + jitter;

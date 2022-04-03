@@ -23,15 +23,15 @@ class ScreenGUI : public juce::Component,
 	public juce::ChangeListener
 {
 public:
-	ScreenGUI(juce::ValueTree state)
-		: vTree(state)
+	ScreenGUI(juce::ValueTree state, ScreenAudioProcessor& p)
+		: vTree(state), audioProcessor(p)
 	{
 		fileListener = std::make_unique<FileListener>(this, state.getChildWithName(Ids::fileTree));
 
-		mainPanel = std::make_unique<MainPanel>(state);
+		mainPanel = std::make_unique<MainPanel>(state, p);
 		addAndMakeVisible(*mainPanel);
 
-		sampleSelector = std::make_unique<SampleSelector>(state.getChildWithName(Ids::fileTree));
+		sampleSelector = std::make_unique<SampleSelector>(state.getChildWithName(Ids::fileTree), p);
 		addAndMakeVisible(*sampleSelector);
 
 		bufferOptionsPanel = std::make_unique<BufferOptionsPanel>();
@@ -113,7 +113,8 @@ public:
 		auto* audioBufferVis = dynamic_cast <AudioBufferSelectorVis*> (event.eventComponent);
 		if (audioBufferVis != nullptr && audioBufferVisIsInMainPanel(audioBufferVis)) 
 		{
-			createAudioBufferValueTree(vTree.getChildWithName(Ids::fileTree), audioBufferVis);
+			audioProcessor.createAudioBufferValueTree((float)audioBufferVis->getX() / mainPanel->getWidth(), (float)audioBufferVis->getY() / mainPanel->getHeight(),
+				audioBufferVis->lowSample, audioBufferVis->highSample, audioBufferVis->maxSample, audioBufferVis->audioFileTreeId);
 		}
 		layoutSampleSections();
 	}
@@ -126,22 +127,6 @@ public:
 	}
 
 private:
-	void createAudioBufferValueTree(juce::ValueTree fileTree, AudioBufferSelectorVis* audioBufferVis)
-	{
-		juce::ValueTree newTree{ Ids::audioBuffer };
-		newTree.setProperty(Ids::active, true, nullptr)
-			.setProperty(Ids::x, (float)audioBufferVis->getX() / mainPanel->getWidth(), nullptr)
-			.setProperty(Ids::y, (float)audioBufferVis->getY() / mainPanel->getHeight(), nullptr)
-			.setProperty(Ids::lowSample, audioBufferVis->lowSample, nullptr)
-			.setProperty(Ids::highSample, audioBufferVis->highSample, nullptr)
-			.setProperty(Ids::maxSample, audioBufferVis->maxSample, nullptr);
-		auto parentTree = fileTree.getChild(audioBufferVis->audioFileTreeId);
-		parentTree.addChild(newTree, -1, nullptr);
-		auto addedTree = parentTree.getChild(parentTree.getNumChildren() - 1);
-		addedTree.sendPropertyChangeMessage(Ids::x);
-		addedTree.sendPropertyChangeMessage(Ids::y);
-	}
-
 	void generateSampleSections(int audioFileTreeId, int numberOfSections, int numSamplesInFile)
 	{
 		sampleSections.clearQuick(true);
@@ -193,5 +178,7 @@ private:
 	juce::OwnedArray<AudioBufferSelectorVis> sampleSections;
 	juce::ValueTree vTree;
 	juce::AudioFormatManager formatManager;
+	ScreenAudioProcessor& audioProcessor;
+
 	MenuOption selectedMenu = MenuOption::Sample;
 };

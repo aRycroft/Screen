@@ -59,20 +59,32 @@ public:
 	void getStateInformation(juce::MemoryBlock& destData) override;
 	void setStateInformation(const void* data, int sizeInBytes) override;
 
+	void createGrainGeneratorValueTree(float x, float y);
+	void removeGrainGeneratorValueTree(int indexToRemove);
+	
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
 	void removeGrainGenerator(int indexToRemove) override;
 
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 
+	void createConnectionValueTree(int from, int to);
+	void removeConnectionValueTree(int from, int to);
+
 	void connectionCreated(int from, int to) override;
 	void connectionRemoved(int from, int to) override;
 
+	void createAudioFileValueTree(juce::File audioFile);
 	void addAudioFile(juce::ValueTree newAudioSource) override;
+
+	void createAudioBufferValueTree(float x, float y, int lowSample, int highSample, int maxSample, int audioFileTreeId);
+
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
 
 	void connectionWeightChanged(int from, int to, float weight) override;
 private:
+
+
 	void copyValueTreesFromXmlString();
 	void fillValueTreesFromXmlElement(const juce::XmlElement& xmlElement);
 

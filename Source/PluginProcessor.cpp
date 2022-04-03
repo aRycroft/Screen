@@ -42,7 +42,7 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 
 	generators.ensureStorageAllocated(NUM_NODES);
 
-	copyValueTreesFromXmlString();
+	//copyValueTreesFromXmlString();
 }
 
 ScreenAudioProcessor::~ScreenAudioProcessor()
@@ -151,14 +151,14 @@ bool ScreenAudioProcessor::isBusesLayoutSupported(const BusesLayout& layouts) co
 void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
 	buffer.clear();
-	for (int i{ 0 }; i < buffer.getNumSamples(); i++) 
+	for (int i{ 0 }; i < buffer.getNumSamples(); i++)
 	{
 		if (counter++ % CPGSAMPLERATE == 0) {
 			cpgNetwork.stepAndCheckForTriggeredNodes();
 		}
 	}
 
-	for (auto triggeredNode : cpgNetwork.triggeredNodes) 
+	for (auto triggeredNode : cpgNetwork.triggeredNodes)
 	{
 		auto generator = generators[triggeredNode];
 		if (generator != nullptr)
@@ -168,8 +168,8 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	}
 
 	cpgNetwork.triggeredNodes.clear();
-	
-	for (auto grainGen : generators) 
+
+	for (auto grainGen : generators)
 	{
 		grainGen->fillNextBuffer(&buffer);
 	}
@@ -189,7 +189,7 @@ juce::AudioProcessorEditor* ScreenAudioProcessor::createEditor()
 //==============================================================================
 void ScreenAudioProcessor::getStateInformation(juce::MemoryBlock& destData)
 {
-	std::unique_ptr<juce::XmlElement> xml (paramTree.createXml());
+	std::unique_ptr<juce::XmlElement> xml(paramTree.createXml());
 	copyXmlToBinary(*xml, destData);
 }
 
@@ -208,16 +208,26 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 	return new ScreenAudioProcessor();
 }
 
+void ScreenAudioProcessor::createAudioFileValueTree(juce::File audioFile)
+{
+	if (!fileTree.getChildWithProperty(Ids::relativePath, audioFile.getFullPathName()).isValid())
+	{
+		juce::ValueTree newFileValueTree(Ids::audioFile);
+		newFileValueTree.setProperty(Ids::relativePath, audioFile.getFullPathName(), nullptr);
+		fileTree.addChild(newFileValueTree, fileTree.getNumChildren(), nullptr);
+	}
+}
+
 void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 {
 	auto& filePath = newAudioSource.getProperty(Ids::relativePath);
 	juce::File newAudioFile{ filePath };
-	if (newAudioFile.existsAsFile()) 
+	if (newAudioFile.existsAsFile())
 	{
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(newAudioFile));
 		auto* newBuffer = fileBuffers.add(std::make_unique<AudioFile>());
 
-		if (reader.get() != nullptr) 
+		if (reader.get() != nullptr)
 		{
 			newBuffer->setSize((int)reader->numChannels, (int)reader->lengthInSamples);
 			reader->read(newBuffer,
@@ -230,32 +240,65 @@ void ScreenAudioProcessor::addAudioFile(juce::ValueTree newAudioSource)
 	}
 }
 
+void ScreenAudioProcessor::createAudioBufferValueTree(float x, float y, int lowSample, int highSample, int maxSample, int audioFileTreeId)
+{
+	juce::ValueTree newTree{ Ids::audioBuffer };
+	newTree.setProperty(Ids::active, true, nullptr)
+		.setProperty(Ids::x, x, nullptr)
+		.setProperty(Ids::y, y, nullptr)
+		.setProperty(Ids::lowSample, lowSample, nullptr)
+		.setProperty(Ids::highSample, highSample, nullptr)
+		.setProperty(Ids::maxSample, maxSample, nullptr);
+	auto parentTree = fileTree.getChild(audioFileTreeId);
+	parentTree.addChild(newTree, -1, nullptr);
+}
+
 void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource)
 {
 	auto bufferIndex = fileTree.indexOf(audioSource);
 	auto* buffer = fileBuffers[bufferIndex];
-	if (buffer != nullptr) 
+	if (buffer != nullptr)
 	{
 		buffer->allSounds.add(
-			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), 
+			std::make_unique<MyAudioBuffer>(buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr),
 				childOfSource.getPropertyAsValue(Ids::highSample, nullptr))
 		);
 	}
 }
 
-void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree) 
+void ScreenAudioProcessor::createGrainGeneratorValueTree(float x, float y)
 {
-	int freeIndex = Helpers::getNextFreeIndex(generators, NUM_NODES);
-	if (freeIndex >= 0) 
+	int nextId = Helpers::getNextFreeIndex(generators, NUM_NODES);
+	if (nextId >= 0)
 	{
-		auto generator = generators.insert(freeIndex, std::make_unique<GrainGenerator>(DUMMYSAMPLERATE, generatorValueTree));
-		cpgNetwork.addNode(freeIndex);
-		cpgNetwork.setNodeFrequency(freeIndex, 1000.0, false);
-		generator->initParamTreeValues();
+		juce::ValueTree newTree{ Ids::generator };
+		newTree
+			.setProperty(Ids::active, true, nullptr)
+			.setProperty(Ids::numVoices, 100, nullptr)
+			.setProperty(Ids::frequency, 1000.0, nullptr)
+			.setProperty(Ids::x, x, nullptr)
+			.setProperty(Ids::y, y, nullptr)
+			.setProperty(Ids::distance, 0.1, nullptr)
+			.setProperty(Ids::jitter, 0, nullptr);
+		genTree.addChild(newTree, nextId, nullptr);
 	}
 }
 
-void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove) 
+void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTree)
+{
+	int id = genTree.indexOf(generatorValueTree);
+	auto generator = generators.insert(id, std::make_unique<GrainGenerator>(DUMMYSAMPLERATE, generatorValueTree));
+	cpgNetwork.addNode(id);
+	cpgNetwork.setNodeFrequency(id, 1000.0, false);
+	generator->initParamTreeValues();
+}
+
+void ScreenAudioProcessor::removeGrainGeneratorValueTree(int indexToRemove)
+{
+	genTree.removeChild(indexToRemove, nullptr);
+}
+
+void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove)
 {
 	generators.remove(indexToRemove);
 }
@@ -267,23 +310,45 @@ void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audio
 
 void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
-	if (generators[grainGenIndex] != nullptr) 
+	if (generators[grainGenIndex] != nullptr)
 	{
 		generators[grainGenIndex]->removeSound(fileBuffers[audioFileIndex]->allSounds[audioBufferIndex]);
 	}
 }
 
-void ScreenAudioProcessor::connectionCreated(int from, int to) 
+void ScreenAudioProcessor::createConnectionValueTree(int from, int to)
 {
-	if (from != to) 
+	juce::ValueTree newTree{ Ids::connection };
+	newTree
+		.setProperty(Ids::from, from, nullptr)
+		.setProperty(Ids::to, to, nullptr)
+		.setProperty(Ids::weight, 1, nullptr);
+	connectionTree.addChild(newTree, -1, nullptr);
+}
+
+void ScreenAudioProcessor::removeConnectionValueTree(int from, int to)
+{
+	for (auto child : connectionTree)
+	{
+		if ((int)child[Ids::from] == from && (int)child[Ids::to] == to)
+		{
+			connectionTree.removeChild(child, nullptr);
+			return;
+		}
+	}
+}
+
+void ScreenAudioProcessor::connectionCreated(int from, int to)
+{
+	if (from != to)
 	{
 		cpgNetwork.setConnection(from, to, 5);
 	}
 }
 
-void ScreenAudioProcessor::connectionRemoved(int from, int to) 
+void ScreenAudioProcessor::connectionRemoved(int from, int to)
 {
-	if (from != to) 
+	if (from != to)
 	{
 		cpgNetwork.removeConnection(from, to);
 	}
@@ -291,7 +356,7 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
-	if (from != to) 
+	if (from != to)
 	{
 		cpgNetwork.setConnection(from, to, weight);
 	}

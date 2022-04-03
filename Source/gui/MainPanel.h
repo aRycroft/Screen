@@ -31,10 +31,12 @@ class MainPanel :
 	public juce::ValueTree::Listener
 {
 public:
-	MainPanel(juce::ValueTree state)
-		: genTree(state.getChild(TreeChildren::genTree)),
+	MainPanel(juce::ValueTree state, ScreenAudioProcessor& p)
+		:
+		genTree(state.getChild(TreeChildren::genTree)),
 		fileTree(state.getChild(TreeChildren::fileTree)),
-		connectionTree(state.getChild(TreeChildren::connectionTree))
+		connectionTree(state.getChild(TreeChildren::connectionTree)),
+		audioProcessor(p)
 	{
 		genListener = std::make_unique<GenListener>(this, genTree);
 		fileListener = std::make_unique<FileListener>(this, fileTree);
@@ -102,21 +104,12 @@ public:
 
 	void mouseDoubleClick(const juce::MouseEvent& event) override
 	{
-		GrainGeneratorVis* clickedGrainGen = dynamic_cast <GrainGeneratorVis*> (event.eventComponent);
-
-		if (clickedGrainGen != 0) 
-		{
-			genTree.removeChild(clickedGrainGen->getValueTree(), nullptr);
-		}
-		else
-		{
-			genTree.addChild(createGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight()), -1, nullptr);
-		}
+		audioProcessor.createGrainGeneratorValueTree((float) event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight());
 	}
 
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override
 	{
-		auto genVis = generatorVis.add(std::make_unique<GrainGeneratorVis>(generatorValueTree));
+		auto genVis = generatorVis.insert(genTree.indexOf(generatorValueTree), std::make_unique<GrainGeneratorVis>(generatorValueTree));
 		addAndMakeVisible(genVis);
 		genVis->addMouseListener(groupDragMouseListener.get(), false);
 		genVis->setAlwaysOnTop(true);
@@ -185,7 +178,7 @@ public:
 			}
 			if (clickedGrainGen != 0 && grainGenThatIsDragging != clickedGrainGen)
 			{
-				createConnectionValueTree(generatorVis.indexOf(grainGenThatIsDragging), generatorVis.indexOf(clickedGrainGen));
+				audioProcessor.createConnectionValueTree(generatorVis.indexOf(grainGenThatIsDragging), generatorVis.indexOf(clickedGrainGen));
 			}
 			grainGenIsConnectionDragging = false;
 			repaint();
@@ -267,39 +260,16 @@ public:
 			i++;
 		}
 	}
+	
 	std::unique_ptr<SelectedOption> selectedOption;
+
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void addAudioFile(juce::ValueTree newAudioSource) override {};
 private:
-	juce::ValueTree createGeneratorValueTree(float x, float y)
-	{
-		juce::ValueTree newTree{ Ids::generator };
-		newTree
-			.setProperty(Ids::active, true, nullptr)
-			.setProperty(Ids::numVoices, 100, nullptr)
-			.setProperty(Ids::frequency, 1000.0, nullptr)
-			.setProperty(Ids::x, x, nullptr)
-			.setProperty(Ids::y, y, nullptr)
-			.setProperty(Ids::distance, 0.1, nullptr)
-			.setProperty(Ids::jitter, 50000, nullptr);
-		genTree.addChild(newTree, -1, nullptr);
-		return newTree;
-	}
-
-	void createConnectionValueTree(int from, int to)
-	{
-		juce::ValueTree newTree{ Ids::connection };
-		newTree
-			.setProperty(Ids::from, from, nullptr)
-			.setProperty(Ids::to, to, nullptr)
-			.setProperty(Ids::weight, 1, nullptr);
-		connectionTree.addChild(newTree, -1, nullptr);
-	}
-
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
 	{
-		if (treeWhosePropertyHasChanged == genTree) 
+		if (treeWhosePropertyHasChanged == genTree)
 		{
 			if (property == Ids::x || property == Ids::y)
 			{
@@ -340,4 +310,5 @@ private:
 	bool grainGenIsConnectionDragging{ false };
 	GrainGeneratorVis* grainGenThatIsDragging{ nullptr };
 	juce::LassoComponent<DraggableComponent*> lasso;
+	ScreenAudioProcessor& audioProcessor;
 };
