@@ -11,11 +11,10 @@
 #pragma once
 #include <JuceHeader.h>
 #include "DraggableComponent.h" 
-class AudioBufferSelectorVis : public DraggableComponent
+class AudioBufferSelectorVis : public juce::Component
 {
 public:
 	AudioBufferSelectorVis(int audioFileTreeId, int lowSample, int highSample, int maxSample)
-		: DraggableComponent()
 	{
 		this->audioFileTreeId = audioFileTreeId;
 		this->lowSample = lowSample;
@@ -29,5 +28,17 @@ public:
 		g.fillRect(getLocalBounds().reduced(1));
 	}
 
+	void mouseDown(const MouseEvent& e)
+	{
+		myDragger.startDraggingComponent(this, e);
+	}
+
+	void mouseDrag(const MouseEvent& e)
+	{
+		myDragger.dragComponent(this, e, nullptr);
+	}
+
 	int audioFileTreeId, lowSample, highSample, maxSample;
+private:
+	juce::ComponentDragger myDragger;
 };

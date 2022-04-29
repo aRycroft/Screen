@@ -10,16 +10,17 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "GrainGeneratorVis.h"
-#include "GenListener.h"
-#include "IGrainGenHandler.h"
-#include "AudioBufferVis.h"
-#include "FileListener.h"
-#include "ConnectionDragMouseListener.h"
-#include "IAudioFileHandler.h"
-#include "IConnectionDragHandler.h"
-#include "GroupDragMouseListener.h"
-#include "SelectedOption.h"
+#include <GrainGeneratorVis.h>
+#include <GenListener.h>
+#include <IGrainGenHandler.h>
+#include <AudioBufferVis.h>
+#include <FileListener.h>
+#include <ConnectionDragMouseListener.h>
+#include <IAudioFileHandler.h>
+#include <IConnectionDragHandler.h>
+#include <GroupDragMouseListener.h>
+#include <SelectedOption.h>
+#include <PluginProcessor.h>
 
 class MainPanel :
 	public juce::Component,
@@ -76,7 +77,7 @@ public:
 	{
 		for (auto grainVis : generatorVis)
 		{
-			auto bounds = grainVis->calculateBounds(DEFAULTSIZE + grainVis->getValueTreeProperty(Ids::distance) * getWidth());
+			auto bounds = grainVis->calculateBounds(160);
 			grainVis->setBounds(bounds.toNearestInt());
 		}
 
@@ -129,31 +130,11 @@ public:
 		audioBuffer->addMouseListener(groupDragMouseListener.get(), false);
 	};
 
-	void sendChangeMessagesOnValueTree()
-	{
-		for (auto child : genTree) {
-			genListener->valueTreeChildAdded(genTree, child);
-			for (int i = 0; i < child.getNumProperties(); i++) {
-				child.sendPropertyChangeMessage(child.getPropertyName(i));
-			}
-		}
-		for (auto child : fileTree)
-		{
-			fileListener->valueTreeChildAdded(fileTree, child);
-			for (auto buffer : child)
-			{
-				fileListener->valueTreeChildAdded(child, buffer);
-				for (int i = 0; i < buffer.getNumProperties(); i++) {
-					buffer.sendPropertyChangeMessage(buffer.getPropertyName(i));
-				}
-			}
-		}
-	}
-
 	void startConnectionDrag(GrainGeneratorVis* grainGenVis) override
 	{
 		grainGenIsConnectionDragging = true;
 		grainGenThatIsDragging = grainGenVis;
+		groupDragMouseListener->draggableItemSet.deselectAll();
 	};
 
 	void connectionDrag() override
@@ -187,7 +168,7 @@ public:
 
 	void findLassoItemsInArea(juce::Array<DraggableComponent*>& itemsFound, const juce::Rectangle<int>& area) override
 	{
-		for (GrainGeneratorVis* genVis : generatorVis)
+		for (auto& genVis : generatorVis)
 		{
 			auto bounds = genVis->getBounds();
 			auto nearestPoint = area.getConstrainedPoint(bounds.getCentre());
@@ -260,13 +241,28 @@ public:
 			i++;
 		}
 	}
-	
-	std::unique_ptr<SelectedOption> selectedOption;
 
-	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
-	void addAudioFile(juce::ValueTree newAudioSource) override {};
-private:
+	void sendChangeMessagesOnValueTree()
+	{
+		for (auto child : genTree) {
+			genListener->valueTreeChildAdded(genTree, child);
+			for (int i = 0; i < child.getNumProperties(); i++) {
+				child.sendPropertyChangeMessage(child.getPropertyName(i));
+			}
+		}
+		for (auto child : fileTree)
+		{
+			fileListener->valueTreeChildAdded(fileTree, child);
+			for (auto buffer : child)
+			{
+				fileListener->valueTreeChildAdded(child, buffer);
+				for (int i = 0; i < buffer.getNumProperties(); i++) {
+					buffer.sendPropertyChangeMessage(buffer.getPropertyName(i));
+				}
+			}
+		}
+	}
+	
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
 	{
 		if (treeWhosePropertyHasChanged == genTree)
@@ -289,6 +285,12 @@ private:
 		}
 	}
 
+	std::unique_ptr<SelectedOption> selectedOption;
+
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
+	void addAudioFile(juce::ValueTree newAudioSource) override {};
+private:
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
 	{
 		auto fromCentre = from.getBounds().getCentre();

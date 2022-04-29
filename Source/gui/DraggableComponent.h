@@ -30,7 +30,7 @@ public:
 		{
 			return  juce::Rectangle<float>{ 
 				(float) paramTree.getProperty(Ids::x) * (getParentWidth() - size),
-				(float) paramTree.getProperty(Ids::y)* (getParentHeight() - size), size, size };
+				(float) paramTree.getProperty(Ids::y) * (getParentHeight() - size), size, size };
 		}
 		return juce::Rectangle<float>();
 	}
