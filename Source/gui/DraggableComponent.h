@@ -17,14 +17,14 @@ class DraggableComponent : public juce::Component
 public:
 	DraggableComponent(){}
 
-	DraggableComponent(juce::ValueTree vTree) : paramTree(vTree){}
+	DraggableComponent(juce::ValueTree vTree, float size) : paramTree(vTree), size(size) {}
 
 	void mouseUp(const juce::MouseEvent& e) override
 	{
 		this->getParentComponent()->mouseUp(e);
 	}
 
-	juce::Rectangle<float> calculateBounds(float size = 60)
+	juce::Rectangle<float> calculateBounds()
 	{
 		if (paramTree.isValid()) 
 		{
@@ -65,4 +65,5 @@ public:
 	juce::Point<int> mouseDownWithinTarget;
 private:
 	juce::ValueTree paramTree;
+	float size;
 };

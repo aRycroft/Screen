@@ -175,6 +175,5 @@ private:
 	juce::ValueTree vTree;
 	juce::AudioFormatManager formatManager;
 	ScreenAudioProcessor& audioProcessor;
-
 	MenuOption selectedMenu = MenuOption::Sample;
 };

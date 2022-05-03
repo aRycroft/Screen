@@ -16,7 +16,7 @@ class GrainGeneratorVis : public DraggableComponent, public juce::Slider::Listen
 {
 public:
 	GrainGeneratorVis(juce::ValueTree vTree)
-		: DraggableComponent(vTree),
+		: DraggableComponent(vTree, 160),
 		paramTree(vTree)
 	{
 		this->addAndMakeVisible(frequencySlider);

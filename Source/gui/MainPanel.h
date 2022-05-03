@@ -77,7 +77,7 @@ public:
 	{
 		for (auto grainVis : generatorVis)
 		{
-			auto bounds = grainVis->calculateBounds(160);
+			auto bounds = grainVis->calculateBounds();
 			grainVis->setBounds(bounds.toNearestInt());
 		}
 

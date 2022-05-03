@@ -15,7 +15,7 @@ class AudioBufferVis : public DraggableComponent
 {
 public:
     AudioBufferVis(juce::ValueTree vTree)
-        : DraggableComponent(vTree)
+        : DraggableComponent(vTree, 60)
 	{
 	}
 
