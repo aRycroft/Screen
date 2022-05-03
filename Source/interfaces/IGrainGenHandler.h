@@ -18,4 +18,5 @@ public:
     virtual void removeGrainGenerator(int indexToRemove) = 0;
     virtual void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) = 0;
     virtual void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) = 0;
+    virtual void setConnectionWeights(int generatorThatMoved) = 0;
 };

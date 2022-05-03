@@ -342,7 +342,7 @@ void ScreenAudioProcessor::connectionCreated(int from, int to)
 {
 	if (from != to)
 	{
-		cpgNetwork.setConnection(from, to, 5);
+		cpgNetwork.setConnection(from, to, 1);
 	}
 }
 
@@ -356,11 +356,32 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
+	DBG(weight);
 	if (from != to)
 	{
 		cpgNetwork.setConnection(from, to, weight);
 	}
 }
+
+void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
+{
+	for (auto connection : connectionTree)
+	{
+		if ((int) connection[Ids::from] == generatorThatMoved || (int) connection[Ids::to] == generatorThatMoved)
+		{
+			double mult = connection[Ids::weight];
+
+			double fromX = genTree.getChild(connection[Ids::from])[Ids::x];
+			double fromY = genTree.getChild(connection[Ids::from])[Ids::y];
+			double toX = genTree.getChild(connection[Ids::to])[Ids::y];
+			double toY = genTree.getChild(connection[Ids::to])[Ids::y];
+
+			double weight = sqrt(pow(toX - fromX, 2) + pow(toY - fromY, 2) * 1.0f);
+			connectionWeightChanged(connection[Ids::from], connection[Ids::to], std::max<float>((1 - weight) * mult, 0.0f));
+		}
+	}
+}
+
 
 void ScreenAudioProcessor::copyValueTreesFromXmlString()
 {

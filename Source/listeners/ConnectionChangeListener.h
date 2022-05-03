@@ -26,7 +26,8 @@ public:
     {
         int fromNo = vTree.getProperty(Ids::from);
         int toNo = vTree.getProperty(Ids::to);
-        if (property == Ids::weight) {
+        if (property == Ids::weight) 
+        {
             float fWeight = vTree.getProperty(Ids::weight);
             setWeight(fromNo, toNo, fWeight);
         }

@@ -290,6 +290,7 @@ public:
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void addAudioFile(juce::ValueTree newAudioSource) override {};
+	void setConnectionWeights(int generatorThatMoved) override {};
 private:
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
 	{

@@ -27,6 +27,11 @@ public:
 
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
 	{
+		if (property == Ids::x || property == Ids::y && treeWhosePropertyHasChanged.hasType(Ids::generator))
+		{
+			_handler->setConnectionWeights(grainGenTree.indexOf(treeWhosePropertyHasChanged));
+		}
+
 		if (property == Ids::x || property == Ids::y || property == Ids::distance)
 		{
 			if (treeWhosePropertyHasChanged.hasType(Ids::generator))

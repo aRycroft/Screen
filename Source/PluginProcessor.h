@@ -67,6 +67,7 @@ public:
 
 	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
 	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
+	void setConnectionWeights(int generatorThatMoved) override;
 
 	void createConnectionValueTree(int from, int to);
 	void removeConnectionValueTree(int from, int to);
