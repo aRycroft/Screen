@@ -153,8 +153,10 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	buffer.clear();
 	for (int i{ 0 }; i < buffer.getNumSamples(); i++)
 	{
-		if (counter++ % CPGSAMPLERATE == 0) {
+		if (counter++ == CPGSAMPLERATE) 
+		{
 			cpgNetwork.stepAndCheckForTriggeredNodes();
+			counter = 0;
 		}
 	}
 
@@ -356,7 +358,6 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 
 void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
 {
-	DBG(weight);
 	if (from != to)
 	{
 		cpgNetwork.setConnection(from, to, weight);

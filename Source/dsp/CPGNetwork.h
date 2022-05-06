@@ -18,20 +18,18 @@ public:
         : CPG(sampleRate),
         generatorTree(grainGenTree)
     {
-        this->setNodeFrequency(0, 1000, false);
+        //this->setNodeFrequency(0, 1000, false);
         generatorTree.addListener(this);
-        previousNodeValues.push_back(0.0);
     }
 
     void stepAndCheckForTriggeredNodes() 
     {
         for (auto node : this->getNodeList()) 
         {
-            if (previousNodeValues[node] < 0.0 && this->getNode(node).getOutput() > 0.0)
+            if (this->getNode(node).getSignalState() == MatsuNode::signalState::zeroXup)
             {
                 triggeredNodes.push_back(node);
             }
-            previousNodeValues[node] = this->getNode(node).getOutput();
         }
         this->step();
     }
@@ -47,12 +45,10 @@ public:
 
     void addNode(int id) 
     {
-        previousNodeValues.push_back(0.0);
         this->CPG::addNode(id);
     }
 
     std::vector<unsigned> triggeredNodes;
 private:
-    std::vector<double> previousNodeValues;
     juce::ValueTree generatorTree;
 };
