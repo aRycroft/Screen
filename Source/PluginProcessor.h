@@ -8,8 +8,8 @@
 
 #pragma once
 constexpr auto NUM_NODES = 16;
-constexpr auto DUMMYSAMPLERATE = 48000;
-constexpr auto CPGSAMPLERATE = 10000;
+constexpr auto DUMMYSAMPLERATE = 44100;
+constexpr auto CPGSAMPLERATE = 1000;
 
 #include <JuceHeader.h>
 #include <vector>

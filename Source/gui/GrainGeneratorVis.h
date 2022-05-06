@@ -20,7 +20,7 @@ public:
 		paramTree(vTree)
 	{
 		this->addAndMakeVisible(frequencySlider);
-		frequencySlider.setRange(50, 5000.0);
+		frequencySlider.setRange(0.1, 50.0);
 		frequencySlider.setTextValueSuffix(" Hz");
 		frequencySlider.setSliderSnapsToMousePosition(false);
 		frequencySlider.setInterceptsMouseClicks(false, false);

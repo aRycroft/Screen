@@ -153,7 +153,7 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	buffer.clear();
 	for (int i{ 0 }; i < buffer.getNumSamples(); i++)
 	{
-		if (counter++ == CPGSAMPLERATE) 
+		if (counter++ == (int) DUMMYSAMPLERATE / CPGSAMPLERATE)
 		{
 			cpgNetwork.stepAndCheckForTriggeredNodes();
 			counter = 0;
@@ -277,7 +277,7 @@ void ScreenAudioProcessor::createGrainGeneratorValueTree(float x, float y)
 		newTree
 			.setProperty(Ids::active, true, nullptr)
 			.setProperty(Ids::numVoices, 100, nullptr)
-			.setProperty(Ids::frequency, 1000.0, nullptr)
+			.setProperty(Ids::frequency, 1.0, nullptr)
 			.setProperty(Ids::x, x, nullptr)
 			.setProperty(Ids::y, y, nullptr)
 			.setProperty(Ids::distance, 0.1, nullptr)
@@ -291,7 +291,7 @@ void ScreenAudioProcessor::createGrainGenerator(juce::ValueTree generatorValueTr
 	int id = genTree.indexOf(generatorValueTree);
 	auto generator = generators.insert(id, std::make_unique<GrainGenerator>(DUMMYSAMPLERATE, generatorValueTree));
 	cpgNetwork.addNode(id);
-	cpgNetwork.setNodeFrequency(id, 1000.0, false);
+	cpgNetwork.setNodeFrequency(id, 1.0, false);
 	generator->initParamTreeValues();
 }
 
@@ -368,7 +368,7 @@ void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 {
 	for (auto connection : connectionTree)
 	{
-		if ((int) connection[Ids::from] == generatorThatMoved || (int) connection[Ids::to] == generatorThatMoved)
+		if ((int)connection[Ids::from] == generatorThatMoved || (int)connection[Ids::to] == generatorThatMoved)
 		{
 			double mult = connection[Ids::weight];
 

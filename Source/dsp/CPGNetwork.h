@@ -18,7 +18,7 @@ public:
         : CPG(sampleRate),
         generatorTree(grainGenTree)
     {
-        //this->setNodeFrequency(0, 1000, false);
+        //this->setNodeFrequency(0, 1.0, false);
         generatorTree.addListener(this);
     }
 
@@ -39,7 +39,7 @@ public:
         auto nodeId = generatorTree.indexOf(treeWhosePropertyHasChanged);
         if (property == Ids::frequency) 
         {
-            this->setNodeFrequency(nodeId, treeWhosePropertyHasChanged[property], true);
+            this->setNodeFrequency(nodeId, (int) treeWhosePropertyHasChanged[property], true);
         }
     }
 
