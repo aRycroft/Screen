@@ -104,6 +104,7 @@ public:
 	}
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override {};
+	void audioBufferMoved(juce::ValueTree bufferThatMoved) override {};
 
 	void mouseUp(const juce::MouseEvent& event) override
 	{

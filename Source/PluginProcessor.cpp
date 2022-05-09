@@ -34,9 +34,8 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	paramTree.addChild(genTree, TreeChildren::genTree, nullptr);
 	paramTree.addChild(connectionTree, TreeChildren::connectionTree, nullptr);
 
-	fileListener = std::make_unique<FileListener>(this, fileTree);
 	genListener = std::make_unique<GenListener>(this, genTree);
-	positionListener = std::make_unique<PositionListener>(this, genTree, fileTree);
+	fileListener = std::make_unique<FileListener>(this, fileTree);
 	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
 
 	cpgNetwork.generators.ensureStorageAllocated(NUM_NODES);
@@ -278,6 +277,51 @@ void ScreenAudioProcessor::removeGrainGenerator(int indexToRemove)
 	cpgNetwork.generators.remove(indexToRemove);
 }
 
+void ScreenAudioProcessor::generatorMoved(juce::ValueTree generatorThatMoved)
+{
+	for (auto file : fileTree)
+	{
+		for (auto buffer : file) {
+			if (isInRange(generatorThatMoved[Ids::distance],
+				generatorThatMoved[Ids::x], buffer[Ids::x],
+				generatorThatMoved[Ids::y], buffer[Ids::y]))
+			{
+				addSoundToGrainGenerator(genTree.indexOf(generatorThatMoved),
+					fileTree.indexOf(file),
+					file.indexOf(buffer));
+			}
+			else
+			{
+				removeSoundFromGrainGenerator(genTree.indexOf(generatorThatMoved),
+					fileTree.indexOf(file),
+					file.indexOf(buffer));
+			}
+		}
+	}
+}
+
+void ScreenAudioProcessor::audioBufferMoved(juce::ValueTree bufferThatMoved)
+{
+	for (auto generator : genTree)
+	{
+		auto audioFileTree = bufferThatMoved.getParent();
+		if (isInRange(generator[Ids::distance],
+			bufferThatMoved[Ids::x], generator[Ids::x],
+			bufferThatMoved[Ids::y], generator[Ids::y]))
+		{
+			addSoundToGrainGenerator(genTree.indexOf(generator),
+				fileTree.indexOf(audioFileTree),
+				audioFileTree.indexOf(bufferThatMoved));
+		}
+		else
+		{
+			removeSoundFromGrainGenerator(genTree.indexOf(generator),
+				fileTree.indexOf(audioFileTree),
+				audioFileTree.indexOf(bufferThatMoved));
+		}
+	}
+}
+
 void ScreenAudioProcessor::addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex)
 {
 	cpgNetwork.generators[grainGenIndex]->addActiveSound(audioFiles[audioFileIndex]->allSounds[audioBufferIndex]);
@@ -323,6 +367,12 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 		cpgNetwork.removeConnection(from, to);
 	}
 }
+
+void ScreenAudioProcessor::setFrequency(int nodeId, float frequency)
+{
+	cpgNetwork.setNodeFrequency(nodeId, frequency, false);
+}
+
 
 void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 {

@@ -11,7 +11,6 @@
 #pragma once
 #include <JuceHeader.h>
 #include <GrainGeneratorVis.h>
-#include <GenListener.h>
 #include <IGrainGenHandler.h>
 #include <AudioBufferVis.h>
 #include <FileListener.h>
@@ -39,8 +38,8 @@ public:
 		connectionTree(state.getChild(TreeChildren::connectionTree)),
 		audioProcessor(p)
 	{
-		genListener = std::make_unique<GenListener>(this, genTree);
 		fileListener = std::make_unique<FileListener>(this, fileTree);
+		genListener = std::make_unique<GenListener>(this, genTree);
 		connectionDragMouseListener = std::make_unique<ConnectionDragMouseListener>(this);
 		groupDragMouseListener = std::make_unique<GroupDragMouseListener>();
 		selectedOption = std::make_unique<SelectedOption>();
@@ -105,7 +104,7 @@ public:
 
 	void mouseDoubleClick(const juce::MouseEvent& event) override
 	{
-		audioProcessor.createGrainGeneratorValueTree((float) event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight());
+		audioProcessor.createGrainGeneratorValueTree((float)event.getMouseDownX() / getWidth(), (float)event.getMouseDownY() / getHeight());
 	}
 
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override
@@ -262,7 +261,7 @@ public:
 			}
 		}
 	}
-	
+
 	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property) override
 	{
 		if (treeWhosePropertyHasChanged == genTree)
@@ -287,10 +286,10 @@ public:
 
 	std::unique_ptr<SelectedOption> selectedOption;
 
-	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override {};
 	void addAudioFile(juce::ValueTree newAudioSource) override {};
-	void setConnectionWeights(int generatorThatMoved) override {};
+	void setFrequency(int nodeId, float frequency) override {};
+	void generatorMoved(juce::ValueTree generatorThatMoved) override {};
+	void audioBufferMoved(juce::ValueTree bufferThatMoved) override {};
 private:
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
 	{
@@ -306,10 +305,10 @@ private:
 	juce::OwnedArray<GrainGeneratorVis> generatorVis;
 	juce::OwnedArray<AudioBufferVis> audioBufferVis;
 	juce::ValueTree genTree, fileTree, connectionTree;
-	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<ConnectionDragMouseListener> connectionDragMouseListener;
 	std::unique_ptr<GroupDragMouseListener> groupDragMouseListener;
+	std::unique_ptr<GenListener> genListener;
 	bool grainGenIsConnectionDragging{ false };
 	GrainGeneratorVis* grainGenThatIsDragging{ nullptr };
 	juce::LassoComponent<DraggableComponent*> lasso;

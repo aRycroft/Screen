@@ -22,6 +22,16 @@ public:
 		fileTree.addListener(this);
 	};
 
+	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
+	{
+		if (treeWhosePropertyHasChanged.isAChildOf(fileTree)) {
+			if (property == Ids::x || property == Ids::y)
+			{
+				_handler->audioBufferMoved(treeWhosePropertyHasChanged);
+			}
+		}
+	}
+
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{
 		if (parentTree == fileTree) 

@@ -10,7 +10,8 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "IGrainGenHandler.h"
+#include <IGrainGenHandler.h>
+#include <Utils.h>
 
 class GenListener : public juce::ValueTree::Listener
 {
@@ -21,6 +22,19 @@ public:
 		_handler = handler;
 		grainGenTree.addListener(this);
 	};
+
+	void valueTreePropertyChanged(juce::ValueTree& treeWhosePropertyHasChanged, const juce::Identifier& property)
+	{
+		if (property == Ids::x || property == Ids::y || property == Ids::distance)
+		{
+			_handler->generatorMoved(treeWhosePropertyHasChanged);
+		}
+
+		if (property == Ids::frequency)
+		{
+			_handler->setFrequency(grainGenTree.indexOf(treeWhosePropertyHasChanged), treeWhosePropertyHasChanged[property]);
+		}
+	}
 
 	void valueTreeChildAdded(juce::ValueTree& parentTree, juce::ValueTree& childWhichHasBeenAdded) override
 	{

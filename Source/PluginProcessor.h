@@ -12,13 +12,12 @@ constexpr auto DUMMYSAMPLERATE = 44100;
 constexpr auto CPGSAMPLERATE = 1000;
 
 #include <JuceHeader.h>
-#include "IConnectionHandler.h"
-#include "CPGNetwork.h"
-#include "AudioFile.h"
-#include "PositionListener.h"
-#include "ConnectionListener.h"
-#include "FileListener.h"
-#include "GenListener.h"
+#include <CPGNetwork.h>
+#include <AudioFile.h>
+#include <IConnectionHandler.h>
+#include <ConnectionListener.h>
+#include <FileListener.h>
+#include <GenListener.h>
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
@@ -57,10 +56,11 @@ public:
 	
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
 	void removeGrainGenerator(int indexToRemove) override;
-
-	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex) override;
-	void setConnectionWeights(int generatorThatMoved) override;
+	void generatorMoved(juce::ValueTree generatorThatMoved) override;
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
+	void setConnectionWeights(int generatorThatMoved);
+	void setFrequency(int nodeId, float frequency) override;
 
 	void createConnectionValueTree(int from, int to);
 	void removeConnectionValueTree(int from, int to);
@@ -74,9 +74,12 @@ public:
 	void createAudioBufferValueTree(float x, float y, int lowSample, int highSample, int maxSample, int audioFileTreeId);
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
+	void audioBufferMoved(juce::ValueTree bufferThatMoved) override;
 private:
-
-
+	bool isInRange(float distance, float x1, float x2, float y1, float y2)
+	{
+		return std::abs(x1 - x2) < distance && std::abs(y1 - y2) < distance;
+	}
 	void copyValueTreesFromXmlString();
 	void fillValueTreesFromXmlElement(const juce::XmlElement& xmlElement);
 
@@ -89,9 +92,8 @@ private:
 	juce::OwnedArray<AudioFile> audioFiles;
 
 	std::unique_ptr<FileListener> fileListener;
-	std::unique_ptr<GenListener> genListener;
-	std::unique_ptr<PositionListener> positionListener;
 	std::unique_ptr<ConnectionListener> connectionListener;
+	std::unique_ptr<GenListener> genListener;
 
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;

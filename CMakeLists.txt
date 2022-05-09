@@ -132,7 +132,6 @@ list(APPEND listeners
 	"Source/listeners/FileListener.h"
 	"Source/listeners/GenListener.h"
 	"Source/listeners/GroupDragMouseListener.h"
-	"Source/listeners/PositionListener.h"
 	)
 
 target_sources(Screen
