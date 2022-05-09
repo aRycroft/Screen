@@ -10,7 +10,6 @@
 
 #pragma once
 #include <JuceHeader.h>
-#include "AudioBuffer.h"
 
 class Grain
 {
@@ -20,7 +19,7 @@ public:
 		this->jitterValue.referTo(jitter);
 	}
 
-	void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
+	/*void fillNextBuffer(juce::AudioBuffer<float>* outputBuffer)
 	{
 		if (grainSound->getMaxIndex() < currentSample + grainSound->getMinIndex()) 
 		{
@@ -37,8 +36,8 @@ public:
 		}
 		currentSample += outputBuffer->getNumSamples();
 	}
-
-	void startPlaying(MyAudioBuffer* bufferToPlay)
+	*/
+	void startPlaying(int lowSample, int highSample)
 	{
 		isGrainPlaying = true;
 		int jitterVal = jitterValue.getValue();
@@ -47,9 +46,9 @@ public:
 			jitter = rng.nextInt(juce::Range<int>(-jitterVal, jitterVal));
 		}
 		currentSample = 0;
-		lowSample = bufferToPlay->getMinIndex() + jitter;
-		highSample = bufferToPlay->getMaxIndex() + jitter;
-		grainSound = bufferToPlay;
+		this->lowSample = lowSample + jitter;
+		this->highSample = highSample + jitter;
+		//grainSound = bufferToPlay;
 	}
 
 	bool isPlaying()
@@ -57,10 +56,15 @@ public:
 		return isGrainPlaying;
 	}
 
-private:
+	int getCurrentSample()
+	{
+		return currentSample;
+	}
+	int currentSample{ 0 }, lowSample{ 0 }, highSample{ 0 };
 	bool isGrainPlaying{ false };
-	int currentSample{ 0 }, jitter{ 0 }, lowSample{ 0 }, highSample{ 0 };
-	MyAudioBuffer* grainSound;
+private:
+	int jitter{ 0 };
+	//MyAudioBuffer* grainSound;
 	juce::Value jitterValue;
 	juce::Random rng;
 };

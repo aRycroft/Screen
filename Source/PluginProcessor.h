@@ -26,6 +26,7 @@ constexpr auto CPGSAMPLERATE = 1000;
 #include "ConnectionListener.h"
 #include "ConnectionChangeListener.h"
 #include "CPGNetwork.h"
+#include "Utils.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
@@ -95,8 +96,7 @@ private:
 	juce::ValueTree connectionTree;
 
 	CPGNetwork cpgNetwork;
-	juce::OwnedArray<GrainGenerator> generators;
-	juce::OwnedArray<AudioFile> fileBuffers;
+	juce::OwnedArray<AudioFile> audioFiles;
 
 	std::unique_ptr<FileListener> fileListener;
 	std::unique_ptr<GenListener> genListener;

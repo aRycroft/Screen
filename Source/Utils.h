@@ -63,3 +63,42 @@ namespace Helpers
         return -1;
     }
 }
+
+namespace ValueTreeHelpers
+{
+    static juce::ValueTree createAudioBufferValueTree(float x, float y, int lowSample, int highSample, int maxSample, int numVoices, int jitter)
+    {
+        juce::ValueTree newTree{ Ids::audioBuffer };
+        newTree
+            .setProperty(Ids::x, x, nullptr)
+            .setProperty(Ids::y, y, nullptr)
+            .setProperty(Ids::lowSample, lowSample, nullptr)
+            .setProperty(Ids::highSample, highSample, nullptr)
+            .setProperty(Ids::jitter, jitter, nullptr)
+            .setProperty(Ids::numVoices, numVoices, nullptr)
+            .setProperty(Ids::maxSample, maxSample, nullptr);
+        return newTree;
+    }
+
+    static juce::ValueTree createGrainGeneratorValueTree(float x, float y, float frequency, float distance)
+    {
+        juce::ValueTree newTree{ Ids::generator };
+        newTree
+            .setProperty(Ids::active, true, nullptr)
+            .setProperty(Ids::frequency, 1.0, nullptr)
+            .setProperty(Ids::x, x, nullptr)
+            .setProperty(Ids::y, y, nullptr)
+            .setProperty(Ids::distance, 0.1, nullptr);
+        return newTree;
+    }
+
+    static juce::ValueTree createConnectionValueTree(int from, int to)
+    {
+        juce::ValueTree newTree{ Ids::connection };
+        newTree
+            .setProperty(Ids::from, from, nullptr)
+            .setProperty(Ids::to, to, nullptr)
+            .setProperty(Ids::weight, 1, nullptr);
+        return newTree;
+    }
+}
