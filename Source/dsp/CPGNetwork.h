@@ -10,7 +10,7 @@
 
 #pragma once
 #include "CPG.h"
-#include <vector>
+#include "GrainGenerator.h"
 class CPGNetwork : public CPG, juce::ValueTree::Listener
 {
 public:

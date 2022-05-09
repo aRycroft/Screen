@@ -127,7 +127,6 @@ list(APPEND interfaces
 )
 
 list(APPEND listeners
-	"Source/listeners/ConnectionChangeListener.h"
 	"Source/listeners/ConnectionDragMouseListener.h"
 	"Source/listeners/ConnectionListener.h"
 	"Source/listeners/FileListener.h"

@@ -12,21 +12,13 @@ constexpr auto DUMMYSAMPLERATE = 44100;
 constexpr auto CPGSAMPLERATE = 1000;
 
 #include <JuceHeader.h>
-#include <vector>
-#include "Grain.h"
-#include "GrainGenerator.h"
-#include "AudioBuffer.h"
-#include "AudioFile.h"
-#include "IGrainGenHandler.h"
-#include "IAudioFileHandler.h"
 #include "IConnectionHandler.h"
-#include "GenListener.h"
-#include "FileListener.h"
+#include "CPGNetwork.h"
+#include "AudioFile.h"
 #include "PositionListener.h"
 #include "ConnectionListener.h"
-#include "ConnectionChangeListener.h"
-#include "CPGNetwork.h"
-#include "Utils.h"
+#include "FileListener.h"
+#include "GenListener.h"
 
 class ScreenAudioProcessor : public juce::AudioProcessor,
 							 public IGrainGenHandler,
@@ -82,8 +74,6 @@ public:
 	void createAudioBufferValueTree(float x, float y, int lowSample, int highSample, int maxSample, int audioFileTreeId);
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
-
-	void connectionWeightChanged(int from, int to, float weight) override;
 private:
 
 
@@ -102,7 +92,6 @@ private:
 	std::unique_ptr<GenListener> genListener;
 	std::unique_ptr<PositionListener> positionListener;
 	std::unique_ptr<ConnectionListener> connectionListener;
-	std::unique_ptr<ConnectionChangeListener> connectionChangeListener;
 
 	juce::AudioFormatManager formatManager;
 	unsigned counter = 0;

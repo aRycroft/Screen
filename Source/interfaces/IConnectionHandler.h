@@ -14,5 +14,4 @@ class IConnectionHandler
 public:
     virtual void connectionCreated(int from, int to) = 0;
     virtual void connectionRemoved(int from, int to) = 0;
-    virtual void connectionWeightChanged(int from, int to, float weight) = 0;
 };

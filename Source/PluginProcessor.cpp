@@ -38,7 +38,6 @@ ScreenAudioProcessor::ScreenAudioProcessor()
 	genListener = std::make_unique<GenListener>(this, genTree);
 	positionListener = std::make_unique<PositionListener>(this, genTree, fileTree);
 	connectionListener = std::make_unique<ConnectionListener>(this, connectionTree);
-	connectionChangeListener = std::make_unique<ConnectionChangeListener>(this, connectionTree, genTree);
 
 	cpgNetwork.generators.ensureStorageAllocated(NUM_NODES);
 
@@ -153,7 +152,7 @@ void ScreenAudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce::
 	buffer.clear();
 	for (int i{ 0 }; i < buffer.getNumSamples(); i++)
 	{
-		if (counter++ == (int) DUMMYSAMPLERATE / CPGSAMPLERATE)
+		if (counter++ == (int)DUMMYSAMPLERATE / CPGSAMPLERATE)
 		{
 			cpgNetwork.stepAndCheckForTriggeredNodes();
 			counter = 0;
@@ -248,7 +247,7 @@ void ScreenAudioProcessor::addAudioBuffer(juce::ValueTree audioSource, juce::Val
 	auto* buffer = audioFiles[bufferIndex];
 	if (buffer != nullptr)
 	{
-		auto audioBuffer = buffer->allSounds.add(std::make_unique<MyAudioBuffer>(childOfSource, 
+		auto audioBuffer = buffer->allSounds.add(std::make_unique<MyAudioBuffer>(childOfSource,
 			buffer, childOfSource.getPropertyAsValue(Ids::lowSample, nullptr), childOfSource.getPropertyAsValue(Ids::highSample, nullptr)));
 		audioBuffer->initParamTreeValues();
 	}
@@ -325,14 +324,6 @@ void ScreenAudioProcessor::connectionRemoved(int from, int to)
 	}
 }
 
-void ScreenAudioProcessor::connectionWeightChanged(int from, int to, float weight)
-{
-	if (from != to)
-	{
-		cpgNetwork.setConnection(from, to, weight);
-	}
-}
-
 void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 {
 	for (auto connection : connectionTree)
@@ -347,7 +338,7 @@ void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 			double toY = genTree.getChild(connection[Ids::to])[Ids::y];
 
 			double weight = sqrt(pow(toX - fromX, 2) + pow(toY - fromY, 2) * 1.0f);
-			connectionWeightChanged(connection[Ids::from], connection[Ids::to], std::max<float>((1 - weight) * mult, 0.0f));
+			cpgNetwork.setConnection((int) connection[Ids::from], (int) connection[Ids::to], weight);
 		}
 	}
 }
