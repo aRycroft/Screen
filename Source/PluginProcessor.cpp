@@ -282,7 +282,7 @@ void ScreenAudioProcessor::generatorMoved(juce::ValueTree generatorThatMoved)
 	for (auto file : fileTree)
 	{
 		for (auto buffer : file) {
-			if (isInRange(generatorThatMoved[Ids::distance],
+			if (Helpers::isInRange(generatorThatMoved[Ids::distance],
 				generatorThatMoved[Ids::x], buffer[Ids::x],
 				generatorThatMoved[Ids::y], buffer[Ids::y]))
 			{
@@ -305,7 +305,7 @@ void ScreenAudioProcessor::audioBufferMoved(juce::ValueTree bufferThatMoved)
 	for (auto generator : genTree)
 	{
 		auto audioFileTree = bufferThatMoved.getParent();
-		if (isInRange(generator[Ids::distance],
+		if (Helpers::isInRange(generator[Ids::distance],
 			bufferThatMoved[Ids::x], generator[Ids::x],
 			bufferThatMoved[Ids::y], generator[Ids::y]))
 		{
@@ -337,7 +337,7 @@ void ScreenAudioProcessor::removeSoundFromGrainGenerator(int grainGenIndex, int 
 
 void ScreenAudioProcessor::createConnectionValueTree(int from, int to)
 {
-	connectionTree.addChild(ValueTreeHelpers::createConnectionValueTree(from, to), -1, nullptr);
+	connectionTree.addChild(ValueTreeHelpers::createConnectionValueTree(from, to, 1.0f), -1, nullptr);
 }
 
 void ScreenAudioProcessor::removeConnectionValueTree(int from, int to)
@@ -373,7 +373,6 @@ void ScreenAudioProcessor::setFrequency(int nodeId, float frequency)
 	cpgNetwork.setNodeFrequency(nodeId, frequency, false);
 }
 
-
 void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 {
 	for (auto connection : connectionTree)
@@ -392,7 +391,6 @@ void ScreenAudioProcessor::setConnectionWeights(int generatorThatMoved)
 		}
 	}
 }
-
 
 void ScreenAudioProcessor::copyValueTreesFromXmlString()
 {

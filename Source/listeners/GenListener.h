@@ -30,7 +30,7 @@ public:
 			_handler->generatorMoved(treeWhosePropertyHasChanged);
 		}
 
-		if (property == Ids::frequency)
+		else if (property == Ids::frequency)
 		{
 			_handler->setFrequency(grainGenTree.indexOf(treeWhosePropertyHasChanged), treeWhosePropertyHasChanged[property]);
 		}

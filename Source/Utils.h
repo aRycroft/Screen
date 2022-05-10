@@ -25,6 +25,8 @@ namespace Ids
     static juce::Identifier lowSample("lowSample");
     static juce::Identifier highSample("highSample");
     static juce::Identifier maxSample("maxSample");
+    static juce::Identifier jitter("jitter");
+    static juce::Identifier numVoices("numVoices");
     /*FILE*/
     static juce::Identifier fileTree("fileTree");
     static juce::Identifier relativePath("relativePath");
@@ -32,9 +34,7 @@ namespace Ids
     static juce::Identifier genTree("genTree");
     static juce::Identifier generator("generator");
     static juce::Identifier frequency("frequency");
-    static juce::Identifier numVoices("numVoices");
     static juce::Identifier distance("distance");
-    static juce::Identifier jitter("jitter");
     /*CONNECTION*/
     static juce::Identifier connectionTree("connectionTree");
     static juce::Identifier connection("connection");
@@ -42,7 +42,6 @@ namespace Ids
     static juce::Identifier to("to");
     static juce::Identifier weight("weight");
     /*SHARED*/
-    static juce::Identifier active("active");
     static juce::Identifier x("x");
     static juce::Identifier y("y");
 }
@@ -50,7 +49,7 @@ namespace Ids
 namespace Helpers
 {
     template <class T>
-    int getNextFreeIndex(juce::OwnedArray<T>& arr, int size)
+    static int getNextFreeIndex(juce::OwnedArray<T>& arr, int size)
     {
         
         for (int i{ 0 }; i < size; i++)
@@ -61,6 +60,11 @@ namespace Helpers
             }
         }
         return -1;
+    }
+
+    static bool isInRange(float distance, float x1, float x2, float y1, float y2)
+    {
+        return std::abs(x1 - x2) < distance && std::abs(y1 - y2) < distance;
     }
 }
 
@@ -84,21 +88,20 @@ namespace ValueTreeHelpers
     {
         juce::ValueTree newTree{ Ids::generator };
         newTree
-            .setProperty(Ids::active, true, nullptr)
-            .setProperty(Ids::frequency, 1.0, nullptr)
+            .setProperty(Ids::frequency, frequency, nullptr)
             .setProperty(Ids::x, x, nullptr)
             .setProperty(Ids::y, y, nullptr)
-            .setProperty(Ids::distance, 0.1, nullptr);
+            .setProperty(Ids::distance, distance, nullptr);
         return newTree;
     }
 
-    static juce::ValueTree createConnectionValueTree(int from, int to)
+    static juce::ValueTree createConnectionValueTree(int from, int to, float weight)
     {
         juce::ValueTree newTree{ Ids::connection };
         newTree
             .setProperty(Ids::from, from, nullptr)
             .setProperty(Ids::to, to, nullptr)
-            .setProperty(Ids::weight, 1, nullptr);
+            .setProperty(Ids::weight, weight, nullptr);
         return newTree;
     }
 }

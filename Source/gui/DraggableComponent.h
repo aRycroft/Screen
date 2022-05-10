@@ -15,7 +15,7 @@
 class DraggableComponent : public juce::Component
 {
 public:
-	DraggableComponent(){}
+	DraggableComponent() {}
 
 	DraggableComponent(juce::ValueTree vTree, float size) : paramTree(vTree), size(size) {}
 
@@ -26,16 +26,16 @@ public:
 
 	juce::Rectangle<float> calculateBounds()
 	{
-		if (paramTree.isValid()) 
+		if (paramTree.isValid())
 		{
-			return  juce::Rectangle<float>{ 
-				(float) paramTree.getProperty(Ids::x) * (getParentWidth() - size),
-				(float) paramTree.getProperty(Ids::y) * (getParentHeight() - size), size, size };
+			return  juce::Rectangle<float>{
+				(float)paramTree.getProperty(Ids::x)* (getParentWidth() - size),
+					(float)paramTree.getProperty(Ids::y)* (getParentHeight() - size), size, size };
 		}
 		return juce::Rectangle<float>();
 	}
-	
-	juce::ValueTree getValueTree() 
+
+	juce::ValueTree getValueTree()
 	{
 		return paramTree;
 	}
@@ -45,12 +45,12 @@ public:
 		paramTree = valueTree;
 	}
 
-	float getValueTreeProperty(juce::Identifier key) 
+	float getValueTreeProperty(juce::Identifier key)
 	{
 		return paramTree[key];
 	}
 
-	void setValueTreeProperty(const juce::Identifier &key, const float &value) 
+	void setValueTreeProperty(const juce::Identifier& key, const float& value)
 	{
 		if (paramTree.isValid())
 		{
@@ -65,5 +65,5 @@ public:
 	juce::Point<int> mouseDownWithinTarget;
 private:
 	juce::ValueTree paramTree;
-	float size;
+	float size{ 0.0f };
 };

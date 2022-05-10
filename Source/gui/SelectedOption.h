@@ -11,7 +11,7 @@
 #pragma once
 #include <JuceHeader.h>
 
-enum MenuOption
+enum class MenuOption
 {
     Sample,
     GrainMenu,

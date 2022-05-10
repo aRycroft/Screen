@@ -53,13 +53,11 @@ public:
 
 	void createGrainGeneratorValueTree(float x, float y);
 	void removeGrainGeneratorValueTree(int indexToRemove);
-	
+
 	void createGrainGenerator(juce::ValueTree generatorValueTree) override;
 	void removeGrainGenerator(int indexToRemove) override;
 	void generatorMoved(juce::ValueTree generatorThatMoved) override;
-	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
-	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
-	void setConnectionWeights(int generatorThatMoved);
+
 	void setFrequency(int nodeId, float frequency) override;
 
 	void createConnectionValueTree(int from, int to);
@@ -76,10 +74,10 @@ public:
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override;
 	void audioBufferMoved(juce::ValueTree bufferThatMoved) override;
 private:
-	bool isInRange(float distance, float x1, float x2, float y1, float y2)
-	{
-		return std::abs(x1 - x2) < distance && std::abs(y1 - y2) < distance;
-	}
+	void addSoundToGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
+	void removeSoundFromGrainGenerator(int grainGenIndex, int audioFileIndex, int audioBufferIndex);
+	void setConnectionWeights(int generatorThatMoved);
+	
 	void copyValueTreesFromXmlString();
 	void fillValueTreesFromXmlElement(const juce::XmlElement& xmlElement);
 
