@@ -36,7 +36,7 @@ public:
 		genTree(state.getChild(TreeChildren::genTree)),
 		fileTree(state.getChild(TreeChildren::fileTree)),
 		connectionTree(state.getChild(TreeChildren::connectionTree)),
-		audioProcessor(p)
+		audioProcessor(p), thumbnailCache(20)
 	{
 		fileListener = std::make_unique<FileListener>(this, fileTree);
 		genListener = std::make_unique<GenListener>(this, genTree);
@@ -50,6 +50,8 @@ public:
 		groupDragMouseListener->draggableItemSet.addChangeListener(this);
 		genTree.addListener(this);
 		fileTree.addListener(this);
+		formatManager.registerBasicFormats();
+
 	}
 
 	void paint(juce::Graphics& g) override
@@ -124,6 +126,7 @@ public:
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override
 	{
 		auto audioBuffer = audioBufferVis.add(std::make_unique<AudioBufferVis>(childOfSource));
+		audioBuffer->setThumbnail(audioThumbnails[fileTree.indexOf(audioSource)]);
 		addAndMakeVisible(audioBuffer);
 		audioBuffer->setBounds(audioBuffer->calculateBounds().toNearestInt());
 		audioBuffer->addMouseListener(groupDragMouseListener.get(), false);
@@ -290,6 +293,22 @@ public:
 	void setFrequency(int nodeId, float frequency) override {};
 	void generatorMoved(juce::ValueTree generatorThatMoved) override {};
 	void audioBufferMoved(juce::ValueTree bufferThatMoved) override {};
+
+	void insertThumbnail(int id, juce::File file)
+	{
+		auto thumbnail = audioThumbnails.insert(id, std::make_unique<AudioThumbnail>(512, formatManager, thumbnailCache));
+		thumbnail->setSource(new juce::FileInputSource(file));
+	}
+
+	juce::AudioThumbnail* getThumbnail(int id)
+	{
+		return audioThumbnails[id];
+	}
+
+	juce::OwnedArray<AudioThumbnail> audioThumbnails;
+	juce::OwnedArray<MemoryInputStream> thumbnailStreams;
+	juce::AudioThumbnailCache thumbnailCache;
+	juce::AudioFormatManager formatManager;
 private:
 	juce::Line<int> calculateConnectionLine(const GrainGeneratorVis& from, const GrainGeneratorVis& to)
 	{

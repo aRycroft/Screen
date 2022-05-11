@@ -63,7 +63,8 @@ public:
 	bool selected{ false };
 
 	juce::Point<int> mouseDownWithinTarget;
-private:
+protected:
 	juce::ValueTree paramTree;
+private:
 	float size{ 0.0f };
 };

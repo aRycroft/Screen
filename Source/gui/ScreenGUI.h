@@ -31,7 +31,7 @@ public:
 		mainPanel = std::make_unique<MainPanel>(state, p);
 		addAndMakeVisible(*mainPanel);
 
-		sampleSelector = std::make_unique<SampleSelector>(state.getChildWithName(Ids::fileTree), p);
+		sampleSelector = std::make_unique<SampleSelector>(p);
 		addAndMakeVisible(*sampleSelector);
 
 		bufferOptionsPanel = std::make_unique<BufferOptionsPanel>();
@@ -99,8 +99,12 @@ public:
 		juce::File file{ newAudioSource.getProperty(Ids::relativePath) };
 		int audioSourceId = vTree.getChildWithName(Ids::fileTree).indexOf(newAudioSource);
 		std::unique_ptr<juce::AudioFormatReader> reader(formatManager.createReaderFor(file));
-		generateSampleSections(audioSourceId, NUMBEROFSECTIONS, reader->lengthInSamples);
-		layoutSampleSections();
+		if (reader != nullptr)
+		{
+			mainPanel->insertThumbnail(audioSourceId, file);
+			generateSampleSections(audioSourceId, NUMBEROFSECTIONS, reader->lengthInSamples);
+			layoutSampleSections();
+		}
 	}
 
 	void addAudioBuffer(juce::ValueTree audioSource, juce::ValueTree childOfSource) override {};
@@ -132,6 +136,7 @@ private:
 		for (int i = 0; i < numberOfSections; i++)
 		{
 			addAndMakeVisible(sampleSections.add(std::make_unique<AudioBufferSelectorVis>(audioFileTreeId, i * samplesPerSection, (i + 1) * samplesPerSection, numSamplesInFile)));
+			sampleSections[i]->setThumbnail(mainPanel->getThumbnail(audioFileTreeId));
 			sampleSections[i]->addMouseListener(this, false);
 		}
 	}
@@ -166,7 +171,7 @@ private:
 		auto mainPanelBounds = mainPanel->getScreenBounds();
 		return mainPanel->getBounds().contains(position);
 	}
-
+	
 	std::unique_ptr<MainPanel> mainPanel;
 	std::unique_ptr<SampleSelector> sampleSelector;
 	std::unique_ptr<BufferOptionsPanel> bufferOptionsPanel;
